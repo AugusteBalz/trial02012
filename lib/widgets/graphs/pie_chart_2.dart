@@ -13,6 +13,8 @@ import 'package:trial0201/models/one_mood.dart';
 Map<PrimaryMoods, double> countingPrimaryOccurencesDefault = {};
 Map<PrimaryMoods, double> countingPrimaryOccurences = {};
 
+
+
 int wholeMonthsCount = 0;
 
 PrimaryMoods mostPopularMood = PrimaryMoods.Scared;
@@ -29,8 +31,13 @@ class PieChartSample3 extends StatefulWidget {
 class PieChartSample3State extends State {
   int touchedIndex = 0;
 
+
+
   @override
   Widget build(BuildContext context) {
+
+   // groupByMonths();
+
     return Column(
       children: [
         Card(
@@ -136,6 +143,8 @@ class PieChartSample3State extends State {
       );
     });
   }
+
+
 }
 
 class _Badge extends StatelessWidget {
@@ -193,6 +202,8 @@ class _Badge extends StatelessWidget {
 
 void calculateMonthlyStats() {
   List<MoodEntry> thisMonthsEntries = [];
+
+ //TODO: THIS!!!!
   int thisMonthNumber = DateTime.now().month;
 
   //we select only moods that were added this month
@@ -260,4 +271,47 @@ void displayMostPopularMood() {
 
   Color? colorz = primaryColors[mostPopularMood];
   colorOfTheMonth = (colorz != null) ? colorz : Colors.teal;
+}
+
+
+void  groupByMonths(){
+
+  int thisMonth;
+  int thisYear;
+  DateTime thisDate;
+
+  mapOfMonths.clear();
+
+  for(MoodEntry entry in moodEntryList){
+
+    thisYear = entry.dateTime.year;
+    thisMonth = entry.dateTime.month;
+    thisDate = DateTime(thisYear, thisMonth);
+    OneMood temp;
+
+    if(mapOfMonths.containsKey(thisDate)){
+
+      //if it already contains the key we sort it out
+     // mapOfMonths[thisDate]!.addAll(entry.eachMood);
+
+      for(OneMood one in entry.eachMood){
+
+        temp = one;
+        mapOfMonths[thisDate]!.add(temp);
+        print('help');
+      }
+
+
+    }
+    else {
+      //if it doesnt contain the key, we add it
+
+      mapOfMonths.putIfAbsent(thisDate, () => entry.eachMood);
+
+      print(thisDate.month);
+
+    }
+  }
+
+
 }

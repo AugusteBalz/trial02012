@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trial0201/globals/colors_of_mood.dart';
@@ -25,10 +23,8 @@ import 'package:provider/provider.dart';
 const primaryColor = Colors.transparent;
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -38,12 +34,8 @@ void main() async {
 class MyAppFirst extends StatelessWidget {
   const MyAppFirst({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return ChangeNotifierProvider<ThemeModel>(
       create: (_) => currentModel,
       child: Consumer<ThemeModel>(
@@ -87,7 +79,26 @@ class MyAppFirst extends StatelessWidget {
                   systemOverlayStyle: SystemUiOverlayStyle.dark,
                   color: Colors.white,
                   elevation: 1,
-                )),
+                ),
+              /*  colorScheme:  const ColorScheme(
+                    primary: Colors.black26,
+                    primaryVariant: Colors.black26,
+                    secondary: Colors.black26,
+                    secondaryVariant: Colors.black26,
+                    surface: Colors.black26,
+                    background: Colors.black26,
+                    error: Colors.black26,
+                    onPrimary: Colors.black26,
+                    onSecondary: Colors.black26,
+                    onSurface: Colors.black26,
+                    onBackground: Colors.black26,
+                    onError: Colors.black26,
+                    brightness: Brightness.light),
+
+
+
+               */
+            ),
 
             darkTheme: ThemeData(
                 // Define the default brightness and colors.
@@ -170,7 +181,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-           // Center(child: CircularProgressIndicator()),
+            // Center(child: CircularProgressIndicator()),
             //widget to select the moods from
             // UserMood(),
             _widgetOptions.elementAt(selectedIndex),
@@ -181,21 +192,20 @@ class _HomePageState extends State<HomePage> {
           child: Icon(Icons.airplanemode_on_rounded),
           onPressed: () {
             FirebaseFirestore.instance
-                .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries/MultipleEntries/OneEntry')
-                .snapshots()
-                .listen((data) {
+                    .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries')
+                    .doc('OneEntry4')
+                    .set({
+              'id': 'bandymas',
+            })
+
+                /*.add({
+
+              'id':'oop',
+                })
 
 
-              data.docs.forEach((element) {
-                print(element['strength']);
-                print(element['moodPrimary']);
-                print(element['moodSecondary']);
-
-
-              });
-            });
-
-
+                 */
+                ;
           }),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -250,6 +260,10 @@ class ThemeModel with ChangeNotifier {
 
   void toggleMode() {
     _mode = _mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    //Theme.of(context).colorScheme.happy;
+
+
+   // ThemeData.light().colorScheme.happy = Colors.blue ;
     // _changeColorTheme(_mode);
     notifyListeners();
   }
@@ -276,3 +290,20 @@ void _changeColorTheme(ThemeMode mode) {
     peacefulMoodColor = peacefulMoodColorDark;
   }
 }
+
+
+extension CustomColorScheme on ColorScheme {
+
+  Color get happy => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get angry => brightness == Brightness.light ? const Color(0xffbe3636) : const Color(0xf57c1401);
+  Color get scared => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get sad => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get surprised => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get powerful => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get disgusted => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get peaceful => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+
+
+
+}
+

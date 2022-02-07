@@ -33,6 +33,8 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
            await Navigator.pushNamed(context, '/logmood1');
 
           setState(() {
+
+            //reload the screens
             const ShowHistory();
             const GraphScreen();
 

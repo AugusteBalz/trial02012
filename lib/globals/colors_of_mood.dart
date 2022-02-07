@@ -7,15 +7,20 @@ import 'package:flutter/material.dart';
 //TODO: do double colours for light and dark themes
 
 
-Color angryMoodColor = Colors.red;
-Color scaredMoodColor = const Color(0xFFFF7000);
+Color angryMoodColor = const Color(0xFF910000);
+Color scaredMoodColor = const Color(0xFFC64500);
 //Color loveMoodColor = const Color(0xFFF5799C);
-Color sadMoodColor = Colors.blue;
-Color happyMoodColor = const Color(0xFF84C30D);
-Color surprisedMoodColor = Colors.amber;
-Color powerfulMoodColor = Colors.yellow;
-Color disgustedMoodColor = Colors.deepPurpleAccent;
-Color peacefulMoodColor = const Color(0xFF00FCA6);
+Color sadMoodColor = const Color(0xFF004CA9);
+Color happyMoodColor = const Color(0xFF4FA900);
+Color surprisedMoodColor = const Color(0xFF5A00D9);
+Color powerfulMoodColor = const Color(0xFFFFA200);
+Color disgustedMoodColor = const Color(0xFF644F02);
+Color peacefulMoodColor = const Color(0xFF00B173);
+
+
+
+
+
 
 Color angryMoodColorLight = Colors.red;
 Color scaredMoodColorLight = const Color(0xFF1F1004);
@@ -37,3 +42,22 @@ Color powerfulMoodColorDark = Colors.yellow;
 Color disgustedMoodColorDark = Colors.deepPurpleAccent;
 Color peacefulMoodColorDark = const Color(0xFF00FCA6);
 
+/*
+
+extension CustomColorScheme on ColorScheme {
+
+  Color get happy => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get angry => brightness == Brightness.light ? const Color(0xffbe3636) : const Color(
+      0xf57c1401);
+  Color get scared => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get sad => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get surprised => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get powerful => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get disgusted => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+  Color get peaceful => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
+
+
+
+}
+
+ */

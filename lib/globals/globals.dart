@@ -251,25 +251,25 @@ List<String> selectedDisplayMoods = [];
 List<String> selectedChoicesAll = [];
 List<String> moodSelection = [];
 
-
+Map< DateTime,List<OneMood>> mapOfMonths = {};
 
 final List<MoodEntry> moodEntryList2 = [];
 
 final List<MoodEntry> moodEntryList = [
   MoodEntry(
     id: 'e1',
-    dateTime: DateTime.now(),
+    dateTime: DateTime.utc(2022, 2, 05, 18, 25),
     eachMood: [
       OneMood(
         moodPrimary: PrimaryMoods.Happy,
         moodSecondary: SecondaryMoods.happy_cheerful,
-        strength: 7,
+        strength: 9,
         color: happyMoodColor,
       ),
       OneMood(
         moodPrimary: PrimaryMoods.Peaceful,
         moodSecondary: SecondaryMoods.peaceful_calm,
-        strength: 10,
+        strength: 6,
         color: peacefulMoodColor,
       ),
     ],

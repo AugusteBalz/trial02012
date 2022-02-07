@@ -78,7 +78,9 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
               color: temporaryMood!.color,
             ),
           );
-        } else {
+        }
+
+        /*else {
           //add one new mood
           oneEntry.eachMood.add(OneMood(
               moodPrimary: PrimaryMoods.Happy,
@@ -86,6 +88,8 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
               strength: 10,
               color: Colors.yellow));
         }
+
+         */
       }
     });
   }
