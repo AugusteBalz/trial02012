@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.trial0201">
    <application
-        android:label="trial0201"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Embrace yourself"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

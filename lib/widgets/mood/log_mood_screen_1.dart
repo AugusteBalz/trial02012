@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/moods.dart';
 import 'package:trial0201/models/primary_emotions_blueprint.dart';
+import 'package:trial0201/widgets/mood/circle_display.dart';
 import 'package:trial0201/widgets/widget_for_primary_emotion_display.dart';
 
 
@@ -32,19 +34,57 @@ class _LogMoodScreen1State extends State<LogMoodScreen1> {
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: wholePrimaryEmotionsList.map((oneEmotionName) {
-            selectionOfPrimaryEmotion = oneEmotionName;
+        child: Stack(children: [
 
-            // currentSliderValue = sliders.elementAt(0);
+          Positioned(
+            child: const Icon(
+              Icons.zoom_out_map_outlined,
+              color: Colors.black,
+              size: 24.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            ),
+            top: 130,
+            left: 153,
+          ),
+          Stack(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: wholePrimaryEmotionsList.map((oneEmotionName) {
+              selectionOfPrimaryEmotion = oneEmotionName;
 
-            //displaying widgets
+              // currentSliderValue = sliders.elementAt(0);
 
-            return WidgetForPrimaryEmotionDisplay(
-                selectionOfPrimaryEmotion: selectionOfPrimaryEmotion);
-          }).toList(),
+
+              double left = 0;
+              double top = 0;
+              double right = 0;
+              double bottom = 0;
+
+              List<double>? temp = moodToPosition[selectionOfPrimaryEmotion.emotionP];
+              if (temp !=null){
+                left = temp.elementAt(0);
+                top = temp.elementAt(1);
+                // right = temp.elementAt(2);
+                //bottom = temp.elementAt(3);
+              }
+
+
+              //displaying widgets
+
+              return new Positioned(
+                child: new CircleButton(onTap: () {
+
+                }, selectionOfPrimaryEmotion: selectionOfPrimaryEmotion),
+                top: top,
+                left: left,
+                //right: right,
+                //bottom: bottom,
+              );
+              //WidgetForPrimaryEmotionDisplay(selectionOfPrimaryEmotion: selectionOfPrimaryEmotion);
+            }).toList(),
+          ),
+        ],
+
         ),
       ),
     );

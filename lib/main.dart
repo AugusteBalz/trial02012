@@ -41,7 +41,7 @@ class MyAppFirst extends StatelessWidget {
       child: Consumer<ThemeModel>(
         builder: (_, currentModel, __) {
           return MaterialApp(
-            title: 'Blossom',
+            title: 'Embrace Yourself',
             initialRoute: '/',
             routes: {
               // When navigating to the "/" route, build the FirstScreen widget.
@@ -76,9 +76,19 @@ class MyAppFirst extends StatelessWidget {
                 ),
                 appBarTheme: const AppBarTheme(
                   //brightness: Brightness.light,
-                  systemOverlayStyle: SystemUiOverlayStyle.dark,
-                  color: Colors.white,
-                  elevation: 1,
+                 // systemOverlayStyle: SystemUiOverlayStyle.dark,
+                  color: Colors.transparent,
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    // Status bar color
+
+
+                    // Status bar brightness (optional)
+                    statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+                    statusBarBrightness: Brightness.light, // For iOS (dark icons)
+                  ),
                 ),
               /*  colorScheme:  const ColorScheme(
                     primary: Colors.black26,
@@ -105,6 +115,7 @@ class MyAppFirst extends StatelessWidget {
                 brightness: Brightness.dark,
                 primaryColor: const Color(0xFF151026),
 
+
                 // Define the default font family.
                 fontFamily: 'Comfortaa',
 
@@ -114,7 +125,20 @@ class MyAppFirst extends StatelessWidget {
                   displayColor: Colors.white,
                 ),
                 appBarTheme: const AppBarTheme(
-                  elevation: 1,
+                  color: Colors.transparent,
+                  elevation: 0,
+                  //systemOverlayStyle: SystemUiOverlayStyle.dark,
+                  iconTheme: IconThemeData(color: Colors.white),
+
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                  // Status bar color
+                  statusBarColor: Colors.red,
+
+                  // Status bar brightness (optional)
+                  statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+                  statusBarBrightness: Brightness.dark, // For iOS (dark icons)
+                ),
+
                 )),
             // Provide dark theme.
             themeMode: currentModel.mode,
@@ -173,7 +197,7 @@ class _HomePageState extends State<HomePage> {
       //  extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
-          "Blossom",
+          "Embrace Yourself",
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -188,7 +212,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+     /* floatingActionButton: FloatingActionButton(
           child: Icon(Icons.airplanemode_on_rounded),
           onPressed: () {
             FirebaseFirestore.instance
@@ -207,6 +231,8 @@ class _HomePageState extends State<HomePage> {
                  */
                 ;
           }),
+
+      */
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
             // sets the background color of the `BottomNavigationBar`
@@ -218,6 +244,7 @@ class _HomePageState extends State<HomePage> {
                 .copyWith(caption: const TextStyle(color: Colors.yellow))),
         // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
+          elevation: 0,
           // backgroundColor: Colors.pink,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -269,6 +296,9 @@ class ThemeModel with ChangeNotifier {
   }
 }
 
+
+
+/*
 void _changeColorTheme(ThemeMode mode) {
   if (mode == ThemeMode.light) {
     angryMoodColor = angryMoodColorLight;
@@ -292,6 +322,11 @@ void _changeColorTheme(ThemeMode mode) {
 }
 
 
+
+ */
+
+
+/*
 extension CustomColorScheme on ColorScheme {
 
   Color get happy => brightness == Brightness.light ? const Color(0xFF28a745) : const Color(0x2228a745);
@@ -307,3 +342,5 @@ extension CustomColorScheme on ColorScheme {
 
 }
 
+
+ */

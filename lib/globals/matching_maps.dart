@@ -21,6 +21,26 @@ Map<PrimaryMoods, Color> primaryColors = {
 };
 
 
+Map<PrimaryMoods, List<double>> moodToPosition = {
+
+
+  //left, top, right, bottom
+
+  PrimaryMoods.Peaceful: [225, 40],
+  PrimaryMoods.Happy: [240, 120],
+  PrimaryMoods.Powerful: [225, 200],
+  PrimaryMoods.Surprised:[120,240] ,
+  PrimaryMoods.Scared: [15, 200] ,
+  PrimaryMoods.Angry:[0, 120]  ,
+  PrimaryMoods.Disgusted: [15, 40],
+  PrimaryMoods.Sad: [120, 0],
+
+
+
+};
+
+
+
 Map<PrimaryMoods, String> primaryMoodToString = {
 
   PrimaryMoods.Happy: "Happy",

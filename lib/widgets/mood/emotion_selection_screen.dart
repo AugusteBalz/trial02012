@@ -43,6 +43,8 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
 
   double? currentPage = 0;
 
+
+
   @override
   void initState() {
     //add
@@ -144,7 +146,45 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
         itemBuilder: (context, index) {
           final index2 = index - 4242+ indexOfBigEmotion;
 
-          return displayWidgets[index2 % (displayWidgets.length)];
+          controller.addListener(() {
+            setState(() {
+              currentPageValue = (controller.page)!;
+            });
+          });
+
+
+
+
+
+          if (index == currentPageValue.floor()){
+            return Transform(
+                origin: Offset(
+                    120, 700),
+                transform: Matrix4.identity()..rotateZ(-(currentPageValue-index)),
+                child: displayWidgets[index2 % (displayWidgets.length)]);
+
+          }
+          else if (index == currentPageValue.floor()+1){
+            return Transform(
+                origin: Offset(
+                    120, 700),
+                transform: Matrix4.identity()..rotateZ(-(currentPageValue-index)),
+                child: displayWidgets[index2 % (displayWidgets.length)]);
+
+          }
+          else {
+
+
+            return
+                 displayWidgets[index2 % (displayWidgets.length)];
+
+          }
+
+
+
+
+
+
           /*
 
 

@@ -27,11 +27,11 @@ class WidgetForMoodDisplay extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Transform.scale(
-            scale: 1.7,
+            scale:2,
             child: Container(
-              height: 400,
+              height: 380,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: (Theme.of(context).brightness == Brightness.light) ? Colors.white : Colors.black87,
                   borderRadius: BorderRadius.circular(200)),
             ),
           ),

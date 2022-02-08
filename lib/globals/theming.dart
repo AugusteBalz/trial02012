@@ -35,6 +35,10 @@ TextTheme textTextTheme = const TextTheme(
   //for mood choice chips
   headline4: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w200),
 
+  //for mood choice primary
+  headline5: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500),
+
+
   //for smallest emotions
   headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w200),
 

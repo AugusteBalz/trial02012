@@ -17,7 +17,7 @@ class MoodLogList extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-
+/*
     Color getColor(String name) {
       //red is just a sample color
       Color color;
@@ -72,6 +72,9 @@ class MoodLogList extends StatelessWidget {
       
       return color;
     }
+
+
+ */
 
 
 
@@ -265,7 +268,7 @@ class MoodLogList extends StatelessWidget {
                             else{
                             //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
                             //  myColor = myColor.withOpacity(0.7);
-                              myColor = HSLColor.fromColor(myColor).withLightness(0.6).withSaturation(1).toColor();
+                              myColor = HSLColor.fromColor(myColor).withLightness(0.65).withSaturation(1).toColor();
                             }
 
                             return Container(
