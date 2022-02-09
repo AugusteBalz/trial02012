@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:trial0201/models/one_mood.dart';
 import 'package:trial0201/widgets/mood/display_one_slider.dart';
 
 class LogMoodScreen3 extends StatefulWidget {
@@ -12,25 +13,42 @@ class LogMoodScreen3 extends StatefulWidget {
 }
 
 class _LogMoodScreen3State extends State<LogMoodScreen3> {
+  CollectionReference moodCollection = FirebaseFirestore.instance
+      .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries');
 
-//  File _storedMoodEntryList;
+  Future<void> addAMood() {
+    // Call the user's CollectionReference to add a new user
 
+    List<Map<String, dynamic>> temporaryArray = [];
+
+    for (OneMood mood in oneEntry.eachMood) {
+      temporaryArray.add({
+        'moodPrimary': primaryMoodToString[mood.moodPrimary],
+        'moodSecondary': secondaryMoodToString[mood.moodSecondary],
+        'strength': mood.strength,
+      });
+    }
+
+    return moodCollection
+        .add({
+          'id': oneEntry.id, // John Doe
+          'dateTime': Timestamp.fromDate(oneEntry.dateTime), // Stokes and Sons
+
+          'OneMood': temporaryArray,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
 
   void _addNewMoodEntryFinal() async {
-
     //TODO: does not work adding items to database
-  //  await DBHelper.insert('user_mood_database2.db', oneEntry.toListOfMaps());
+    //  await DBHelper.insert('user_mood_database2.db', oneEntry.toListOfMaps());
 
     setState(() {
       //puts it reversed
       moodEntryList.insert(0, oneEntry);
-
-
-
-
     });
   }
-
 
   // double currentSliderValue = 1;
 
@@ -38,7 +56,6 @@ class _LogMoodScreen3State extends State<LogMoodScreen3> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text("How strong are these emotions?",
             style: Theme.of(context).textTheme.headline2),
         actions: <Widget>[
@@ -52,8 +69,7 @@ class _LogMoodScreen3State extends State<LogMoodScreen3> {
 
                   _addNewMoodEntryFinal();
 
-
-
+                  addAMood();
 
                   //TODO: make it work!!!! details: after logging a mood person should be forwarded to "history" tab
 
@@ -66,8 +82,6 @@ class _LogMoodScreen3State extends State<LogMoodScreen3> {
                   HomePage();
 
                    */
-
-
                 },
                 child: Text(
                   "Done",
@@ -92,11 +106,8 @@ class _LogMoodScreen3State extends State<LogMoodScreen3> {
                 // "SecondaryMood.angry_jealous"
                 //this leaves it just with "jealous"
 
-
                 String? temp = secondaryMoodToString[md.moodSecondary];
                 String newMoodS = (temp != null) ? temp : "ERROR";
-
-
 
                 //same goes with primary moods
 

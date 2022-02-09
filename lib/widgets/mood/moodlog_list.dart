@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/main.dart';
+import 'package:trial0201/models/moods.dart';
+import 'package:trial0201/models/one_mood.dart';
 
 //TODO: add the ability to delete an entry
 
@@ -15,8 +17,6 @@ class MoodLogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
 /*
     Color getColor(String name) {
       //red is just a sample color
@@ -27,7 +27,7 @@ class MoodLogList extends StatelessWidget {
           color =  Theme.of(context).colorScheme.happy;
         }
         break;
-        
+
         case "Sad": {
           color =  Theme.of(context).colorScheme.sad;
         }
@@ -37,7 +37,7 @@ class MoodLogList extends StatelessWidget {
           color =  Theme.of(context).colorScheme.angry;
         }
         break;
-        
+
         case "disgusted": {
           color =  Theme.of(context).colorScheme.disgusted;
         }
@@ -67,9 +67,9 @@ class MoodLogList extends StatelessWidget {
         }
         break;
       }
-      
-      
-      
+
+
+
       return color;
     }
 
@@ -77,123 +77,175 @@ class MoodLogList extends StatelessWidget {
  */
 
 
-
-    List<Object?> items = [];
     return Column(
       children: [
-        Container(
-          color: Colors.yellowAccent,
-          height: 60,
-        ),
+
         StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection(
-              'Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries')
+              .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries').orderBy('dateTime', descending: true)
               .snapshots(),
-          builder: (context, AsyncSnapshot<
-              QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                  streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (streamSnapshot.hasError) {
               return Text("something went wrong");
-            } else if (streamSnapshot.connectionState ==
-                ConnectionState.done) {
+            } else if (streamSnapshot.connectionState == ConnectionState.done) {
               return Text('done');
             } else {
               final outerMoodDocuments = streamSnapshot.data!.docs;
-              final outerMoodDocuments2 = streamSnapshot.data!.docs;
-
-              //outerMoodDocuments.
-
-              print('testing1');
 
 
-
-              outerMoodDocuments.map( (e){
-
-                print('testing2');
-                return StreamBuilder(
-                    stream: e.reference.collection('OneEntry').snapshots(),
-
-
-                    builder: (context2,
-                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        innerStreamSnapshot) {
-                      print('testing3');
-                      return Text('o');
-                    }
-
-
-                );
-              });
-
-
-                /*
-                outerMoodDocuments2.forEach((element) {
-
-                  element.reference.snapshots();
-
-                  return StreamBuilder(
-
-                      builder: context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> innerDtreamSnapshot);
-
-
-                });
-
-                 */
-
-
-                return ListView.builder(
+              return ListView.builder(
                 shrinkWrap: true,
                 itemCount: outerMoodDocuments.length,
                 itemBuilder: (context, index) {
                   final eachOuterMoodDocument = outerMoodDocuments[index];
 
-                  //eachOuterMoodDocument.co
+                  //Datetime
+                  DateTime entryTime =
+                      (eachOuterMoodDocument['dateTime'] as Timestamp).toDate();
 
-                  print(eachOuterMoodDocument.data().toString());
 
+                  List<dynamic> group = eachOuterMoodDocument.get("OneMood") as List< dynamic> ;
 
                   return Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                            child: Text(
+                              DateFormat("MMM d, HH:mm").format(entryTime),
+                              //writes out the date
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                          ),
+                          Column(
+                            //map the list of moods to the widgets
+                            //"for each moodlog "md" draw a widget"
 
+                            children: group.map((md) {
+                              //previous output:
+                              // "SecondaryMood.angry_jealous"
+                              //this leaves it just with "jealous"
 
-                    child:
-                    Text(eachOuterMoodDocument['id'].toString()),
+                              String newMoodP =md['moodPrimary'];
+                              String newMoodS =md['moodSecondary'];
 
+                              int subStrenght = md['strength'];
 
-                    // Text('du'),
+                              PrimaryMoods newMood = primaryMoodToString.keys.firstWhere(
+                                      (k) => primaryMoodToString[k] == newMoodP);
+                              //  Color myColor = getColor(newMoodP);
+
+                              Color? tempColor = primaryColors[newMood];
+
+                              Color myColor = (tempColor!=null) ? tempColor : Colors.blueGrey;
+                              //displaying widgets
+
+                              if (Theme.of(context).brightness ==
+                                  Brightness.light) {
+                                // myColor = myColor.withOpacity(0.7);
+                                myColor = HSLColor.fromColor(myColor)
+                                    .withLightness(0.4)
+                                    .withSaturation(1)
+                                    .toColor();
+                              } else {
+                                //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
+                                //  myColor = myColor.withOpacity(0.7);
+                                myColor = HSLColor.fromColor(myColor)
+                                    .withLightness(0.65)
+                                    .withSaturation(1)
+                                    .toColor();
+                              }
+
+                              return Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 15,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 1, horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          //primary mood
+                                          Text(
+                                            newMoodP,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: myColor,
+                                            ),
+                                          ),
+
+                                          //the date
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          //secondary mood
+                                          Text(
+                                            newMoodS,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                          ),
+
+                                          //its strenght
+                                          Text(
+                                            subStrenght.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25,
+                                                color: myColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
-                },
 
+                }
               );
             }
-/*
-              if (streamSnapshot.connectionState == ConnectionState.active) {
 
-               final documents = streamSnapshot.data;
-
-               if (streamSnapshot.hasData) {
-                 return ListView.builder(
-                   scrollDirection: Axis.vertical,
-                   shrinkWrap: true,
-
-                   itemBuilder: (context, index) =>
-                       Container(
-                         padding: EdgeInsets.all(10),
-                         height: 40,
-                         child: Text(documents![index]['j']),
-
-                         //TODO: here????
-                       ),
-                   itemCount: streamSnapshot.data.docs.length,
-
-                 );
-               }
-              }
-              return Text("error");
-
- */
-          },),
+          },
+        ),
         Column(
           //map the list of transactions to the widgets
           //"for each moodlog "md" draw a widget"
@@ -225,10 +277,7 @@ class MoodLogList extends StatelessWidget {
                           child: Text(
                             DateFormat("MMM d, HH:mm").format(entryTime),
                             //writes out the date
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .subtitle1,
+                            style: Theme.of(context).textTheme.subtitle1,
                           ),
                         ),
                         Column(
@@ -241,7 +290,7 @@ class MoodLogList extends StatelessWidget {
                             //this leaves it just with "jealous"
 
                             String? temp =
-                            secondaryMoodToString[md.moodSecondary];
+                                secondaryMoodToString[md.moodSecondary];
                             String newMoodS = (temp != null) ? temp : "ERROR";
 
                             //same goes with primary moods
@@ -254,21 +303,25 @@ class MoodLogList extends StatelessWidget {
 
                             //color
 
-                            
-                          //  Color myColor = getColor(newMoodP);
+                            //  Color myColor = getColor(newMoodP);
                             Color myColor = md.color;
 
                             //displaying widgets
-                            
-                            if (Theme.of(context).brightness == Brightness.light){
-                              
-                             // myColor = myColor.withOpacity(0.7);
-                             myColor =  HSLColor.fromColor(myColor).withLightness(0.4).withSaturation(1).toColor();
-                            }
-                            else{
-                            //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
-                            //  myColor = myColor.withOpacity(0.7);
-                              myColor = HSLColor.fromColor(myColor).withLightness(0.65).withSaturation(1).toColor();
+
+                            if (Theme.of(context).brightness ==
+                                Brightness.light) {
+                              // myColor = myColor.withOpacity(0.7);
+                              myColor = HSLColor.fromColor(myColor)
+                                  .withLightness(0.4)
+                                  .withSaturation(1)
+                                  .toColor();
+                            } else {
+                              //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
+                              //  myColor = myColor.withOpacity(0.7);
+                              myColor = HSLColor.fromColor(myColor)
+                                  .withLightness(0.65)
+                                  .withSaturation(1)
+                                  .toColor();
                             }
 
                             return Container(
@@ -285,19 +338,18 @@ class MoodLogList extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         //primary mood
                                         Text(
                                           newMoodP,
-                                          style: Theme
-                                              .of(context)
+                                          style: Theme.of(context)
                                               .textTheme
                                               .bodyText1!
                                               .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: myColor,
-                                          ),
+                                                fontWeight: FontWeight.bold,
+                                                color: myColor,
+                                              ),
                                         ),
 
                                         //the date
@@ -309,13 +361,12 @@ class MoodLogList extends StatelessWidget {
                                         vertical: 8, horizontal: 5),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         //secondary mood
                                         Text(
                                           newMoodS,
-                                          style: Theme
-                                              .of(context)
+                                          style: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
                                         ),
@@ -348,5 +399,3 @@ class MoodLogList extends StatelessWidget {
     );
   }
 }
-
-
