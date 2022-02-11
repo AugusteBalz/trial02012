@@ -18,7 +18,7 @@ int indexOfBigEmotion = 0;
 
 //----
 //for bottom navigation bar
-int selectedIndex = 0;
+int selectedIndex = 2;
 
 List<MoodSelect> WholeMoodSelectionList = [
   happySelection,

@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/widgets/mood/multi_select_chip2.dart';
 import 'package:trial0201/widgets/story/multi_select_chip_for_tags.dart';
+import 'package:trial0201/widgets/story/upload_story_image_to_firebase.dart';
 
 class StoryScreen extends StatefulWidget {
   @override
@@ -18,10 +23,25 @@ class _StoryScreenState extends State<StoryScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+
+
   List<String> listOfSelectedTags = [];
+
+  File imageFile = File('assets/images/lights.jpg');
 
   CollectionReference storyCollection = FirebaseFirestore.instance
       .collection('Users/3oD3lMeJuQr7UJ84aHp2/StoryEntries');
+
+  getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+    }
+  }
 
   Future<void> addAStory() {
     // Call the user's CollectionReference to add a new user
@@ -52,12 +72,26 @@ class _StoryScreenState extends State<StoryScreen> {
         .catchError((error) => print("Failed to add story: $error"));
   }
 
+  Future uploadImageToFirebase(BuildContext context) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+
+    Reference ref =
+        storage.ref().child("image" + oneStoryEntry.dateTime.toString());
+    UploadTask uploadTask = ref.putFile(imageFile);
+    uploadTask.then((res) {
+      res.ref.getDownloadURL();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
+    print('refreshing');
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +126,8 @@ class _StoryScreenState extends State<StoryScreen> {
 
                       addAStory();
                       Navigator.pop(context);
+
+                     await UploadStoryImageToFirebase();
                     }
                   },
                   child: Text(
@@ -109,72 +145,120 @@ class _StoryScreenState extends State<StoryScreen> {
             child: Column(
               children: [
                 Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(
-                                width: 2.0, color: Colors.pinkAccent),
-                          ),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: 8),
-                          child: Text(
-                            'Title',
-                            style: Theme.of(context).textTheme.headline3,
-                          ),
+                        width: 200,
+                        height: 80,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  left: BorderSide(
+                                      width: 2.0, color: Colors.pinkAccent),
+                                ),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Title',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              /*  decoration: BoxDecoration(
+                                border: Border(
+                                  left: BorderSide(width: 2.0, color: Colors.lightBlue.shade600),
+
+                                ),
+
+                              ),
+
+                             */
+                              padding: EdgeInsets.only(left: 10),
+                              child: TextFormField(
+                                controller: textController1,
+                                obscureText: false,
+                                decoration: const InputDecoration(
+                                  hintText:
+                                      'Can you describe what happened in 1-3 words?',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                ),
+                                // style: FlutterFlowTheme.bodyText1,
+                                validator: (val) {
+                                  if (val != null) {
+                                    return 'Field is required';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Container(
-                        /*  decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(width: 2.0, color: Colors.lightBlue.shade600),
-
+                      Expanded(
+                        child: Stack(children: [
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                                 height: 90,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: FileImage(imageFile),
+                                    ))),
                           ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.white,
+                              child: IconButton(
+                                color: Colors.black,
 
-                        ),
-
-                       */
-                        padding: EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          controller: textController1,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            hintText:
-                                'Can you describe what happened in 1-3 words?',
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4.0),
-                                topRight: Radius.circular(4.0),
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4.0),
-                                topRight: Radius.circular(4.0),
+                                onPressed: () {
+                                  getFromGallery();
+                                  uploadImageToFirebase(context);
+                                },
+                                icon: Icon(Icons.camera_alt)
+                                ,
                               ),
                             ),
                           ),
-                          // style: FlutterFlowTheme.bodyText1,
-                          validator: (val) {
-                            if (val != null) {
-                              return 'Field is required';
-                            }
-
-                            return null;
-                          },
-                        ),
+                        ]),
                       ),
                     ],
                   ),
