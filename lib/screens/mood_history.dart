@@ -9,14 +9,14 @@ shows previously added emotions
 
  */
 
-class ShowHistory extends StatefulWidget {
-  const ShowHistory({Key? key}) : super(key: key);
+class ShowMoodHistory extends StatefulWidget {
+  const ShowMoodHistory({Key? key}) : super(key: key);
 
   @override
-  _ShowHistoryState createState() => _ShowHistoryState();
+  _ShowMoodHistoryState createState() => _ShowMoodHistoryState();
 }
 
-class _ShowHistoryState extends State<ShowHistory> {
+class _ShowMoodHistoryState extends State<ShowMoodHistory> {
   @override
   Widget build(BuildContext context) {
     return MoodLogList();

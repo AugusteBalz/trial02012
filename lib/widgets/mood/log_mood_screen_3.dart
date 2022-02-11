@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/widgets/mood/display_one_slider.dart';
 
 class LogMoodScreen3 extends StatefulWidget {

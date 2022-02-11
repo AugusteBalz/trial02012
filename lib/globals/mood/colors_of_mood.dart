@@ -7,15 +7,19 @@ import 'package:flutter/material.dart';
 //TODO: do double colours for light and dark themes
 
 
+
+
 Color angryMoodColor = const Color(0xFFFA0019);
 Color scaredMoodColor = const Color(0xFFF2460C);
-//Color loveMoodColor = const Color(0xFFF5799C);
+Color loveMoodColor = const Color(0xFFF5799C);
 Color sadMoodColor = const Color(0xFF0071FF);
 Color happyMoodColor = const Color(0xFF25A900);
 Color surprisedMoodColor = const Color(0xFFF2B70C);
 Color powerfulMoodColor = const Color(0xFFE8DA0C);
 Color disgustedMoodColor = const Color(0xFF7700FF);
 Color peacefulMoodColor = const Color(0xFF008D5F);
+
+
 
 
 /*
@@ -30,30 +34,30 @@ Color powerfulMoodColor = const Color(0xFFFF00FB);
 Color disgustedMoodColor = const Color(0xFF7700FF);
 Color peacefulMoodColor = const Color(0xFF008D5F);
 
+*/
 
 
-Color angryMoodColorLight = Colors.red;
-Color scaredMoodColorLight = const Color(0xFF1F1004);
-Color sadMoodColorLight = Colors.green;
-Color happyMoodColorLight = const Color(0xFFC30D9C);
-Color surprisedMoodColorLight = Colors.amber;
-Color powerfulMoodColorLight = Colors.yellow;
-Color disgustedMoodColorLight = Colors.deepPurpleAccent;
-Color peacefulMoodColorLight = const Color(0xFF00FCA6);
+Color angryMoodColorLight =const Color(0xFF8E0015);
+Color scaredMoodColorLight = const Color(0xFFB45100);
+Color sadMoodColorLight = const Color(0xFF00349A);
+Color happyMoodColorLight = const Color(0xFF166F00);
+Color surprisedMoodColorLight = const Color(0xFFA36800);
+Color powerfulMoodColorLight = const Color(0xFFFFD800);
+Color disgustedMoodColorLight = const Color(0xFF490678);
+Color peacefulMoodColorLight = const Color(0xFF03724D);
 
 
-Color angryMoodColorDark = Colors.red;
-Color scaredMoodColorDark = const Color(0xFFFF7000);
-//Color loveMoodColorDark = const Color(0xFFF5799C);
-Color sadMoodColorDark = Colors.blue;
-Color happyMoodColorDark = const Color(0xFF84C30D);
-Color surprisedMoodColorDark = Colors.amber;
+Color angryMoodColorDark =const Color(0xFFFF0033);
+Color scaredMoodColorDark = const Color(0xFFFF7F1B);
+Color sadMoodColorDark = const Color(0xFF00B5FF);
+Color happyMoodColorDark  = const Color(0xFF65FF47);
+Color surprisedMoodColorDark = const Color(0xFFFFA932);
 Color powerfulMoodColorDark = Colors.yellow;
-Color disgustedMoodColorDark = Colors.deepPurpleAccent;
+Color disgustedMoodColorDark = const Color(0xFFAF3DFF);
 Color peacefulMoodColorDark = const Color(0xFF00FCA6);
 
 
- */
+
 /*
 
 extension CustomColorScheme on ColorScheme {

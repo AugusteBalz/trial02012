@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
-import 'package:trial0201/models/primary_emotions_blueprint.dart';
+import 'package:trial0201/models/mood/primary_emotions_blueprint.dart';
 
 class WidgetForPrimaryEmotionDisplay extends StatefulWidget {
   final PrimaryEmotionsBlueprint selectionOfPrimaryEmotion;

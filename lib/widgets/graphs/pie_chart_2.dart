@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/main.dart';
-import 'package:trial0201/models/mood_entries.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 
 /// Icons by svgrepo.com (https://www.svgrepo.com/collection/job-and-professions-3/)
 

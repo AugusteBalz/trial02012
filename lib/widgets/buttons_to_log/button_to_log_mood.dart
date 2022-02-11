@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/screens/graphs.dart';
-import 'package:trial0201/screens/history.dart';
+import 'package:trial0201/screens/mood_history.dart';
 
 
 class ButtonToLogMood extends StatefulWidget {
@@ -35,7 +35,7 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
           setState(() {
 
             //reload the screens
-            const ShowHistory();
+            const ShowMoodHistory();
             const GraphScreen();
 
           });

@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:trial0201/models/mood_select.dart';
+import 'package:trial0201/models/mood/mood_select.dart';
 
 /*
 taken from
@@ -11,11 +11,10 @@ https://github.com/ponnamkarthik/MultiSelectChoiceChip
 class MultiSelectChip extends StatefulWidget {
   final MoodSelect reportList;
   final Function(List<String>)? onSelectionChanged;
-  final Function(List<String>)? onMaxSelected;
-  final int? maxSelection;
+
   final List<String> selectedChoices;
 
-  MultiSelectChip(this.reportList, this.selectedChoices, {this.onSelectionChanged, this.onMaxSelected, this.maxSelection});
+  MultiSelectChip(this.reportList, this.selectedChoices, {this.onSelectionChanged});
 
   @override
   _MultiSelectChipState createState() => _MultiSelectChipState();

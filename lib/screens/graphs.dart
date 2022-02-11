@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
-import 'package:trial0201/models/mood_entries.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/widgets/graphs/line_chart.dart';
 import 'package:trial0201/widgets/graphs/pie_chart.dart';
 import 'package:trial0201/widgets/graphs/pie_chart_2.dart';

@@ -3,8 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/primary_emotions_blueprint.dart';
+import 'package:trial0201/globals/matching_maps.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/primary_emotions_blueprint.dart';
 
 class CircleButton extends StatelessWidget {
   final GestureTapCallback onTap;
@@ -16,6 +17,13 @@ class CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double size = 45.0;
+/*
+
+ Color? tempColor =  primaryColors[selectionOfPrimaryEmotion.emotionP];
+   Color myColor =  (tempColor != null ) ? tempColor : Colors.grey;
+
+
+ */
 
     return InkResponse(
       onTap: (){

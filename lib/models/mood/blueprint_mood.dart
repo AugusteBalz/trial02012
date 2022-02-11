@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:trial0201/models/moods.dart';
+import 'package:trial0201/models/mood/moods.dart';
 
 class BlueprintMood {
   String name;

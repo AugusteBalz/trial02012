@@ -1,6 +1,6 @@
-import 'package:trial0201/globals/colors_of_mood.dart';
-import 'package:trial0201/models/blueprint_mood.dart';
-import 'package:trial0201/models/moods.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/moods.dart';
 
 /*
 class which holds all emotions associated with name, primary and secondary mood and its color

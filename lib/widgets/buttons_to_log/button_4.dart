@@ -31,22 +31,12 @@ class _Button4State extends State<Button4> {
       ),
       padding: const EdgeInsets.all(20),
       child: InkWell(
-        onTap: () async {
-          /*  final value =
-              await Navigator.pushNamed(context, '/emotionSelectionScreen');
+        onTap: ()  {
 
-          setState(() {
-            const ShowHistory();
-          });
+          Navigator.pushNamed(context, "/auth");
 
-         */
 
-          FirebaseFirestore.instance
-              .collection('MoodEntry/ElrpCdpePxfxKzJSpPCy/Again')
-              .snapshots()
-              .listen((event) {
-            print(event);
-          });
+
         },
         child:
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: const [

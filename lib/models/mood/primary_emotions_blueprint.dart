@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
-import 'package:trial0201/models/moods.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
+import 'package:trial0201/models/mood/moods.dart';
 
 class PrimaryEmotionsBlueprint {
   String emotionName;

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/theming.dart';
+import 'package:trial0201/screens/mood_history.dart';
 
 
 
@@ -65,6 +68,13 @@ class _AppSettingsState extends State<AppSettings> {
                      if(previousIndex!=index){
                        currentModel.toggleMode();
                        previousIndex = index!;
+
+
+                       //TODO: color sceheme!!!!
+                      // _changeColorTheme(Theme.of(context));
+
+                       //rebuild all the widgets
+                      // ShowMoodHistory();
                      }
 
                   },
@@ -87,5 +97,33 @@ class _AppSettingsState extends State<AppSettings> {
       
       
     );
+  }
+}
+
+
+void _changeColorTheme(ThemeData mode) {
+
+
+
+
+  if (mode.brightness == Brightness.light) {
+    print('dod');
+    angryMoodColor = angryMoodColorLight;
+    scaredMoodColor = scaredMoodColorLight;
+    sadMoodColor = sadMoodColorLight;
+    happyMoodColor = happyMoodColorLight;
+    surprisedMoodColor = surprisedMoodColorLight;
+    powerfulMoodColor = powerfulMoodColorLight;
+    disgustedMoodColor = disgustedMoodColorLight;
+    peacefulMoodColor = peacefulMoodColorLight;
+  } else {
+    angryMoodColor = angryMoodColorDark;
+    scaredMoodColor = scaredMoodColorDark;
+    sadMoodColor = sadMoodColorDark;
+    happyMoodColor = happyMoodColorDark;
+    surprisedMoodColor = surprisedMoodColorDark;
+    powerfulMoodColor = powerfulMoodColorDark;
+    disgustedMoodColor = disgustedMoodColorDark;
+    peacefulMoodColor = peacefulMoodColorDark;
   }
 }

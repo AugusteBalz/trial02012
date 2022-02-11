@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:trial0201/screens/mood_history.dart';
 
 class ButtonToLogEvent extends StatefulWidget {
   const ButtonToLogEvent({Key? key}) : super(key: key);
@@ -29,14 +30,16 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
       padding: const EdgeInsets.all(20),
       child: InkWell(
         onTap: () async {
-          /*
-          final value = await Navigator.pushNamed(context, '/emotionSelectionScreen');
+
+          final value = await Navigator.pushNamed(context, '/logstory');
 
           setState(() {
-            const ShowHistory();
+
+            //TODO: set the needed history
+         //   const ShowMoodHistory();
           });
 
-           */
+
         },
 
         child: Row(

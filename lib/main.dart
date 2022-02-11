@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/theming.dart';
 
 import 'package:trial0201/screens/app_settings.dart';
 import 'package:trial0201/screens/graphs.dart';
+import 'package:trial0201/screens/story_History.dart';
+import 'package:trial0201/widgets/auth/auth_form.dart';
+import 'package:trial0201/widgets/auth/auth_screen.dart';
 import 'package:trial0201/widgets/bottom_nav.dart';
-import 'package:trial0201/screens/history.dart';
+import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/screens/main_screen.dart';
 
 import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
@@ -16,6 +19,7 @@ import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:trial0201/widgets/story/story_screen.dart';
 import 'firebase_options.dart';
 
 import 'package:provider/provider.dart';
@@ -56,7 +60,17 @@ class MyAppFirst extends StatelessWidget {
               '/logmood3': (context) => const LogMoodScreen3(),
 
               //
-              '/history': (context) => const ShowHistory(),
+              '/moodhistory': (context) => const ShowMoodHistory(),
+              
+              //
+              '/storyHistory': (context) => const StoryHistory(),
+
+              //
+              '/auth' : (context) =>  AuthScreen(),
+
+              //
+              '/logstory' : (context) => StoryScreen(),
+              
 
               //'/emotionSelectionScreen' : (context) => const EmotionSelectionScreen(),
             },
@@ -177,8 +191,10 @@ class _HomePageState extends State<HomePage> {
 
 //  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
+
+    StoryHistory(),
+    ShowMoodHistory(),
     MainScreen(),
-    ShowHistory(),
     GraphScreen(),
     AppSettings(),
   ];
@@ -248,18 +264,23 @@ class _HomePageState extends State<HomePage> {
           // backgroundColor: Colors.pink,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.bubble_chart_rounded),
-              label: 'Home',
+              icon: Icon(Icons.receipt_long),
+              label: 'Stories',
               //  backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_rounded),
-              label: 'History',
+              icon: Icon(Icons.fact_check),
+              label: 'Moods',
+              //  backgroundColor: Colors.white,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_filled),
+              label: 'Home',
               // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.show_chart),
-              label: 'Graphs',
+              label: 'Insights',
               // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(

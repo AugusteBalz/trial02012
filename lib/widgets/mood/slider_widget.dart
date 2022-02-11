@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 import '../../models/custom_slider_thumb_circle.dart';
 
 class SliderWidget extends StatefulWidget {

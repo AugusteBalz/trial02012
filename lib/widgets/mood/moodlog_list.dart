@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
 
 import 'package:intl/intl.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/main.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 
 //TODO: add the ability to delete an entry
 

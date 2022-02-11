@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
-import 'package:trial0201/models/mood_select.dart';
+import 'package:trial0201/models/mood/mood_select.dart';
 
 import 'package:trial0201/widgets/mood/multi_select_chip2.dart';
 

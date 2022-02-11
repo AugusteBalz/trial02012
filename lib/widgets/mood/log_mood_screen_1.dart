@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/matching_maps.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/primary_emotions_blueprint.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/primary_emotions_blueprint.dart';
 import 'package:trial0201/widgets/mood/circle_display.dart';
 import 'package:trial0201/widgets/widget_for_primary_emotion_display.dart';
 

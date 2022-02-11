@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
-import 'package:trial0201/models/blueprint_mood.dart';
-import 'package:trial0201/models/mood_entries.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/one_mood.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/screens/graphs.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:trial0201/models/widget_for_mood_display.dart';
+import 'package:trial0201/widgets/widget_for_mood_display.dart';
 
 class EmotionSelectionScreen extends StatefulWidget {
   const EmotionSelectionScreen({Key? key}) : super(key: key);

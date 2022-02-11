@@ -1,14 +1,15 @@
 library mood_as_classes.globals;
 
 import 'package:flutter/material.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/main.dart';
-import 'package:trial0201/models/blueprint_mood.dart';
-import 'package:trial0201/models/mood_entries.dart';
-import 'package:trial0201/models/mood_select.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/one_mood.dart';
-import 'package:trial0201/globals/constants_of_mood.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/mood_select.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/globals/mood/constants_of_mood.dart';
+import 'package:trial0201/models/story/story_entry.dart';
 
 
 
@@ -372,5 +373,5 @@ OneMood oneSubEmotion = OneMood(
     strength: 0,
     color: Colors.grey);
 
-MoodEntry oneEntry =
-    MoodEntry(id: "a1", dateTime: DateTime.now(), eachMood: []);
+MoodEntry oneEntry = MoodEntry(id: "a1", dateTime: DateTime.now(), eachMood: []);
+StoryEntry oneStoryEntry = StoryEntry(id: "a1", dateTime: DateTime.now(), eachMood: [], tags: [], title: 'New Story', story: '...');

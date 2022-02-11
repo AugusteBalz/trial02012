@@ -1,14 +1,14 @@
 library mood_as_classes.globals;
 
 import 'package:flutter/material.dart';
-import 'package:trial0201/globals/colors_of_mood.dart';
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/main.dart';
-import 'package:trial0201/models/blueprint_mood.dart';
-import 'package:trial0201/models/mood_entries.dart';
-import 'package:trial0201/models/mood_select.dart';
-import 'package:trial0201/models/moods.dart';
-import 'package:trial0201/models/one_mood.dart';
-import 'package:trial0201/globals/constants_of_mood.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/mood_select.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/globals/mood/constants_of_mood.dart';
 
 
 
@@ -24,7 +24,7 @@ ThemeModel currentModel = ThemeModel();
 
 TextTheme textTextTheme = const TextTheme(
   //for appbar
-  headline1: TextStyle(fontSize: 27.0, fontWeight: FontWeight.w200),
+  headline1: TextStyle(fontSize: 23.0, fontWeight: FontWeight.w200),
 
   //secondary appbar
   headline2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w200),
