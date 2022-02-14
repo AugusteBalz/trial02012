@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'package:trial0201/widgets/pickers/image_picker_user_profile_pic.dart';
 
 /*
 extra button if needed
  */
 
-enum ImageSourceType { gallery, camera }
 
 
-class Button3 extends StatefulWidget {
-  const Button3({Key? key}) : super(key: key);
+
+class Button5 extends StatefulWidget {
+  const Button5({Key? key}) : super(key: key);
 
   @override
-  _Button3State createState() => _Button3State();
+  _Button5State createState() => _Button5State();
 }
 
-class _Button3State extends State<Button3> {
+class _Button5State extends State<Button5> {
 
   void _handleURLButtonPress(BuildContext context, var type) {
   //  Navigator.push(context, MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));
@@ -29,7 +30,7 @@ class _Button3State extends State<Button3> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.blue,
+            Colors.indigo,
             Colors.tealAccent,
           ],
           begin: FractionalOffset.topCenter,
@@ -40,10 +41,15 @@ class _Button3State extends State<Button3> {
       ),
       padding: const EdgeInsets.all(20),
       child: InkWell(
-        onTap: () async {
+        onTap: ()  {
 
 
-          _handleURLButtonPress(context, ImageSourceType.gallery);
+
+          Navigator.pushNamed(context, '/images');
+
+
+
+
 
         },
         child:

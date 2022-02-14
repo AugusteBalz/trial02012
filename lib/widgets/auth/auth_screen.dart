@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'dart:ui' as ui;
 
 import 'package:trial0201/widgets/auth/auth_form.dart';
 
@@ -16,6 +19,21 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
+
+ late File imageFile;
+
+
+  getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+    }
+  }
+
 
   void _submitAuthForm(
       String email,
@@ -42,14 +60,33 @@ class _AuthScreenState extends State<AuthScreen> {
           password: password,
         );
 
+    /*    final fileName = basename(imageFile!.path);
+        final destination = 'user_image/$fileName';
+
+
         final ref = FirebaseStorage.instance
             .ref()
-            .child('user_image')
+            .child('destination')
             .child(authResult.user!.uid + '.jpg');
 
-        await ref.putFile(image).whenComplete(() => null);
+        await ref.putFile(imageFile).whenComplete(() => null);
 
-        final url = await ref.getDownloadURL();
+     */
+
+        var url;
+
+        if(image!=null){
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('user_image/')
+              .child("images/")
+              .child(authResult.user!.uid + '.jpg');
+          await ref.putFile(image);
+           url = await ref.getDownloadURL();
+        }
+
+
+
 
         await FirebaseFirestore.instance
             .collection('users')
@@ -87,12 +124,100 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: AuthForm(
-        _submitAuthForm,
-        _isLoading,
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [
+                0.1,
+                0.5,
+
+                0.9,
+              ],
+              colors: [
+                const Color(0xFFFFD25B),
+                const Color(0xFFFF7BDF),
+
+
+
+                Colors.indigo,
+
+              ],
+            )
+        ),
+        child: SingleChildScrollView(
+
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+    /*   Stack(
+                children: [
+              Container(
+                  width: double.infinity,
+                  child: CustomPaint(
+                      size: Size(9000,(300*0.5833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                      painter: RPSCustomPainter(),
+                    ),
+                ),
+                ],
+
+
+              ),
+          */
+              SizedBox(height: 90,),
+              AuthForm(
+                _submitAuthForm,
+                _isLoading,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
+/*
+
+
+class RPSCustomPainter extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+
+
+    Paint paint0 = Paint()
+      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+    paint0.shader = ui.Gradient.linear(Offset(size.width*0.42,size.height*0.37),Offset(size.width*0.75,size.height*0.37),[Color(0xff2418b8),Color(0xff500689)],[0.00,1.00]);
+
+    Path path0 = Path();
+    path0.moveTo(size.width*0.6550000,size.height*0.4471429);
+    path0.cubicTo(size.width*0.5777083,size.height*0.3900000,size.width*0.5847917,size.height*0.3971429,size.width*0.4850000,size.height*0.4200000);
+    path0.quadraticBezierTo(size.width*0.4293750,size.height*0.4128571,size.width*0.4175000,size.height*0.2871429);
+    path0.lineTo(size.width*0.7508333,size.height*0.2828571);
+    path0.lineTo(size.width*0.7508333,size.height*0.4285714);
+    path0.quadraticBezierTo(size.width*0.7243750,size.height*0.4667857,size.width*0.6550000,size.height*0.4471429);
+    path0.close();
+
+    canvas.drawPath(path0, paint0);
+
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+
+}
+ */

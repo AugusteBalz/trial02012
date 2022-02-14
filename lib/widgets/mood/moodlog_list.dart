@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
@@ -12,8 +13,19 @@ import 'package:trial0201/models/mood/one_mood.dart';
 
 //TODO: add the ability to delete an entry
 
+
+var userId;
+
 class MoodLogList extends StatelessWidget {
   const MoodLogList({Key? key}) : super(key: key);
+
+
+
+
+  Future <void> getUserId() async {
+    userId = await FirebaseAuth.instance.currentUser!;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +86,13 @@ class MoodLogList extends StatelessWidget {
     }
 
 
+
+
  */
+
+
+ //   getUserId();
+
 
 
     return Container(
@@ -82,17 +100,25 @@ class MoodLogList extends StatelessWidget {
 
       //TODO : make it flexible
 
-      child: StreamBuilder(
+
+
+
+
+    child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries').orderBy('dateTime', descending: true)
-            .snapshots(),
+        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries').orderBy('dateTime', descending: true)
+        .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                 streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          }else if (streamSnapshot == null) {
+            return Text('done');
+
           } else if (streamSnapshot.hasError) {
             return Text("something went wrong");
+
           } else if (streamSnapshot.connectionState == ConnectionState.done) {
             return Text('done');
           } else {
@@ -120,6 +146,9 @@ class MoodLogList extends StatelessWidget {
                       //Datetime
                       DateTime entryTime =
                           (eachOuterMoodDocument['dateTime'] as Timestamp).toDate();
+
+
+                      String id = eachOuterMoodDocument['id'];
 
 
                       List<dynamic> group = eachOuterMoodDocument.get("OneMood") as List< dynamic> ;

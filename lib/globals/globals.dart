@@ -12,6 +12,8 @@ import 'package:trial0201/globals/mood/constants_of_mood.dart';
 import 'package:trial0201/models/story/story_entry.dart';
 
 
+//to save the user id
+//dynamic userId;
 
 //little number for passing the big emotion
 int indexOfBigEmotion = 0;

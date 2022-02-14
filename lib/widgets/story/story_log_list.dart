@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
@@ -24,7 +25,7 @@ class StoryLogList extends StatelessWidget {
 
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('Users/3oD3lMeJuQr7UJ84aHp2/StoryEntries')
+            .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('StoryEntries')
             .orderBy('dateTime', descending: true)
             .snapshots(),
         builder: (context,

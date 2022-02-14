@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trial0201/globals/mood/colors_of_mood.dart';
@@ -9,9 +10,11 @@ import 'package:trial0201/screens/graphs.dart';
 import 'package:trial0201/screens/story_History.dart';
 import 'package:trial0201/widgets/auth/auth_form.dart';
 import 'package:trial0201/widgets/auth/auth_screen.dart';
+import 'package:trial0201/widgets/auth/splash_screen.dart';
 import 'package:trial0201/widgets/bottom_nav.dart';
 import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/screens/main_screen.dart';
+import 'package:trial0201/widgets/pickers/image_picker_user_profile_pic.dart';
 
 import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_2.dart';
@@ -70,6 +73,9 @@ class MyAppFirst extends StatelessWidget {
 
               //
               '/logstory' : (context) => StoryScreen(),
+
+              //
+         // '/images' : (context) => ImagePickerForUserProfile(),
               
 
               //'/emotionSelectionScreen' : (context) => const EmotionSelectionScreen(),
@@ -175,7 +181,16 @@ class MyApp extends StatelessWidget {
 
     */
 
-    return const HomePage();
+    return StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (ctx, userSnapshot) {
+      if (userSnapshot.connectionState == ConnectionState.waiting) {
+        return SplashScreen();
+      }
+      if (userSnapshot.hasData) {
+        print(userSnapshot.data.toString());
+        return HomePage();
+      }
+      return AuthScreen();
+    });
   }
 }
 

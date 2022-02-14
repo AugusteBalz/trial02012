@@ -37,7 +37,7 @@ class _GraphScreenState extends State<GraphScreen> {
           PieChartSample3(),
           SizedBox(height: 30,),
 
-          LineChartSample1(),
+        //  LineChartSample1(),
           //PieChartSample2(),
         ],
       )),

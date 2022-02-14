@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/widgets/mood/multi_select_chip2.dart';
+import 'package:trial0201/widgets/pickers/image_picker_for_stories.dart';
 import 'package:trial0201/widgets/story/multi_select_chip_for_tags.dart';
 import 'package:trial0201/widgets/story/upload_story_image_to_firebase.dart';
 
@@ -30,7 +32,7 @@ class _StoryScreenState extends State<StoryScreen> {
   File imageFile = File('assets/images/lights.jpg');
 
   CollectionReference storyCollection = FirebaseFirestore.instance
-      .collection('Users/3oD3lMeJuQr7UJ84aHp2/StoryEntries');
+      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('StoryEntries');
 
   getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -228,6 +230,7 @@ class _StoryScreenState extends State<StoryScreen> {
                           ],
                         ),
                       ),
+                     /*
                       Expanded(
                         child: Stack(children: [
                           Align(
@@ -260,6 +263,8 @@ class _StoryScreenState extends State<StoryScreen> {
                           ),
                         ]),
                       ),
+                      */
+                      ImagePickerForStories(),
                     ],
                   ),
                 ),

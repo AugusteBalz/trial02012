@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
@@ -12,9 +13,15 @@ class LogMoodScreen3 extends StatefulWidget {
   State<LogMoodScreen3> createState() => _LogMoodScreen3State();
 }
 
+var userId;
+
+
 class _LogMoodScreen3State extends State<LogMoodScreen3> {
+
+
+
   CollectionReference moodCollection = FirebaseFirestore.instance
-      .collection('Users/3oD3lMeJuQr7UJ84aHp2/MoodEntries');
+      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries');
 
   Future<void> addAMood() {
     // Call the user's CollectionReference to add a new user
@@ -54,6 +61,10 @@ class _LogMoodScreen3State extends State<LogMoodScreen3> {
 
   @override
   Widget build(BuildContext context) {
+
+   // getUserId();
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("How strong are these emotions?",
