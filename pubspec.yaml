@@ -149,6 +149,14 @@ flutter:
       fonts:
         - asset: assets/fonts/Poiret_One/PoiretOne-Regular.ttf
 
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito/static/Nunito-Medium.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Nunito/static/Nunito-Light.ttf
+          weight: 200
+
   # fonts:
   #   - family: Schyler
   #     fonts:

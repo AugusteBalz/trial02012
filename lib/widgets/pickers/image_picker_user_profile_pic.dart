@@ -32,6 +32,9 @@ Future<void> getThePic() async {
 
   userPhoto = ref['image_url'];
   print(userPhoto);
+
+  // TODO: add this line appropriately
+  //setState((){});
 }
 
 
@@ -60,7 +63,7 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
 
   final ImagePicker _picker = ImagePicker();
 
-  
+
 
   void _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {

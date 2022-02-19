@@ -18,8 +18,8 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.yellow,
-            Colors.deepOrange,
+            Colors.pinkAccent,
+            Colors.purpleAccent,
           ],
           begin: FractionalOffset.topCenter,
           end: FractionalOffset.bottomCenter,

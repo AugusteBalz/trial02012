@@ -18,8 +18,8 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.lightBlue,
-              Colors.pinkAccent,
+              Colors.indigo,
+              Colors.greenAccent,
             ],
             begin: FractionalOffset.topCenter,
             end: FractionalOffset.bottomCenter,

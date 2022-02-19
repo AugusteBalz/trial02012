@@ -3,6 +3,7 @@ import 'dart:ui';
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -68,9 +69,9 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = isValidTemp2.validate();
     FocusScope.of(context).unfocus();
 
-
+/*
    //_userImageFile = imageFile;
-    if (_userImageFile == null && !_isLogin) {
+    if (_userImageFile == null && !_isLogin && FirebaseAuth.instance.currentUser == null) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please pick an image.'),
@@ -80,6 +81,8 @@ class _AuthFormState extends State<AuthForm> {
       return;
     }
 
+
+ */
     if (isValid) {
       isValidTemp2.save();
       widget.submitFn(

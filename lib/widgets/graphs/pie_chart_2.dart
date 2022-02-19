@@ -55,15 +55,17 @@ class PieChartSample3State extends State {
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
-    List<OneMood> dummy = [];
+
+
+    allData2.clear();
 
     // Get data from docs and convert map to List
-    allData = querySnapshot.docs
+    querySnapshot.docs
         .map((document) => {
               allData2.add(MoodEntry(
                 id: document['id'],
                 dateTime: (document['dateTime'] as Timestamp).toDate(),
-                eachMood: convertToOneMood(document["OneMood"], dummy),
+                eachMood: convertToOneMood(document["OneMood"], []),
               ))
             })
         .toList();
@@ -75,9 +77,9 @@ class PieChartSample3State extends State {
   Widget build(BuildContext context) {
 
 
-    getData();
+    getData(); // GETS DATA FROM THE FIREBASE
 
-    groupByMonths();
+    groupByMonths(); // sorts it out by months
     // tidyUpTheData();
 
     return Column(
@@ -136,7 +138,7 @@ class PieChartSample3State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
-   // calculateMonthlyStats();
+    calculateMonthlyStats();
     findMostCommonEmotion();
 
 
@@ -155,6 +157,7 @@ double value;
        if (wholeMonthsCount == null || wholeMonthsCount == 0){
         print('We count WholeMonthsCount from 1');
        wholeMonthsCount=1;
+       getData();
        }
        print(value);
        print(wholeMonthsCount);
@@ -267,7 +270,10 @@ double value;
 
 
   List<OneMood> convertToOneMood(List<dynamic> document, List<OneMood> dummy) {
-    document.forEach((element) {
+
+    //this function takes in List<dynamic> from the firebase and converts it to List of OneMoods
+
+    for (var element in document) {
       PrimaryMoods newMood = primaryMoodToString.keys
           .firstWhere((k) => primaryMoodToString[k] == element['moodPrimary']);
 
@@ -287,7 +293,7 @@ double value;
         strength: element['strength'],
         color: myColor,
       ));
-    });
+    }
 
 
 
@@ -438,7 +444,7 @@ void groupByMonths() {
   int thisYear;
   DateTime thisDate;
 
-  mapOfMonths.clear();
+  maptoMonths.clear();
 
 /*
   for (MoodEntry entry in allData2) {
@@ -475,15 +481,17 @@ void groupByMonths() {
     thisDate = DateTime(thisYear, thisMonth);
     OneMood temp;
     List<List<OneMood>> dummyList = [];
+    Map<int, List<List<OneMood>>> dummyMonth = {};
+
+    dummyList.add(entry.eachMood);
 
     if (!maptoMonths.containsKey(thisYear)) {
       // if it doesnt contain both the year and the month,
       // we add both the year and the month
 
-      Map<int, List<List<OneMood>>> dummyMonth = {};
 
 
-      dummyList.add(entry.eachMood);
+
 
       dummyMonth.putIfAbsent(thisMonth, () => dummyList);
 
@@ -503,7 +511,7 @@ void groupByMonths() {
 
 
         maptoMonths[thisYear]![thisMonth]!.add(entry.eachMood);
-        print (maptoMonths[thisYear]![thisMonth]);
+
 
 
 
@@ -511,6 +519,8 @@ void groupByMonths() {
       }
 
     }
+
+    print (maptoMonths);
   }
 }
 
@@ -531,6 +541,8 @@ class _WidgetDisplayMonthGraphState extends State<WidgetDisplayMonthGraph> {
   @override
   Widget build(BuildContext context) {
     return Container();
+
+    //TODO: Implement later
 
     /*
     Column(

@@ -137,7 +137,7 @@ class MyAppFirst extends StatelessWidget {
 
 
                 // Define the default font family.
-                fontFamily: 'Comfortaa',
+                fontFamily: 'Nunito',
 
                 //we add white text for dark theme
                 textTheme: textTextTheme.apply(
