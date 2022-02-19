@@ -34,7 +34,9 @@ class _LogMoodScreen1State extends State<LogMoodScreen1> {
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+        alignment: Alignment.center,
         child: Stack(children: [
+
 
           Positioned(
             child: const Icon(

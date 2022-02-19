@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trial0201/globals/defaults.dart';
 
 import 'package:trial0201/widgets/pickers/image_picker_user_profile_pic.dart';
 
@@ -35,10 +36,11 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = '';
   var _userName = '';
   var _userPassword = '';
-  late File _userImageFile;
+  File _userImageFile = mainProfilePic;
 
   void _pickedImage(File image) {
     _userImageFile = image;
+    mainProfilePic = image;
 
   }
 
@@ -194,7 +196,9 @@ class _AuthFormState extends State<AuthForm> {
                             },
                           ),
                           SizedBox(height: 12),
-                          if (widget.isLoading) CircularProgressIndicator(),
+                          if (widget.isLoading) CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
                           SizedBox(height: 20,),
                           if (!widget.isLoading)
                             OutlinedButton(

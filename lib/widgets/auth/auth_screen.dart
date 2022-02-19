@@ -151,32 +151,11 @@ class _AuthScreenState extends State<AuthScreen> {
               ],
             )
         ),
-        child: SingleChildScrollView(
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-
-    /*   Stack(
-                children: [
-              Container(
-                  width: double.infinity,
-                  child: CustomPaint(
-                      size: Size(9000,(300*0.5833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                      painter: RPSCustomPainter(),
-                    ),
-                ),
-                ],
-
-
-              ),
-          */
-              SizedBox(height: 90,),
-              AuthForm(
-                _submitAuthForm,
-                _isLoading,
-              ),
-            ],
+        child: Align(
+          alignment: Alignment.center,
+          child: AuthForm(
+            _submitAuthForm,
+            _isLoading,
           ),
         ),
       ),

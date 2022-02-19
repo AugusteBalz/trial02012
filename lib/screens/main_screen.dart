@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trial0201/globals/defaults.dart';
@@ -15,8 +17,31 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   CarouselController carouselController = CarouselController();
 
+  String userName = '';
+
+
+  Future<void> getTheUsername() async {
+
+
+    if (FirebaseAuth.instance.currentUser == null){
+      return;
+    }
+
+    var ref = await  FirebaseFirestore.instance
+        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    userName = ref['username'];
+    print(userName);
+
+    // TODO: add this line appropriately
+    //setState((){});
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    getTheUsername();
 
 
     return SafeArea(
@@ -33,8 +58,9 @@ class _MainScreenState extends State<MainScreen> {
 
             Container(
               margin: EdgeInsets.all(40),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 alignment: Alignment.centerLeft
-                ,child: Text('How are you feeling today, '+mainUserName+ '?', style: TextStyle(),)),
+                ,child: Text('How are you feeling today, '+userName+ '?', style: TextStyle(),)),
             SizedBox(height: 40,),
             Container(
               //width: 500,
@@ -44,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                 carouselController: carouselController, // Give the controller
                 options: CarouselOptions(
                     enableInfiniteScroll: false,
-                  height: 320,
+                  height: 450,
                   enlargeCenterPage: true,
                 ),
                 items: widgetlist.map((featuredImage) {
