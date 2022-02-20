@@ -15,6 +15,6 @@ import 'package:trial0201/models/story/story_entry.dart';
 
 
 
-String mainUserName = 'user';
+String? mainUserName;
 
 File mainProfilePic = File('assets/images/defaultuser.png');

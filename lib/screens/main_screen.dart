@@ -45,19 +45,20 @@ class _MainScreenState extends State<MainScreen> {
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-                margin: EdgeInsets.all(40),
+                margin: EdgeInsets.symmetric(horizontal: 40),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'How are you feeling today, ' + mainUserName + '?',
+                child: (mainUserName != null ) ? Text(
+                  'How are you feeling today, ' + mainUserName! + '?',
                   style: TextStyle(),
-                )),
-            SizedBox(
-              height: 40,
-            ),
+                ) : Text(
+                  'How are you feeling today' + '?',)),
+            //TODO: do a fix with the name
+
+            SizedBox(height: 20,),
             Container(
               //width: 500,
               alignment: Alignment.center,
@@ -83,6 +84,7 @@ class _MainScreenState extends State<MainScreen> {
                 }).toList(),
               ),
             ),
+            SizedBox(height: 40,)
           ],
         ),
       ),

@@ -18,7 +18,7 @@ class _NoStoriesYetState extends State<NoStoriesYet> {
 
       child: Column(
 
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //  mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
 
           Container(
