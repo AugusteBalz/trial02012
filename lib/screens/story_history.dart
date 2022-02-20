@@ -1,5 +1,7 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/widgets/story/story_log_list.dart';
 
@@ -13,6 +15,7 @@ class StoryHistory extends StatefulWidget {
 class _StoryHistoryState extends State<StoryHistory> {
   @override
   Widget build(BuildContext context) {
+
     return StoryLogList();
   }
 }

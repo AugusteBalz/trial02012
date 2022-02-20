@@ -191,11 +191,14 @@ class _StoryScreenState extends State<StoryScreen> {
                              */
                               padding: EdgeInsets.only(left: 10),
                               child: TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
                                 controller: textController1,
                                 obscureText: false,
                                 decoration: const InputDecoration(
+                                  hintMaxLines: 5,
                                   hintText:
-                                      'Can you describe what happened in 1-3 words?',
+                                      'Can you describe what happened in a few words?',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Color(0x00000000),
@@ -319,9 +322,12 @@ class _StoryScreenState extends State<StoryScreen> {
                       ),
                       TextFormField(
                         controller: textController2,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
 
                         obscureText: false,
                         decoration: const InputDecoration(
+                          hintMaxLines: 5,
                           hintText:
                               'Had an issue at work? Got in a fight? Spilled coffee on your notes?',
                           enabledBorder: UnderlineInputBorder(

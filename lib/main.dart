@@ -64,52 +64,66 @@ class MyAppFirst extends StatelessWidget {
 
               //
               '/moodhistory': (context) => const ShowMoodHistory(),
-              
+
               //
               '/storyHistory': (context) => const StoryHistory(),
 
               //
-              '/auth' : (context) =>  AuthScreen(),
+              '/auth': (context) => AuthScreen(),
 
               //
-              '/logstory' : (context) => StoryScreen(),
+              '/logstory': (context) => StoryScreen(),
 
               //
-         // '/images' : (context) => ImagePickerForUserProfile(),
-              
+              // '/images' : (context) => ImagePickerForUserProfile(),
 
               //'/emotionSelectionScreen' : (context) => const EmotionSelectionScreen(),
             },
             theme: ThemeData(
-                // Define the default brightness and colors.
-                brightness: Brightness.light,
-                primaryColor: Colors.deepPurple,
+              // Define the default brightness and colors.
+              brightness: Brightness.light,
+              primaryColor: Colors.deepPurple,
 
-                // Define the default font family.
-                fontFamily: 'Comfortaa',
 
-                // Define the default `TextTheme`. Use this to specify the default
-                // text styling for headlines, titles, bodies of text, and more.
-                textTheme: textTextTheme.apply(
-                  // bodyColor: Colors.orange,
-                  displayColor: Colors.black,
+              // Define the default font family.
+              fontFamily: 'Nunito',
+
+              // Define the default `TextTheme`. Use this to specify the default
+              // text styling for headlines, titles, bodies of text, and more.
+              textTheme: textTextTheme.apply(
+                // bodyColor: Colors.orange,
+                displayColor: Colors.black,
+              ),
+              appBarTheme: const AppBarTheme(
+                //brightness: Brightness.light,
+                // systemOverlayStyle: SystemUiOverlayStyle.dark,
+                color: Colors.transparent,
+                elevation: 0,
+                iconTheme: IconThemeData(color: Colors.black),
+
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  // Status bar color
+
+                  // Status bar brightness (optional)
+                  statusBarIconBrightness: Brightness.dark,
+                  // For Android (dark icons)
+                  statusBarBrightness: Brightness.light, // For iOS (dark icons)
                 ),
-                appBarTheme: const AppBarTheme(
-                  //brightness: Brightness.light,
-                 // systemOverlayStyle: SystemUiOverlayStyle.dark,
-                  color: Colors.transparent,
-                  elevation: 0,
-                  iconTheme: IconThemeData(color: Colors.black),
-
-                  systemOverlayStyle: SystemUiOverlayStyle(
-                    // Status bar color
-
-
-                    // Status bar brightness (optional)
-                    statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-                    statusBarBrightness: Brightness.light, // For iOS (dark icons)
-                  ),
+              ),
+              outlinedButtonTheme: OutlinedButtonThemeData(
+                  style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                primary: Colors.deepPurple,
+                side:
+                    BorderSide(
+                        width: 1.0, color: Colors.deepPurple),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                padding: const EdgeInsets.all(15),
+                textStyle: const TextStyle(
+                  color: Colors.pinkAccent,
                 ),
+              )),
               /*  colorScheme:  const ColorScheme(
                     primary: Colors.black26,
                     primaryVariant: Colors.black26,
@@ -135,7 +149,6 @@ class MyAppFirst extends StatelessWidget {
                 brightness: Brightness.dark,
                 primaryColor: const Color(0xFF151026),
 
-
                 // Define the default font family.
                 fontFamily: 'Nunito',
 
@@ -151,14 +164,15 @@ class MyAppFirst extends StatelessWidget {
                   iconTheme: IconThemeData(color: Colors.white),
 
                   systemOverlayStyle: SystemUiOverlayStyle(
-                  // Status bar color
-                  statusBarColor: Colors.red,
+                    // Status bar color
+                    statusBarColor: Colors.red,
 
-                  // Status bar brightness (optional)
-                  statusBarIconBrightness: Brightness.light, // For Android (dark icons)
-                  statusBarBrightness: Brightness.dark, // For iOS (dark icons)
-                ),
-
+                    // Status bar brightness (optional)
+                    statusBarIconBrightness: Brightness.light,
+                    // For Android (dark icons)
+                    statusBarBrightness:
+                        Brightness.dark, // For iOS (dark icons)
+                  ),
                 )),
             // Provide dark theme.
             themeMode: currentModel.mode,
@@ -181,16 +195,18 @@ class MyApp extends StatelessWidget {
 
     */
 
-    return StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (ctx, userSnapshot) {
-      if (userSnapshot.connectionState == ConnectionState.waiting) {
-        return SplashScreen();
-      }
-      if (userSnapshot.hasData) {
-        print(userSnapshot.data.toString());
-        return HomePage();
-      }
-      return AuthScreen();
-    });
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen();
+          }
+          if (userSnapshot.hasData) {
+            print(userSnapshot.data.toString());
+            return HomePage();
+          }
+          return AuthScreen();
+        });
   }
 }
 
@@ -206,7 +222,6 @@ class _HomePageState extends State<HomePage> {
 
 //  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-
     StoryHistory(),
     ShowMoodHistory(),
     MainScreen(),
@@ -228,22 +243,20 @@ class _HomePageState extends State<HomePage> {
       //  extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
-          "Embrace Yourself",
+          "Embrace",
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // Center(child: CircularProgressIndicator()),
-            //widget to select the moods from
-            // UserMood(),
-            _widgetOptions.elementAt(selectedIndex),
-          ],
-        ),
+      body: Container(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child:
+          // Center(child: CircularProgressIndicator()),
+          //widget to select the moods from
+          // UserMood(),
+          _widgetOptions.elementAt(selectedIndex),
+
       ),
-     /* floatingActionButton: FloatingActionButton(
+      /* floatingActionButton: FloatingActionButton(
           child: Icon(Icons.airplanemode_on_rounded),
           onPressed: () {
             FirebaseFirestore.instance
@@ -325,14 +338,11 @@ class ThemeModel with ChangeNotifier {
     _mode = _mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     //Theme.of(context).colorScheme.happy;
 
-
-   // ThemeData.light().colorScheme.happy = Colors.blue ;
+    // ThemeData.light().colorScheme.happy = Colors.blue ;
     // _changeColorTheme(_mode);
     notifyListeners();
   }
 }
-
-
 
 /*
 void _changeColorTheme(ThemeMode mode) {
@@ -360,7 +370,6 @@ void _changeColorTheme(ThemeMode mode) {
 
 
  */
-
 
 /*
 extension CustomColorScheme on ColorScheme {

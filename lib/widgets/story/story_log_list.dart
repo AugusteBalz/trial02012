@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/main.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/widgets/no_items_yet/no_stories_yet.dart';
 
 //TODO: add the ability to delete an entry
 
@@ -19,7 +20,7 @@ class StoryLogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 1000,
+
 
       //TODO : make it flexible
 
@@ -36,8 +37,15 @@ class StoryLogList extends StatelessWidget {
             return Text("something went wrong");
           } else if (streamSnapshot.connectionState == ConnectionState.done) {
             return Text('done');
-          } else {
+          }
+
+          else {
+
             final outerStoryDocuments = streamSnapshot.data!.docs;
+
+            if(outerStoryDocuments.isEmpty){
+              return NoStoriesYet();
+            }
 
             return
 

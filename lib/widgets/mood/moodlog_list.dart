@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,52 +97,45 @@ class MoodLogList extends StatelessWidget {
 
 
 
-    return Container(
-      height: 1000,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          fit: FlexFit.loose,
+          child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+              .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries').orderBy('dateTime', descending: true)
+              .snapshots(),
+              builder: (context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                      streamSnapshot) {
+                if (streamSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }else if (streamSnapshot == null) {
+                  return Text('done');
 
-      //TODO : make it flexible
+                } else if (streamSnapshot.hasError) {
+                  return Text("something went wrong");
 
-
-
-
-
-    child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries').orderBy('dateTime', descending: true)
-        .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                streamSnapshot) {
-          if (streamSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }else if (streamSnapshot == null) {
-            return Text('done');
-
-          } else if (streamSnapshot.hasError) {
-            return Text("something went wrong");
-
-          } else if (streamSnapshot.connectionState == ConnectionState.done) {
-            return Text('done');
-          } else {
-            final outerMoodDocuments = streamSnapshot.data!.docs;
+                } else if (streamSnapshot.connectionState == ConnectionState.done) {
+                  return Text('done');
+                } else {
+                  final outerMoodDocuments = streamSnapshot.data!.docs;
 
 
-            return
+                  return
 
-              //ListTile(title: Text("o"),);
+                    //ListTile(title: Text("o"),);
 
 
 
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+                      ListView.builder(
+                    shrinkWrap: true,
 
-                  children: [
-                    Flexible(
+                    scrollDirection: Axis.vertical,
 
-                      child: ListView.builder(
-             // shrinkWrap: true,
-              itemCount: outerMoodDocuments.length,
-              itemBuilder: (context, index) {
+                    itemCount: outerMoodDocuments.length,
+                    itemBuilder: (context, index) {
                       final eachOuterMoodDocument = outerMoodDocuments[index];
 
                       //Datetime
@@ -155,151 +150,177 @@ class MoodLogList extends StatelessWidget {
 
                       return
 
-                      //ListTile(title: Text("o"),);
+                    /*  Container(
+                        color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                        height: 300,
+                        child: ListTile(
+                          title: Text("o"),),
+                      );
+
+                     */
+
+                      DisplaySubEmotionHistory(group: group, entryTime: entryTime,);
 
 
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 15,
-                            ),
-                            child: Card(
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 15,
-                                      horizontal: 15,
-                                    ),
-                                    child: Text(
-                                      DateFormat("MMM d, HH:mm").format(entryTime),
-                                      //writes out the date
-                                      style: Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                  ),
-
-                                  Column(
-                                    //map the list of moods to the widgets
-                                    //"for each moodlog "md" draw a widget"
-
-                                    children: group.map((md) {
-                                      //previous output:
-                                      // "SecondaryMood.angry_jealous"
-                                      //this leaves it just with "jealous"
-
-                                      String newMoodP =md['moodPrimary'];
-                                      String newMoodS =md['moodSecondary'];
-
-                                      int subStrenght = md['strength'];
-
-                                      PrimaryMoods newMood = primaryMoodToString.keys.firstWhere(
-                                              (k) => primaryMoodToString[k] == newMoodP);
-                                      //  Color myColor = getColor(newMoodP);
-
-                                      Color? tempColor = primaryColors[newMood];
-
-                                      Color myColor = (tempColor!=null) ? tempColor : Colors.blueGrey;
-                                      //displaying widgets
-
-                                      if (Theme.of(context).brightness ==
-                                          Brightness.light) {
-                                        // myColor = myColor.withOpacity(0.7);
-                                        myColor = HSLColor.fromColor(myColor)
-                                            .withLightness(0.4)
-                                            .withSaturation(1)
-                                            .toColor();
-                                      } else {
-                                        //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
-                                        //  myColor = myColor.withOpacity(0.7);
-                                        myColor = HSLColor.fromColor(myColor)
-                                            .withLightness(0.65)
-                                            .withSaturation(1)
-                                            .toColor();
-                                      }
-
-                                      return Container(
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 1, horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  //primary mood
-                                                  Text(
-                                                    newMoodP,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .copyWith(
-                                                      fontWeight: FontWeight.bold,
-                                                      color: myColor,
-                                                    ),
-                                                  ),
-
-                                                  //the date
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8, horizontal: 5),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  //secondary mood
-                                                  Text(
-                                                    newMoodS,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  ),
-
-                                                  //its strenght
-                                                  Text(
-                                                    subStrenght.toString(),
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 25,
-                                                        color: myColor),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          );
 
 
-              }
+                    }
+                  );
+
+                }
+
+              },
             ),
-                    ),
-                  ],
+        ),
+      ],
+    );
+  }
+}
+
+
+class DisplaySubEmotionHistory extends StatefulWidget {
+
+  final List<dynamic> group;
+  final DateTime entryTime;
+
+  const DisplaySubEmotionHistory({Key? key, required this.group, required this.entryTime}) : super(key: key);
+
+  @override
+  _DisplaySubEmotionHistoryState createState() => _DisplaySubEmotionHistoryState();
+}
+
+class _DisplaySubEmotionHistoryState extends State<DisplaySubEmotionHistory> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 15,
+      ),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 15,
+              ),
+              child: Text(
+                DateFormat("MMM d, HH:mm").format(widget.entryTime),
+                //writes out the date
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ),
+
+            Column(
+              //map the list of moods to the widgets
+              //"for each moodlog "md" draw a widget"
+
+              children: widget.group.map((md) {
+                //previous output:
+                // "SecondaryMood.angry_jealous"
+                //this leaves it just with "jealous"
+
+                String newMoodP =md['moodPrimary'];
+                String newMoodS =md['moodSecondary'];
+
+                int subStrenght = md['strength'];
+
+                PrimaryMoods newMood = primaryMoodToString.keys.firstWhere(
+                        (k) => primaryMoodToString[k] == newMoodP);
+                //  Color myColor = getColor(newMoodP);
+
+                Color? tempColor = primaryColors[newMood];
+
+                Color myColor = (tempColor!=null) ? tempColor : Colors.blueGrey;
+                //displaying widgets
+
+                if (Theme.of(context).brightness ==
+                    Brightness.light) {
+                  // myColor = myColor.withOpacity(0.7);
+                  myColor = HSLColor.fromColor(myColor)
+                      .withLightness(0.4)
+                      .withSaturation(1)
+                      .toColor();
+                } else {
+                  //  myColor = Color.alphaBlend( Colors.white.withOpacity(0.2), myColor);
+                  //  myColor = myColor.withOpacity(0.7);
+                  myColor = HSLColor.fromColor(myColor)
+                      .withLightness(0.65)
+                      .withSaturation(1)
+                      .toColor();
+                }
+
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 1, horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            //primary mood
+                            Text(
+                              newMoodP,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: myColor,
+                              ),
+                            ),
+
+                            //the date
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            //secondary mood
+                            Text(
+                              newMoodS,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2,
+                            ),
+
+                            //its strenght
+                            Text(
+                              subStrenght.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: myColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
+              }).toList(),
+            ),
 
-          }
-
-        },
+          ],
+        ),
       ),
     );
   }

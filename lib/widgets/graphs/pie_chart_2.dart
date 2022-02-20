@@ -18,8 +18,7 @@ import 'package:trial0201/models/mood/one_mood.dart';
 Map<PrimaryMoods, double> countingPrimaryOccurencesDefault = {};
 Map<PrimaryMoods, double> countingPrimaryOccurences = {};
 
-List<dynamic> allData = [];
-List<MoodEntry> allData2 = [];
+
 
 
 Map<int, Map<int, List<List<OneMood>>>> maptoMonths = {};
@@ -43,41 +42,13 @@ class PieChartSample3State extends State {
 
 
 
-  Future<void> getData() async {
 
-    final user = FirebaseAuth.instance.currentUser!;
-
-    CollectionReference _collectionRef = FirebaseFirestore.instance
-        .collection('users').doc(user.uid).collection('MoodEntries');
-
-
-
-    // Get docs from collection reference
-    QuerySnapshot querySnapshot = await _collectionRef.get();
-
-
-
-    allData2.clear();
-
-    // Get data from docs and convert map to List
-    querySnapshot.docs
-        .map((document) => {
-              allData2.add(MoodEntry(
-                id: document['id'],
-                dateTime: (document['dateTime'] as Timestamp).toDate(),
-                eachMood: convertToOneMood(document["OneMood"], []),
-              ))
-            })
-        .toList();
-
-
-  }
 
   @override
   Widget build(BuildContext context) {
 
 
-    getData(); // GETS DATA FROM THE FIREBASE
+// GETS DATA FROM THE FIREBASE
 
     groupByMonths(); // sorts it out by months
     // tidyUpTheData();
@@ -157,7 +128,7 @@ double value;
        if (wholeMonthsCount == null || wholeMonthsCount == 0){
         print('We count WholeMonthsCount from 1');
        wholeMonthsCount=1;
-       getData();
+       //getData();
        }
        print(value);
        print(wholeMonthsCount);
@@ -269,36 +240,7 @@ double value;
 
 
 
-  List<OneMood> convertToOneMood(List<dynamic> document, List<OneMood> dummy) {
 
-    //this function takes in List<dynamic> from the firebase and converts it to List of OneMoods
-
-    for (var element in document) {
-      PrimaryMoods newMood = primaryMoodToString.keys
-          .firstWhere((k) => primaryMoodToString[k] == element['moodPrimary']);
-
-      SecondaryMoods newMood2 = secondaryMoodToString.keys
-          .firstWhere((k) => secondaryMoodToString[k] == element['moodSecondary']);
-
-
-      //  Color myColor = getColor(newMoodP);
-
-      Color? tempColor = primaryColors[newMood];
-
-      Color myColor = (tempColor != null) ? tempColor : Colors.blueGrey;
-
-      dummy.add(OneMood(
-        moodPrimary: newMood,
-        moodSecondary: newMood2,
-        strength: element['strength'],
-        color: myColor,
-      ));
-    }
-
-
-
-    return dummy;
-  }
 }
 
 class _Badge extends StatelessWidget {

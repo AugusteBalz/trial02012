@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trial0201/globals/defaults.dart';
 
 
 
@@ -70,10 +71,12 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
             try {
               final pickedFile = await _picker.pickImage(
                 source: source,
+                imageQuality: 50,
 
               );
               setState(() {
                 _imageFile = pickedFile;
+                mainProfilePic = (pickedFile!= null) ? File(pickedFile.path): mainProfilePic;
               });
               widget.imagePickFn(File(_imageFile!.path));
 

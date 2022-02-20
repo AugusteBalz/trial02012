@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:trial0201/globals/defaults.dart';
 import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/theming.dart';
@@ -45,7 +46,7 @@ class _AppSettingsState extends State<AppSettings> {
   }
 
   void _pickedImage(File image) async {
-    _userImageFile = image;
+    _userImageFile = mainProfilePic;
 
     //update user image
 

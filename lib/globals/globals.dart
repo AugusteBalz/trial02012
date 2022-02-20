@@ -18,6 +18,12 @@ import 'package:trial0201/models/story/story_entry.dart';
 //little number for passing the big emotion
 int indexOfBigEmotion = 0;
 
+
+// for taking from firebase
+List<dynamic> allData = [];
+List<MoodEntry> allData2 = [];
+
+
 //----
 //for bottom navigation bar
 int selectedIndex = 2;
