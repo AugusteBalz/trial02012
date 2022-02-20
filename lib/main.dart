@@ -242,9 +242,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       //  extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(
-          "Embrace",
-          style: Theme.of(context).textTheme.headline1,
+        toolbarHeight: 70,
+        title: Column(
+          children: [
+            Image(image: AssetImage('assets/images/embrace_black.png'), height: 55,),
+            SizedBox(height: 15,)
+          ],
         ),
       ),
       body: Container(

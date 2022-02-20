@@ -7,26 +7,54 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trial0201/globals/defaults.dart';
+
+
+
+String userPhoto = '';
+// String userPhoto2 = 'assets/images/defaultuser.png';
+String userPhoto2 = 'assets/images/defaultuser.png';
+
+
+Future<void> getThePic() async {
+
+
+  if (FirebaseAuth.instance.currentUser == null){
+    return;
+  }
+
+  var ref = await  FirebaseFirestore.instance
+      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+  userPhoto = ref['image_url'];
+  print(userPhoto);
+
+  // TODO: add this line appropriately
+  //setState((){});
+}
 
 
 class ImagePickerForStories extends StatefulWidget {
-  ImagePickerForStories({Key? key, this.title}) : super(key: key);
 
-  final String? title;
+
+
+
+  ImagePickerForStories({required this.imagePickFn});
+
+  final void Function(File pickedImage) imagePickFn;
 
   @override
   _ImagePickerForStoriesState createState() => _ImagePickerForStoriesState();
 }
 
 class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
-  List<XFile>? _imageFileList;
-
-  set _imageFile(XFile? value) {
-    _imageFileList = value == null ? null : [value];
-  }
+  // List<XFile>? _imageFileList;
+  XFile? _imageFile;
 
   dynamic _pickImageError;
 
@@ -36,23 +64,30 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   final ImagePicker _picker = ImagePicker();
 
-  
+
 
   void _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
-            try {
-              final pickedFile = await _picker.pickImage(
-                source: source,
+    try {
+      final pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: 50,
+        maxHeight: 450,
 
-              );
-              setState(() {
-                _imageFile = pickedFile;
-              });
-            } catch (e) {
-              setState(() {
-                _pickImageError = e;
-              });
-            }
+      );
+      setState(() {
+        _imageFile = pickedFile;
+        mainProfilePic = (pickedFile!= null) ? File(pickedFile.path): mainProfilePic;
+      });
+      widget.imagePickFn(File(_imageFile!.path));
+
+
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+    }
+
   }
 
   @override
@@ -64,17 +99,20 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
 
   Widget _previewImages() {
+
+    getThePic();
+
     final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
       return retrieveError;
     }
-    if (_imageFileList != null) {
+    if (_imageFile != null) {
       return Semantics(
           child: Semantics(
             label: 'image_picker_example_picked_image',
             child: kIsWeb
-                ? Image.network(_imageFileList![0].path)
-                : Image.file(File(_imageFileList![0].path), fit: BoxFit.cover),
+                ? Image.network(_imageFile!.path)
+                : Image.file(File(_imageFile!.path), fit: BoxFit.cover),
           ),
           label: 'image_picker_example_picked_images');
     } else if (_pickImageError != null) {
@@ -83,15 +121,15 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const  Image(image: AssetImage('assets/images/storyimage1.jpg'));
+      return const FindTheRightPicture();
     }
   }
 
   Widget _handlePreview() {
 
-    
-      return _previewImages();
-    
+
+    return _previewImages();
+
   }
 
   Future<void> retrieveLostData() async {
@@ -101,10 +139,10 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
     }
     if (response.file != null) {
 
-        setState(() {
-          _imageFile = response.file;
-          _imageFileList = response.files;
-        });
+      setState(() {
+        _imageFile = response.file;
+        // _imageFileList = response.files;
+      });
 
     } else {
       _retrieveDataError = response.exception!.code;
@@ -113,6 +151,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   @override
   Widget build(BuildContext context) {
+
 
     return Container(
 
@@ -143,7 +182,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                             textAlign: TextAlign.center,
                           );
                         } else {
-                          return const Image(image: AssetImage('think.jpg'));
+                          return FindTheRightPicture();
                         }
                     }
                   },
@@ -179,4 +218,34 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
 typedef void OnPickImageCallback(
     double? maxWidth, double? maxHeight, int? quality);
+
+
+class FindTheRightPicture extends StatefulWidget {
+  const FindTheRightPicture({Key? key}) : super(key: key);
+
+  @override
+  _FindTheRightPictureState createState() => _FindTheRightPictureState();
+}
+
+class _FindTheRightPictureState extends State<FindTheRightPicture> {
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    getThePic();
+
+    if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
+
+      print('object');
+      return Image(image: AssetImage(userPhoto2));
+
+    }
+
+
+    return Image.network(userPhoto,  fit: BoxFit.cover,);
+    //Image(image:  Image.network((userPhoto)));
+
+  }
+}
 

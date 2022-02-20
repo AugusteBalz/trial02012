@@ -72,7 +72,7 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
               final pickedFile = await _picker.pickImage(
                 source: source,
                 imageQuality: 50,
-                maxHeight: 480,
+                maxHeight: 450,
 
               );
               setState(() {

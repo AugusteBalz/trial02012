@@ -25,24 +25,45 @@ class _StoryScreenState extends State<StoryScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-
+  File? _storyImageFile;
 
   List<String> listOfSelectedTags = [];
 
-  File imageFile = File('assets/images/lights.jpg');
+  dynamic _pickImageError;
+
+  String? _retrieveDataError;
+
+  final ImagePicker _picker = ImagePicker();
+  var url;
 
   CollectionReference storyCollection = FirebaseFirestore.instance
       .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('StoryEntries');
 
-  getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
+
+
+
+  void _pickedImage(File image) async {
+
+    //add story image to firebase
+
+
+
+    if(_storyImageFile!=null){
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('user_images/')
+          .child(FirebaseAuth.instance.currentUser!.uid).child('stories')
+          .child(//TODO: put here id of the story
+          '.jpg');
+
+      ref.delete();
+      await ref.putFile(_storyImageFile!);
+      url = await ref.getDownloadURL();
     }
+
+
+
+
   }
 
   Future<void> addAStory() {
@@ -58,6 +79,9 @@ class _StoryScreenState extends State<StoryScreen> {
       });
     }
 
+
+    //TODO: add an image to the firebase here
+
     return storyCollection
         .add({
           'id': oneStoryEntry.id, // John Doe
@@ -68,22 +92,13 @@ class _StoryScreenState extends State<StoryScreen> {
           'story': textController2.text,
           'tag': listOfSelectedTags,
 
+          'image_url': url,
           'OneMood': temporaryArray,
         })
         .then((value) => print("Story Added"))
         .catchError((error) => print("Failed to add story: $error"));
   }
 
-  Future uploadImageToFirebase(BuildContext context) async {
-    FirebaseStorage storage = FirebaseStorage.instance;
-
-    Reference ref =
-        storage.ref().child("image" + oneStoryEntry.dateTime.toString());
-    UploadTask uploadTask = ref.putFile(imageFile);
-    uploadTask.then((res) {
-      res.ref.getDownloadURL();
-    });
-  }
 
   @override
   void initState() {
@@ -94,6 +109,44 @@ class _StoryScreenState extends State<StoryScreen> {
   }
 
 
+  Widget _previewImages() {
+    final Text? retrieveError = _getRetrieveErrorWidget();
+    if (retrieveError != null) {
+      return retrieveError;
+    }
+    if (_storyImageFile != null && _storyImageFile!.path != 'assets/images/storyimage1.jpg') {
+      return Semantics(
+          child: Semantics(
+            label: 'image_picker_example_picked_image',
+            child:  Image.network(_storyImageFile!.path),
+          ),
+          label: 'image_picker_example_picked_images');
+    } else if (_pickImageError != null) {
+      print('Pick image error: $_pickImageError');
+      return Text(
+        'Pick image error: $_pickImageError',
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return const  Image(image: AssetImage('assets/images/storyimage1.jpg'));
+    }
+  }
+
+  Text? _getRetrieveErrorWidget() {
+    if (_retrieveDataError != null) {
+      final Text result = Text(_retrieveDataError!);
+      _retrieveDataError = null;
+      return result;
+    }
+    return null;
+  }
+
+  Widget _handlePreview() {
+
+
+    return _previewImages();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +182,7 @@ class _StoryScreenState extends State<StoryScreen> {
                       addAStory();
                       Navigator.pop(context);
 
-                     await UploadStoryImageToFirebase();
+                    // await UploadStoryImageToFirebase();
                     }
                   },
                   child: Text(
@@ -267,7 +320,39 @@ class _StoryScreenState extends State<StoryScreen> {
                         ]),
                       ),
                       */
-                      ImagePickerForStories(),
+          /*
+            Container(
+
+              height: 100,
+              width: 100,
+              // padding: EdgeInsets.all(8), // Border width
+              decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+              child: Stack(
+                children:[Center(
+                    child: ClipOval(
+
+                      child: SizedBox.fromSize(
+                        size: Size.fromRadius(180),
+                        child: _handlePreview(),
+                      ),
+                    )
+                ),
+                  Align(
+                      alignment: Alignment.bottomRight
+                      ,child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.white,
+                    child: IconButton(onPressed: (){
+
+                      _onImageButtonPressed(ImageSource.gallery,);
+
+
+                    }, icon: Icon(Icons.add_a_photo_outlined, color: Colors.black,)),
+                  ))],
+              ),
+            ),
+           */
+                      ImagePickerForStories(imagePickFn: _pickedImage),
                     ],
                   ),
                 ),

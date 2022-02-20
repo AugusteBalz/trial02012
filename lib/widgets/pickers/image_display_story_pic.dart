@@ -7,9 +7,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trial0201/globals/defaults.dart';
 
 
 class ImageDisplayStoryPick extends StatefulWidget {
@@ -30,12 +34,15 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
   dynamic _pickImageError;
 
+  CollectionReference moodCollection = FirebaseFirestore.instance
+      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries');
 
 
   String? _retrieveDataError;
 
   final ImagePicker _picker = ImagePicker();
 
+  late File _storyImageFile;
   
 
   void _onImageButtonPressed(ImageSource source,
@@ -43,6 +50,8 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
             try {
               final pickedFile = await _picker.pickImage(
                 source: source,
+                imageQuality: 50,
+                maxHeight: 400,
 
               );
               setState(() {
@@ -60,6 +69,7 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
     super.deactivate();
   }
+
 
 
 
@@ -88,10 +98,7 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
   }
 
   Widget _handlePreview() {
-
-    
       return _previewImages();
-    
   }
 
   Future<void> retrieveLostData() async {
@@ -120,48 +127,36 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
       width: 90,
       // padding: EdgeInsets.all(8), // Border width
       decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-      child: Stack(
-        children:[Center(
-            child: ClipOval(
+      child: Center(
+          child: ClipOval(
 
-              child: SizedBox.fromSize(
-                size: Size.fromRadius(180),
-                child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-                    ? FutureBuilder<void>(
-                  future: retrieveLostData(),
-                  builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
-                      case ConnectionState.done:
-                        return _handlePreview();
-                      default:
-                        if (snapshot.hasError) {
-                          return Text(
-                            'Pick image/video error: ${snapshot.error}}',
-                            textAlign: TextAlign.center,
-                          );
-                        } else {
-                          return const Image(image: AssetImage('think.jpg'));
-                        }
-                    }
-                  },
-                )
-                    : _handlePreview(),
-              ),
-            )
-        ),
-          Align(
-              alignment: Alignment.bottomRight
-              ,child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.white,
-            child: IconButton(onPressed: (){
-
-              _onImageButtonPressed(ImageSource.gallery, context: context);
-            }, icon: Icon(Icons.add_a_photo_outlined, color: Colors.black,)),
-          ))],
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(180),
+              child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+                  ? FutureBuilder<void>(
+                future: retrieveLostData(),
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
+                    case ConnectionState.done:
+                      return _handlePreview();
+                    default:
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Pick image/video error: ${snapshot.error}}',
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return const Image(image: AssetImage('think.jpg'));
+                      }
+                  }
+                },
+              )
+                  : _handlePreview(),
+            ),
+          )
       ),
     );
   }

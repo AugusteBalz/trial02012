@@ -130,7 +130,7 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
 
             Column(
               children: [
-                SizedBox( height: 20),
+                SizedBox( height: 30),
                 Container(
                   child: Card(
                     elevation: 4,
@@ -317,7 +317,7 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
               ],
             ),
             Container(
-              padding: EdgeInsets.only(right:20),
+              padding: EdgeInsets.only(right:25),
               child: Align(
                   alignment: Alignment.topRight,
                   child: ImageDisplayStoryPick()),

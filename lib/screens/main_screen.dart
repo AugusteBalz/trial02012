@@ -47,9 +47,10 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(height: 10,),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 40),
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 alignment: Alignment.centerLeft,
                 child: (mainUserName != null ) ? Text(
                   'How are you feeling today, ' + mainUserName! + '?',
@@ -58,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
                   'How are you feeling today' + '?',)),
             //TODO: do a fix with the name
 
-            SizedBox(height: 20,),
+
             Container(
               //width: 500,
               alignment: Alignment.center,
