@@ -48,21 +48,21 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
 
           },
 
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(
-                  "Event/story",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-                Icon(
-                  Icons.bubble_chart_rounded,
-                  color: Colors.white,
-                ),
-              ]),
+          child: Container(padding: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                children: [
+                  Text('What happened today?', style: TextStyle(
+                      fontSize: 25
+                  ),),
+                  Icon( Icons.menu_book_outlined,
+                    size: 50,),
+                  Text('Log story / event', style: TextStyle(
+                      fontSize: 15
+                  ),),
+                ],
+              )),
         ),
       ),
     );
