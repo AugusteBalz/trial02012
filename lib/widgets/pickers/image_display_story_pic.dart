@@ -17,7 +17,9 @@ import 'package:trial0201/globals/defaults.dart';
 
 
 class ImageDisplayStoryPick extends StatefulWidget {
-  ImageDisplayStoryPick({Key? key, this.title}) : super(key: key);
+
+   var url;
+  ImageDisplayStoryPick({Key? key, this.title, required this.url}) : super(key: key);
 
   final String? title;
 
@@ -26,43 +28,12 @@ class ImageDisplayStoryPick extends StatefulWidget {
 }
 
 class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
-  List<XFile>? _imageFileList;
-
-  set _imageFile(XFile? value) {
-    _imageFileList = value == null ? null : [value];
-  }
-
-  dynamic _pickImageError;
-
-  CollectionReference moodCollection = FirebaseFirestore.instance
-      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('MoodEntries');
 
 
   String? _retrieveDataError;
 
-  final ImagePicker _picker = ImagePicker();
 
-  late File _storyImageFile;
-  
 
-  void _onImageButtonPressed(ImageSource source,
-      {BuildContext? context}) async {
-            try {
-              final pickedFile = await _picker.pickImage(
-                source: source,
-                imageQuality: 50,
-                maxHeight: 400,
-
-              );
-              setState(() {
-                _imageFile = pickedFile;
-              });
-            } catch (e) {
-              setState(() {
-                _pickImageError = e;
-              });
-            }
-  }
 
   @override
   void deactivate() {
@@ -74,49 +45,18 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
 
   Widget _previewImages() {
-    final Text? retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
+
+    if (widget.url == null){
+      print('url is empty');
+    return  Image(image: AssetImage('assets/images/storyimage1.jpg'), fit: BoxFit.cover);
     }
-    if (_imageFileList != null) {
-      return Semantics(
-          child: Semantics(
-            label: 'image_picker_example_picked_image',
-            child: kIsWeb
-                ? Image.network(_imageFileList![0].path)
-                : Image.file(File(_imageFileList![0].path), fit: BoxFit.cover),
-          ),
-          label: 'image_picker_example_picked_images');
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return const  Image(image: AssetImage('assets/images/storyimage1.jpg'));
-    }
+    return Image.network(widget.url, fit: BoxFit.cover,);
   }
 
   Widget _handlePreview() {
       return _previewImages();
   }
 
-  Future<void> retrieveLostData() async {
-    final LostDataResponse response = await _picker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-
-        setState(() {
-          _imageFile = response.file;
-          _imageFileList = response.files;
-        });
-
-    } else {
-      _retrieveDataError = response.exception!.code;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,29 +72,7 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
             child: SizedBox.fromSize(
               size: Size.fromRadius(180),
-              child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-                  ? FutureBuilder<void>(
-                future: retrieveLostData(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
-                    case ConnectionState.done:
-                      return _handlePreview();
-                    default:
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Pick image/video error: ${snapshot.error}}',
-                          textAlign: TextAlign.center,
-                        );
-                      } else {
-                        return const Image(image: AssetImage('think.jpg'));
-                      }
-                  }
-                },
-              )
-                  : _handlePreview(),
+              child: _handlePreview(),
             ),
           )
       ),

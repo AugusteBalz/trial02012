@@ -91,6 +91,9 @@ class DisplayOneStory extends StatefulWidget {
 }
 
 class _DisplayOneStoryState extends State<DisplayOneStory> {
+
+  var url;
+
   @override
   Widget build(BuildContext context) {
       //Datetime
@@ -101,6 +104,8 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
     String title = widget.eachOuterStoryDocument['title'];
     String story = widget.eachOuterStoryDocument['story'];
     List<dynamic> tags = widget.eachOuterStoryDocument['tag'];
+    url = widget.eachOuterStoryDocument['image_url'];
+
 
     List<dynamic> group = widget.eachOuterStoryDocument
         .get("OneMood") as List<dynamic>;
@@ -320,7 +325,7 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
               padding: EdgeInsets.only(right:25),
               child: Align(
                   alignment: Alignment.topRight,
-                  child: ImageDisplayStoryPick()),
+                  child: ImageDisplayStoryPick(url: widget.eachOuterStoryDocument['image_url'])),
             ),
           ],
         ),

@@ -18,9 +18,9 @@ import 'package:trial0201/globals/defaults.dart';
 
 String userPhoto = '';
 // String userPhoto2 = 'assets/images/defaultuser.png';
-String userPhoto2 = 'assets/images/defaultuser.png';
+String userPhoto2 = 'assets/images/storyimage1.jpg';
 
-
+/*
 Future<void> getThePic() async {
 
 
@@ -38,7 +38,7 @@ Future<void> getThePic() async {
   //setState((){});
 }
 
-
+*/
 class ImagePickerForStories extends StatefulWidget {
 
 
@@ -100,7 +100,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   Widget _previewImages() {
 
-    getThePic();
+   // getThePic();
 
     final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -172,7 +172,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
                       case ConnectionState.waiting:
-                        return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
+                        return const Image(image: AssetImage('storyimage1.jpg'), fit: BoxFit.cover);
                       case ConnectionState.done:
                         return _handlePreview();
                       default:
@@ -233,7 +233,7 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
 
   @override
   Widget build(BuildContext context) {
-    getThePic();
+   // getThePic();
 
     if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
 

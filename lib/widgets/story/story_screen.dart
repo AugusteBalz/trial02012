@@ -12,6 +12,7 @@ import 'package:trial0201/widgets/mood/multi_select_chip2.dart';
 import 'package:trial0201/widgets/pickers/image_picker_for_stories.dart';
 import 'package:trial0201/widgets/story/multi_select_chip_for_tags.dart';
 import 'package:trial0201/widgets/story/upload_story_image_to_firebase.dart';
+import 'package:uuid/uuid.dart';
 
 class StoryScreen extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _StoryScreenState extends State<StoryScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   File? _storyImageFile;
+  String uniqueStoryID = '';
 
   List<String> listOfSelectedTags = [];
 
@@ -48,21 +50,21 @@ class _StoryScreenState extends State<StoryScreen> {
 
 
 
-    if(_storyImageFile!=null){
       final ref = FirebaseStorage.instance
           .ref()
           .child('user_images/')
           .child(FirebaseAuth.instance.currentUser!.uid).child('stories')
-          .child(//TODO: put here id of the story
+          .child(uniqueStoryID+
           '.jpg');
 
       ref.delete();
-      await ref.putFile(_storyImageFile!);
+      await ref.putFile(image);
       url = await ref.getDownloadURL();
-    }
 
 
 
+
+    print(url);
 
   }
 
@@ -81,12 +83,13 @@ class _StoryScreenState extends State<StoryScreen> {
 
 
     //TODO: add an image to the firebase here
+    print(url);
 
     return storyCollection
         .add({
-          'id': oneStoryEntry.id, // John Doe
+          'id': uniqueStoryID, // John Doe
           'dateTime':
-              Timestamp.fromDate(oneStoryEntry.dateTime), // Stokes and Sons
+              Timestamp.fromDate(DateTime.now()), // Stokes and Sons
 
           'title': textController1.text,
           'story': textController2.text,
@@ -141,15 +144,14 @@ class _StoryScreenState extends State<StoryScreen> {
     return null;
   }
 
-  Widget _handlePreview() {
 
-
-    return _previewImages();
-
+  void _generateNewUUID(){
+    uniqueStoryID = new Uuid().v1();
   }
 
   @override
   Widget build(BuildContext context) {
+    _generateNewUUID();
     return Form(
       key: formKey,
       child: Scaffold(

@@ -82,7 +82,7 @@ class MyAppFirst extends StatelessWidget {
             theme: ThemeData(
               // Define the default brightness and colors.
               brightness: Brightness.light,
-              primaryColor: Colors.deepPurple,
+              primaryColor: Color(0xFF151026),
 
 
               // Define the default font family.
