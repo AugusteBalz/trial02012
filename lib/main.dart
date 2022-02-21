@@ -82,7 +82,7 @@ class MyAppFirst extends StatelessWidget {
             theme: ThemeData(
               // Define the default brightness and colors.
               brightness: Brightness.light,
-              primaryColor: Color(0xFF151026),
+              primaryColor: Color(0xFF190A34),
 
 
               // Define the default font family.
@@ -321,7 +321,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           currentIndex: selectedIndex,
-          selectedItemColor: Colors.purple,
+          selectedItemColor: Theme.of(context).primaryColor,
           unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
         ),

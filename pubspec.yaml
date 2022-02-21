@@ -72,6 +72,8 @@ dependencies:
   firebase_auth: ^3.3.6
   firebase_storage: ^10.2.7
   flutter_appauth: ^2.3.0
+  blurrycontainer: ^0.1.0
+
 
 
 
