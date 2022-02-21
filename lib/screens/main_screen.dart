@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(height: 10,),
+           /* SizedBox(height: 10,),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -60,6 +60,8 @@ class _MainScreenState extends State<MainScreen> {
             //TODO: do a fix with the name
 
 
+
+            */
             Container(
               //width: 500,
               alignment: Alignment.center,
@@ -68,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                 carouselController: carouselController, // Give the controller
                 options: CarouselOptions(
                   enableInfiniteScroll: false,
-                  height: 450,
+                  height: 500,
                   enlargeCenterPage: true,
                 ),
                 items: widgetlist.map((featuredImage) {
@@ -85,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 40,)
+           // SizedBox(height: 40,)
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -26,32 +27,38 @@ class _Button4State extends State<Button4> {
           begin: FractionalOffset.topCenter,
           end: FractionalOffset.bottomCenter,
         ),
-        //borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Colors.redAccent,
       ),
-      padding: const EdgeInsets.all(20),
-      child: InkWell(
-        onTap: ()  {
+      padding: const EdgeInsets.all(8),
+      child: BlurryContainer(
+        borderRadius: BorderRadius.circular(15),
+        bgColor: Colors.white,
+        height: double.infinity,
+        width: double.infinity,
+        child: InkWell(
+          onTap: ()  {
 
-          Navigator.pushNamed(context, "/auth");
+            Navigator.pushNamed(context, "/auth");
 
 
 
-        },
-        child:
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: const [
-          Text(
-            "Something else",
-            style: TextStyle(
-              fontSize: 20.0,
+          },
+          child:
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: const [
+            Text(
+              "Something else",
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            ),
+            Icon(
+              Icons.bubble_chart_rounded,
               color: Colors.white,
             ),
-          ),
-          Icon(
-            Icons.bubble_chart_rounded,
-            color: Colors.white,
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

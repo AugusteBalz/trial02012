@@ -1,4 +1,5 @@
 
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:trial0201/screens/mood_history.dart';
 
@@ -24,39 +25,45 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
           begin: FractionalOffset.topCenter,
           end: FractionalOffset.bottomCenter,
         ),
-        //borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Colors.redAccent,
       ),
-      padding: const EdgeInsets.all(20),
-      child: InkWell(
-        onTap: () async {
+      padding: const EdgeInsets.all(8),
+      child: BlurryContainer(
+        borderRadius: BorderRadius.circular(15),
+        bgColor: Colors.white,
+        height: double.infinity,
+        width: double.infinity,
+        child: InkWell(
+          onTap: () async {
 
-          final value = await Navigator.pushNamed(context, '/logstory');
+            final value = await Navigator.pushNamed(context, '/logstory');
 
-          setState(() {
+            setState(() {
 
-            //TODO: set the needed history
-         //   const ShowMoodHistory();
-          });
+              //TODO: set the needed history
+           //   const ShowMoodHistory();
+            });
 
 
-        },
+          },
 
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Text(
-                "Event/story",
-                style: TextStyle(
-                  fontSize: 20.0,
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text(
+                  "Event/story",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+                Icon(
+                  Icons.bubble_chart_rounded,
                   color: Colors.white,
                 ),
-              ),
-              Icon(
-                Icons.bubble_chart_rounded,
-                color: Colors.white,
-              ),
-            ]),
+              ]),
+        ),
       ),
     );
   }
