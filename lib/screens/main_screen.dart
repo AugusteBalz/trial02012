@@ -63,9 +63,9 @@ class _MainScreenState extends State<MainScreen> {
 
             */
             Container(
-              //width: 500,
+
               alignment: Alignment.center,
-              // transform: Matrix4.rotationZ(0.1), // for fun
+
               child: CarouselSlider(
                 carouselController: carouselController, // Give the controller
                 options: CarouselOptions(

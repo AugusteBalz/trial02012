@@ -30,10 +30,15 @@ class _AppSettingsState extends State<AppSettings> {
 
   late File _userImageFile;
 
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+
+  }
 
   Future<void> getUserData()
   async {
-
 
     var ref = await  FirebaseFirestore.instance
         .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
@@ -41,7 +46,9 @@ class _AppSettingsState extends State<AppSettings> {
      userName = ref['username'];
      userPhoto = ref['image_url'];
 
+     setState(() {
 
+     });
 
   }
 
@@ -77,7 +84,7 @@ class _AppSettingsState extends State<AppSettings> {
   @override
   Widget build(BuildContext context) {
 
-    getUserData();
+
 
     return Container(
 

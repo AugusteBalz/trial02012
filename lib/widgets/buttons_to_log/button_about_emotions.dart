@@ -4,14 +4,14 @@ import 'package:trial0201/screens/graphs.dart';
 import 'package:trial0201/screens/mood_history.dart';
 
 
-class ButtonToLogMood extends StatefulWidget {
-  const ButtonToLogMood({Key? key}) : super(key: key);
+class ButtonAboutEmotions extends StatefulWidget {
+  const ButtonAboutEmotions({Key? key}) : super(key: key);
 
   @override
-  _ButtonToLogMoodState createState() => _ButtonToLogMoodState();
+  _ButtonAboutEmotionsState createState() => _ButtonAboutEmotionsState();
 }
 
-class _ButtonToLogMoodState extends State<ButtonToLogMood> {
+class _ButtonAboutEmotionsState extends State<ButtonAboutEmotions> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,8 +19,8 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.pinkAccent,
-              Color(0xFF6703CB),
+              Colors.lightBlueAccent,
+              Color(0xFF0930B8),
             ],
             begin: FractionalOffset.topLeft,
             end: FractionalOffset.bottomRight,
@@ -31,7 +31,7 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
 
       child: BlurryContainer(
         borderRadius: BorderRadius.circular(20),
-        bgColor: Colors.white,
+        bgColor: Colors.white.withOpacity(0.9),
         height: double.infinity,
         width: double.infinity,
         child: InkWell(
@@ -52,12 +52,12 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 children: const [
-                  Text('How are you feeling right now?', style: TextStyle(
+                  Text('Why it is important to recognise your emotions?', style: TextStyle(
                     fontSize: 25
                   ),),
-                  Icon( Icons.wb_iridescent_rounded,
+                  Icon( Icons.all_inclusive_outlined,
                   size: 50,),
-                  Text('Log mood', style: TextStyle(
+                  Text('Read about', style: TextStyle(
                       fontSize: 15
                   ),),
                 ],

@@ -1,7 +1,6 @@
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
-import 'package:trial0201/screens/mood_history.dart';
 
 class ButtonToLogEvent extends StatefulWidget {
   const ButtonToLogEvent({Key? key}) : super(key: key);
@@ -22,15 +21,15 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
             Colors.orange,
             Colors.yellow,
           ],
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter,
+          begin: FractionalOffset.topLeft,
+          end: FractionalOffset.bottomRight,
         ),
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Colors.redAccent,
       ),
-      padding: const EdgeInsets.all(8),
+
       child: BlurryContainer(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(20),
         bgColor: Colors.white,
         height: double.infinity,
         width: double.infinity,
@@ -48,11 +47,11 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
 
           },
 
-          child: Container(padding: EdgeInsets.all(30),
+          child: Container(padding: const EdgeInsets.all(30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                children: [
+                children: const [
                   Text('What happened today?', style: TextStyle(
                       fontSize: 25
                   ),),

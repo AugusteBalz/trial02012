@@ -21,23 +21,6 @@ String userPhoto = '';
 String userPhoto2 = 'assets/images/defaultuser.png';
 
 
-Future<void> getThePic() async {
-
-
-  if (FirebaseAuth.instance.currentUser == null){
-    return;
-  }
-
-  var ref = await  FirebaseFirestore.instance
-      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
-
-  userPhoto = ref['image_url'];
-  print(userPhoto);
-
-  // TODO: add this line appropriately
-  //setState((){});
-}
-
 
 class ImagePickerForUserProfile extends StatefulWidget {
 
@@ -90,6 +73,24 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
 
   }
 
+
+  Future<void> getThePic() async {
+
+
+    if (FirebaseAuth.instance.currentUser == null){
+      return;
+    }
+
+    var ref = await  FirebaseFirestore.instance
+        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    userPhoto = ref['image_url'];
+    print(userPhoto);
+
+    // TODO: add this line appropriately
+    //setState((){});
+  }
+
   @override
   void deactivate() {
 
@@ -99,8 +100,6 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
 
 
   Widget _previewImages() {
-
-    getThePic();
 
     final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -230,7 +229,31 @@ class FindTheRightPicture extends StatefulWidget {
 class _FindTheRightPictureState extends State<FindTheRightPicture> {
 
 
+  Future<void> getThePic() async {
 
+
+    if (FirebaseAuth.instance.currentUser == null){
+      return;
+    }
+
+    var ref = await  FirebaseFirestore.instance
+        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    userPhoto = ref['image_url'];
+    print(userPhoto);
+
+    // TODO: add this line appropriately
+    //setState((){});
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    getThePic();
+
+  }
   @override
   Widget build(BuildContext context) {
     getThePic();

@@ -22,81 +22,98 @@ class GraphScreen extends StatefulWidget {
 }
 
 class _GraphScreenState extends State<GraphScreen> {
+
+  List<OneMood> convertToOneMood(List<dynamic> document, List<OneMood> dummy) {
+
+    //this function takes in List<dynamic> from the firebase and converts it to List of OneMoods
+
+    for (var element in document) {
+      PrimaryMoods newMood = primaryMoodToString.keys
+          .firstWhere((k) => primaryMoodToString[k] == element['moodPrimary']);
+
+      SecondaryMoods newMood2 = secondaryMoodToString.keys
+          .firstWhere((k) => secondaryMoodToString[k] == element['moodSecondary']);
+
+
+      //  Color myColor = getColor(newMoodP);
+
+      Color? tempColor = primaryColors[newMood];
+
+      Color myColor = (tempColor != null) ? tempColor : Colors.blueGrey;
+
+      dummy.add(OneMood(
+        moodPrimary: newMood,
+        moodSecondary: newMood2,
+        strength: element['strength'],
+        color: myColor,
+      ));
+    }
+
+
+
+    return dummy;
+  }
+
+ void getData() async {
+
+    final user = FirebaseAuth.instance.currentUser!;
+
+    CollectionReference _collectionRef = FirebaseFirestore.instance
+        .collection('users').doc(user.uid).collection('MoodEntries');
+
+
+
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+
+
+    allData2.clear();
+
+    // Get data from docs and convert map to List
+    querySnapshot.docs
+        .map((document) => {
+      allData2.add(MoodEntry(
+        id: document['id'],
+        dateTime: (document['dateTime'] as Timestamp).toDate(),
+        eachMood: convertToOneMood(document["OneMood"], []),
+      ))
+    })
+        .toList();
+
+    print(allData2);
+    print('im assuming its empty');
+
+    setState(() {
+
+    });
+
+
+
+
+  }
+
+  @override
+  void initState() {
+    print('what');
+    getData();
+    super.initState();
+    print('this1');
+
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
-
-    List<OneMood> convertToOneMood(List<dynamic> document, List<OneMood> dummy) {
-
-      //this function takes in List<dynamic> from the firebase and converts it to List of OneMoods
-
-      for (var element in document) {
-        PrimaryMoods newMood = primaryMoodToString.keys
-            .firstWhere((k) => primaryMoodToString[k] == element['moodPrimary']);
-
-        SecondaryMoods newMood2 = secondaryMoodToString.keys
-            .firstWhere((k) => secondaryMoodToString[k] == element['moodSecondary']);
-
-
-        //  Color myColor = getColor(newMoodP);
-
-        Color? tempColor = primaryColors[newMood];
-
-        Color myColor = (tempColor != null) ? tempColor : Colors.blueGrey;
-
-        dummy.add(OneMood(
-          moodPrimary: newMood,
-          moodSecondary: newMood2,
-          strength: element['strength'],
-          color: myColor,
-        ));
-      }
-
-
-
-      return dummy;
-    }
 
     //TODO: does not work
     //_groupByMonths();
 
-    Future<void> getData() async {
-
-      final user = FirebaseAuth.instance.currentUser!;
-
-      CollectionReference _collectionRef = FirebaseFirestore.instance
-          .collection('users').doc(user.uid).collection('MoodEntries');
-
-
-
-      // Get docs from collection reference
-      QuerySnapshot querySnapshot = await _collectionRef.get();
-
-
-
-      allData2.clear();
-
-      // Get data from docs and convert map to List
-      querySnapshot.docs
-          .map((document) => {
-        allData2.add(MoodEntry(
-          id: document['id'],
-          dateTime: (document['dateTime'] as Timestamp).toDate(),
-          eachMood: convertToOneMood(document["OneMood"], []),
-        ))
-      })
-          .toList();
-
-     /* setState(() {
-
-      });
-
-      */
-
-
-    }
-
-
-    getData();
+    //getData();
+    print(allData2);
+    print('this???');
 
     return SingleChildScrollView(
       child: Container(

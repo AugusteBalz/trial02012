@@ -1,26 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:trial0201/globals/mood/colors_of_mood.dart';
+
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/theming.dart';
 
 import 'package:trial0201/screens/app_settings.dart';
 import 'package:trial0201/screens/graphs.dart';
 import 'package:trial0201/screens/story_History.dart';
-import 'package:trial0201/widgets/auth/auth_form.dart';
+
 import 'package:trial0201/widgets/auth/auth_screen.dart';
 import 'package:trial0201/widgets/auth/splash_screen.dart';
 import 'package:trial0201/widgets/bottom_nav.dart';
 import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/screens/main_screen.dart';
-import 'package:trial0201/widgets/pickers/image_picker_user_profile_pic.dart';
 
 import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_2.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/widgets/story/story_screen.dart';
 import 'firebase_options.dart';
