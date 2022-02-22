@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trial0201/globals/defaults.dart';
 
 import '../widgets/buttons_to_log/button_widgets.dart';
+import 'package:getwidget/getwidget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     getTheUsername();
@@ -45,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
            /* SizedBox(height: 10,),
             Container(
@@ -59,35 +61,39 @@ class _MainScreenState extends State<MainScreen> {
                   'How are you feeling today' + '?',)),
             //TODO: do a fix with the name
 
+*/
 
 
-            */
-            Container(
 
-              alignment: Alignment.center,
 
-              child: CarouselSlider(
-                carouselController: carouselController, // Give the controller
-                options: CarouselOptions(
-                  enableInfiniteScroll: false,
-                  height: 500,
-                  enlargeCenterPage: true,
-                ),
-                items: widgetlist.map((featuredImage) {
-                  return Container(
-                    // padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 5),
-                    //alignment: Alignment.center,
+            GFCarousel(
+              enlargeMainPage: true,
+              initialPage: 1,
+              hasPagination: true,
+              aspectRatio: 4/5,
+              enableInfiniteScroll: false,
+              passiveIndicator: Colors.grey,
+              activeIndicator: Colors.indigo,
+              items: widgetlist.map(
+                    (featuredWidget) {
+                      return Container(
+                         padding: const EdgeInsets.only(bottom: 40, left: 10, right: 10),
+                        //alignment: Alignment.center,
 
-                    child: ClipRRect(
-                      borderRadius:
+                        child: ClipRRect(
+                          borderRadius:
                           const BorderRadius.all(Radius.circular(15.0)),
-                      child: featuredImage,
-                    ),
-                  );
-                }).toList(),
-              ),
+                          child: featuredWidget,
+                        ),
+                      );
+                },
+              ).toList(),
+              onPageChanged: (index) {
+                setState(() {
+                  index;
+                });
+              },
             ),
-           // SizedBox(height: 40,)
           ],
         ),
       ),

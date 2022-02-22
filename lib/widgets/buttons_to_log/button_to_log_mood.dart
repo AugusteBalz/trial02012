@@ -55,7 +55,7 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
                   Text('How are you feeling right now?', style: TextStyle(
                     fontSize: 25
                   ),),
-                  Icon( Icons.wb_iridescent_rounded,
+                  Icon( Icons.all_inclusive_outlined,
                   size: 50,),
                   Text('Log mood', style: TextStyle(
                       fontSize: 15

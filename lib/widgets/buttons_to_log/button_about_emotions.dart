@@ -55,7 +55,7 @@ class _ButtonAboutEmotionsState extends State<ButtonAboutEmotions> {
                   Text('Why it is important to recognise your emotions?', style: TextStyle(
                     fontSize: 25
                   ),),
-                  Icon( Icons.all_inclusive_outlined,
+                  Icon( Icons.bubble_chart_outlined,
                   size: 50,),
                   Text('Read about', style: TextStyle(
                       fontSize: 15
