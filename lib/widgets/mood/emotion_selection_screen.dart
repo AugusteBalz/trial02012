@@ -6,6 +6,7 @@ import 'package:trial0201/models/mood/mood_entries.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/screens/graphs.dart';
+import 'package:trial0201/widgets/story/widget_for_mood_display_inner.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:trial0201/widgets/widget_for_mood_display.dart';
@@ -19,7 +20,8 @@ class EmotionSelectionScreen extends StatefulWidget {
 
 class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
   //big number here to ensure infinite scroll to both directions
-  PageController controller = PageController(initialPage: 4242);
+  PageController controller = PageController(initialPage: 4242, viewportFraction: 0.7);
+  PageController controller2 = PageController(initialPage: 4242, viewportFraction: 0.7);
   var currentPageValue = 0.0;
 
   final List<dynamic> displayWidgets = [
@@ -41,6 +43,25 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
     WidgetForMoodDisplay(newMood: disgustedSelection),
   ];
 
+  final List<dynamic> displayInnerWidgets = [
+
+    WidgetForMoodDisplayInner(newMood: angrySelection),
+    WidgetForMoodDisplayInner(newMood: scaredSelection),
+    WidgetForMoodDisplayInner(newMood: surpriseSelection),
+    WidgetForMoodDisplayInner(newMood: powerfulSelection),
+
+
+    Container(
+      child: WidgetForMoodDisplayInner(newMood: happySelection),
+    ),
+
+    WidgetForMoodDisplayInner(newMood: peacefulSelection),
+
+
+    WidgetForMoodDisplayInner(newMood: sadSelection),
+    WidgetForMoodDisplayInner(newMood: disgustedSelection),
+  ];
+
   double? currentPage = 0;
 
 
@@ -52,6 +73,13 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
       setState(() {
         currentPage = controller.page;
       });
+    });
+
+    controller.addListener(() {
+      controller2.jumpTo(controller.offset);
+    });
+    controller2.addListener(() {
+      controller.jumpTo(controller2.offset);
     });
     super.initState();
   }
@@ -81,17 +109,6 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
             ),
           );
         }
-
-        /*else {
-          //add one new mood
-          oneEntry.eachMood.add(OneMood(
-              moodPrimary: PrimaryMoods.Happy,
-              moodSecondary: SecondaryMoods.happy_cheerful,
-              strength: 10,
-              color: Colors.yellow));
-        }
-
-         */
       }
     });
   }
@@ -101,115 +118,10 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PageController pageController;
-    Animatable<Color> background;
-
-    Animatable<Color> animColorPend = TweenSequence([
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.purple,
-          end: Colors.white,
-        ) as Animatable<Color>,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.white,
-          end: Colors.purple,
-        ) as Animatable<Color>,
-      ),
-    ]);
-
-    background = TweenSequence<Color?>([
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.orange[600],
-          end: Colors.deepPurple[400],
-        ) ,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.deepPurple[400],
-          end: Colors.yellow[300],
-        ) ,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.yellow[300],
-          end: Colors.blue[400],
-        ),
-      ),
-    ]) as Animatable<Color>;
-    pageController = PageController();
 
 
-    void _initialize() {
-      background = TweenSequence<Color?>([
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.orange[600],
-            end: Colors.deepPurple[400],
-          ),
-        ),
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.deepPurple[400],
-            end: Colors.yellow[300],
-          ),
-        ),
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.yellow[300],
-            end: Colors.blue[400],
-          ),
-        ),
-      ]) as Animatable<Color>;
-      pageController = PageController();
-    }
-
-    @override
-    void reassemble() {
-      pageController.dispose();
-      _initialize();
-      super.reassemble();
-    }
-    @override
-    void initState() {
-      _initialize();
-      super.initState();
-    }
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        final color = controller.hasClients ? controller.page! / 3 : .0;
-
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: background.evaluate(AlwaysStoppedAnimation(color)),
-          ),
-          child: child,
-        );
-      },
-      child: PageView(
-        controller: controller,
-        children: [
-          Center(child: Text("Orange")),
-          Center(child: Text("Purple")),
-          Center(child: Text("Lime")),
-          Center(child: Text("Blue")),
-        ],
-      ),
-    );
-
-   /*
-    return Scaffold(
+    return
+      Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text("How are you feeling?",
@@ -248,24 +160,121 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
               )),
         ],
       ),
-      body: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        controller: controller,
+      body: Stack(
+        children: [
 
-        //if this is left the list is not infinitely scrollable
-        // itemCount: displayWidgets.length,
-        itemBuilder: (context, index) {
-          final index2 = index - 4242+ indexOfBigEmotion;
+          Container(
+            height: 300,
+            child: PageView.builder(
+              scrollDirection: Axis.horizontal,
+              controller: controller,
 
-          controller.addListener(() {
-            setState(() {
-              currentPageValue = (controller.page)!;
-            });
-          });
+              //if this is left the list is not infinitely scrollable
+              // itemCount: displayWidgets.length,
+              itemBuilder: (context, index) {
+                final index2 = index - 4242+ indexOfBigEmotion;
+
+                controller.addListener(() {
+                  setState(() {
+                    currentPageValue = (controller.page)!;
+                  });
+                });
+
+                return
+                  displayWidgets[index2 % (displayWidgets.length)];
+
+
+/*
+
+            if (index == currentPageValue.floor()){
+              return Transform(
+                  origin: Offset(
+                      120, 700),
+                  transform: Matrix4.identity()..rotateZ(-(currentPageValue-index)),
+                  child: displayWidgets[index2 % (displayWidgets.length)]);
+
+            }
+            else if (index == currentPageValue.floor()+1){
+              return displayWidgets[index2 % (displayWidgets.length)];
+
+                /*Transform(
+                  origin: Offset(
+                      120, 700),
+                  transform: Matrix4.identity()..rotateZ(-(currentPageValue-index)),
+                  child:
+
+                 */
+
+            }
+            else {
+
+
+              return
+                   displayWidgets[index2 % (displayWidgets.length)];
+
+            }
 
 
 
 
+*/
+
+                /*
+
+
+
+Transform(
+                alignment: Alignment.bottomCenter,
+                transform: new Matrix4.identity()
+                  ..rotateZ(15 * 3.1415927 / 180),
+                child: (displayWidgets[index]));
+
+
+             //anothr
+             Transform(
+
+              alignment: Alignment.bottomCenter,
+                transform: Matrix4.identity()..rotateX(currentPage! - index),
+                child: (displayWidgets[index]));
+              */
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Transform.scale(
+              scale:1.8,
+              child: Container(
+                height: 400,
+                decoration: BoxDecoration(
+                    color: (Theme.of(context).brightness == Brightness.light) ? Colors.white : Colors.black87,
+                    borderRadius: BorderRadius.circular(200)),
+              ),
+            ),
+          ),
+
+
+
+          PageView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: controller2,
+
+            //if this is left the list is not infinitely scrollable
+            // itemCount: displayInnerWidgets.length,
+            itemBuilder: (context, index) {
+              final index2 = index - 4242+ indexOfBigEmotion;
+
+              controller.addListener(() {
+                setState(() {
+                  currentPageValue = (controller.page)!;
+                });
+              });
+
+              return
+                displayInnerWidgets[index2 % (displayInnerWidgets.length)];
+
+
+/*
 
           if (index == currentPageValue.floor()){
             return Transform(
@@ -276,11 +285,15 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
 
           }
           else if (index == currentPageValue.floor()+1){
-            return Transform(
+            return displayWidgets[index2 % (displayWidgets.length)];
+
+              /*Transform(
                 origin: Offset(
                     120, 700),
                 transform: Matrix4.identity()..rotateZ(-(currentPageValue-index)),
-                child: displayWidgets[index2 % (displayWidgets.length)]);
+                child:
+
+               */
 
           }
           else {
@@ -294,9 +307,9 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
 
 
 
+*/
 
-
-          /*
+              /*
 
 
 
@@ -314,56 +327,16 @@ Transform(
               transform: Matrix4.identity()..rotateX(currentPage! - index),
               child: (displayWidgets[index]));
             */
-        },
-      ),
-
-      /*
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          PageView(
-            controller: controller,
-            children: [
-              Container(
-                color: Colors.red,
-              ),
-              Container(
-                color: Colors.amber,
-              ),
-              Container(
-                color: Colors.green,
-              ),
-            ],
-          ),
-          Container(
-            color: Colors.pink.withOpacity(.2),
-            child: Text("OverLap Container"),
-          ),
-          Align(alignment: Alignment(0, .1), child: Text("Another OverLapText")),
-
-          ///THis will controll the PageView
-          GestureDetector(
-            onTap: () {},
-            onPanUpdate: (details) {
-              // Swiping in right direction.
-              if (details.delta.dx > 0) {
-                controller.nextPage(
-                    duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-              }
-
-              // Swiping in left direction.
-              if (details.delta.dx < 0) {
-                controller.previousPage(
-                    duration: Duration(milliseconds: 200),
-                    curve: Curves.easeInOut);
-              }
             },
-          )
+          ),
+
+
+
         ],
       )
-      */
+
     );
-    */
+
   }
 }
 

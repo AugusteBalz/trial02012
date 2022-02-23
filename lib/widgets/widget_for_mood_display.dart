@@ -23,21 +23,6 @@ class WidgetForMoodDisplay extends StatelessWidget {
 
       child: Stack(children: [
 
-        //white half circle
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Transform.scale(
-            scale:2,
-            child: Container(
-              height: 380,
-              decoration: BoxDecoration(
-                  color: (Theme.of(context).brightness == Brightness.light) ? Colors.white : Colors.black87,
-                  borderRadius: BorderRadius.circular(200)),
-            ),
-          ),
-        ),
-
-
         Column(
           children: [
 
@@ -47,16 +32,6 @@ class WidgetForMoodDisplay extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 200),
                 child: Center(child: Text(newMood.moodP))),
 
-
-            // display secondary emotions
-
-            SingleChildScrollView(
-              child: Container(
-
-                margin: const EdgeInsets.only(left : 25, right : 25, top: 130, bottom : 10),
-                child: DisplayMultiSelection(items: newMood, selectedChoices: moodSelection,),
-              ),
-            ),
 
           ],
         ),

@@ -16,6 +16,7 @@ import 'package:trial0201/widgets/auth/splash_screen.dart';
 import 'package:trial0201/widgets/bottom_nav.dart';
 import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/screens/main_screen.dart';
+import 'package:trial0201/widgets/mood/emotion_selection_new.dart';
 
 import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_2.dart';
@@ -78,6 +79,7 @@ class MyAppFirst extends StatelessWidget {
               //
               '/readAboutEmotions': (context) => ReadAboutEmotionRegulation(),
               '/setUpNotifications': (context) => NotificationSetUpScreen(),
+              '/emotionSelectionNew': (context) => EmotionSelectionNew(),
 
               //
               // '/images' : (context) => ImagePickerForUserProfile(),
