@@ -56,34 +56,29 @@ class _ReadAboutEmotionRegulationState
           'were never taught how to do it and how to accept feeling anything besides '
           'pleasant emotions like happiness. Research shows that emotional suppression'
           ' may lead to numerous physical symptoms, diseases (ranging from symptoms as '
-          'back pain, itchiness, to diseases like cancer)[1] and mental illnesses as well [2]. ',
+          'back pain, itchiness, to diseases like cancer)\u2074 and mental illnesses as well\u2075. ',
 
 
-      // [1]	B. P. Chapman, K. Fiscella, I. Kawachi, P. Duberstein, and P. Muennig, “Emotion suppression and mortality risk over a 12-year follow-up,” J. Psychosom. Res., vol. 75, no. 4, pp. 381–385, Oct. 2013, doi: 10.1016/j.jpsychores.2013.07.014.
-      // [2] J. Patel and P. Patel, “Consequences of Repression of Emotion: Physical Health, Mental Health and General Well Being,” Int. J. Psychother. Pract. Res., vol. 1, no. 3, pp. 16–21, Feb. 2019, doi: 10.14302/issn.2574-612X.ijpr-18-2564.
 
     },
 
     {
-      'title': 'Why are people not talking more about this?',
+      'title': 'If emotions are such a serious thing, why are more people not talking about this?',
       'content': 'It’s probably no big surprise that many people with mental health issues don’t '
-          'readily seek treatment for their concerns. But why? It happens due to '
+          'readily seek treatment for their concerns.\u2076 But why? It happens due to '
           'preconceived notions of seeing '
           'it as a sign of weakness or inability to cope, unwillingness to discuss the problems '
-          'with someone else or they lack of background knowledge to identify and address it.  [3]',
+          'with someone else or they lack of background knowledge to identify and address it.\u2077',
 
-      //http://davidsusman.com/2015/06/11/8-reasons-why-people-dont-get-mental-health-treatment/.
-      // [3]	L. H. Andrade et al., “Barriers to mental health treatment: results from the WHO World Mental Health surveys,” Psychol. Med., vol. 44, no. 6, pp. 1303–1317, Apr. 2014, doi: 10.1017/S0033291713001943.
     },
+
     {
-      'title': 'How to regulate, not suppress, your emotions?',
-      'content': '',
-    },
-    {
-      'title': 'Is it possible to release suppressed emotions?',
-      'content': '- work on naming and understanding your feelings\n'
-          '- increase your comfort level around talking about emotions\n'
-          '- learn more helpful methods of emotional regulation\n',
+      'title': 'How to practice emotional expression on your own?',
+      'content': '\u2022 Check in.\n\nAsk yourself how you feel right now. If you have a hard time speaking your emotions at first, trying using words or colors in a journal or piece of art. You can even find a song that matches your mood.\n\n'
+    '\u2022 Use “I” statements.\n\nPractice expressing your feelings with phrases like “I feel confused. I feel nervous. I feel terrified.”\n\n'
+    '\u2022 Focus on the positive. \n\nIt might seem easier to name and embrace positive emotions at first, and that’s OK. The goal is to get more comfortable with all of your emotions, and small steps help.\n\n'
+    '\u2022 Let go of judgement. \n\nNo matter what emotion you’re feeling, avoid judging yourself or telling yourself you shouldn’t feel a certain way. Instead, try finding a reason for the feeling: “I feel nervous because I’m about to have my yearly performance review.”\n\n'
+          '\u2022 Make it a habit. \n\nPractice naming and sharing your emotions with the people you feel closest to. Encourage them to share their feelings, too.\n\n',
       //https://www.healthline.com/health/repressed-emotions#releasing-them
     },
     {
@@ -92,6 +87,12 @@ class _ReadAboutEmotionRegulationState
           '\u00B9 https://pubmed.ncbi.nlm.nih.gov/33464115/\n'
           '\u00B2 https://www.psychologytoday.com/us/basics/emotion-regulation\n'
           '\u00B3 https://thearbor.com/blog/what-does-it-mean-to-suppress-emotions/\n'
+
+      '\u2074 B. P. Chapman, K. Fiscella, I. Kawachi, P. Duberstein, and P. Muennig, “Emotion suppression and mortality risk over a 12-year follow-up,” doi: 10.1016/j.jpsychores.2013.07.014.\n'
+          '\u2075 J. Patel and P. Patel, “Consequences of Repression of Emotion: Physical Health, Mental Health and General Well Being,” doi: 10.14302/issn.2574-612X.ijpr-18-2564.\n'
+
+          '\u2076 http://davidsusman.com/2015/06/11/8-reasons-why-people-dont-get-mental-health-treatment/.\n'
+         '\u2077 L. H. Andrade et al., “Barriers to mental health treatment: results from the WHO World Mental Health surveys,” doi: 10.1017/S0033291713001943.\n'
     },
   ];
 
