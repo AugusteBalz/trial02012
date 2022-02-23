@@ -299,7 +299,7 @@ class _NotificationSetUpScreenState extends State<NotificationSetUpScreen> {
             ],),
           ),
 
-          SizedBox(height: 100,),
+          SizedBox(height: 130,),
           Text(
             "Every Day",
             style: Theme.of(context).textTheme.headline6,
@@ -310,10 +310,8 @@ class _NotificationSetUpScreenState extends State<NotificationSetUpScreen> {
             style: Theme.of(context).textTheme.headline1,
           ),
           SizedBox(height: 10),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-            ),
+          OutlinedButton(
+
             onPressed: () {
               Navigator.of(context).push(
                 showPicker(
@@ -334,7 +332,7 @@ class _NotificationSetUpScreenState extends State<NotificationSetUpScreen> {
             },
             child: Text(
               "Select a different time",
-              style: TextStyle(color: Colors.white),
+
             ),
           ),
 

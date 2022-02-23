@@ -78,7 +78,6 @@ class _AppSettingsState extends State<AppSettings> {
       'image_url': url,
     });
 
-
   }
 
   @override
@@ -92,6 +91,7 @@ class _AppSettingsState extends State<AppSettings> {
       margin: const EdgeInsets.all(10),
       child:
       Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
 
           Card(
@@ -115,98 +115,108 @@ class _AppSettingsState extends State<AppSettings> {
               ),
             ),
           ),
-          SizedBox(
-            height: 30,
-          ),
 
 
-          Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.all(10),
 
-            child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-
-              children: [
-                const Text("Theme"),
-                //ToggleButtons(children: children, isSelected: isSelected)
-
-                ToggleSwitch(
-                  minWidth: 60.0,
-                  minHeight: 50.0,
-                  initialLabelIndex: previousIndex,
-                  cornerRadius: 20.0,
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: Colors.grey,
-                  inactiveFgColor: Colors.white,
-                  totalSwitches: 2,
-                  icons:  const [
-
-                    Icons.wb_sunny_rounded,
-                    Icons.nights_stay_rounded,
-
-                  ],
-                  iconSize: 30.0,
-                  activeBgColors:  const [[Colors.yellow, Colors.orange],[Colors.blue, Color(
-                      0xFF00116B)] ],
-                  //animate: true, // with just animate set to true, default curve = Curves.easeIn
-                  //curve: Curves.linear, // animate must be set to true when using custom curve
-                  onToggle: (index) {
-
-                    //TODO: fix theming
-
-                     if(previousIndex!=index){
-                       currentModel.toggleMode();
-                       previousIndex = index!;
-
-
-                       //TODO: color sceheme!!!!
-                      // _changeColorTheme(Theme.of(context));
-
-                       //rebuild all the widgets
-                      // ShowMoodHistory();
-                     }
-
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.all(10),
-            child: Row(
-              children: const [
-                Text("Customize colors"),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.all(10),
-              child:
-              TextButton(
+
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+
+                children: [
+                  const Text("Theme"),
+                  //ToggleButtons(children: children, isSelected: isSelected)
+
+                  ToggleSwitch(
+                    minWidth: 60.0,
+                    minHeight: 50.0,
+                    initialLabelIndex: previousIndex,
+                    cornerRadius: 20.0,
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: Colors.grey,
+                    inactiveFgColor: Colors.white,
+                    totalSwitches: 2,
+                    icons:  const [
+
+                      Icons.wb_sunny_rounded,
+                      Icons.nights_stay_rounded,
+
+                    ],
+                    iconSize: 30.0,
+                    activeBgColors:  const [[Colors.yellow, Colors.orange],[Colors.blue, Color(
+                        0xFF00116B)] ],
+                    //animate: true, // with just animate set to true, default curve = Curves.easeIn
+                    //curve: Curves.linear, // animate must be set to true when using custom curve
+                    onToggle: (index) {
+
+                      //TODO: fix theming
+
+                      if(previousIndex!=index){
+                        currentModel.toggleMode();
+                        previousIndex = index!;
 
 
-                child:  Container(
+                        //TODO: color sceheme!!!!
+                        // _changeColorTheme(Theme.of(context));
+
+                        //rebuild all the widgets
+                        // ShowMoodHistory();
+                      }
+
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+             // padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              child: TextButton(
+                onPressed: (){
+                  Navigator.pushNamed(context, '/setUpNotifications');
+                },
+                child: Container(
                   child: Row(
-                    children: <Widget>[
-                      Icon(Icons.exit_to_app, color: Colors.black,),
-                      SizedBox(width: 8),
-                      Text('Logout', style: TextStyle(color: Colors.black),),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Notifications', style:Theme.of(context).textTheme.bodyText2),
+                      Icon(Icons.arrow_forward_outlined, color:Theme.of(context).primaryColorDark),
                     ],
                   ),
                 ),
-                onPressed: () {
-
-                    FirebaseAuth.instance.signOut();
-                   // userId = null;
-
-                }
               ),
+            ),
+          ],
+        ),
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.all(10),
+            child:
+            TextButton(
+
+
+              child:  Container(
+                child: Row( mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.exit_to_app, color: Colors.black,),
+                    SizedBox(width: 8),
+                    Text('Logout', style: TextStyle(color: Colors.black),),
+                  ],
+                ),
+              ),
+              onPressed: () {
+
+                  FirebaseAuth.instance.signOut();
+                 // userId = null;
+
+              }
             ),
           )
 
