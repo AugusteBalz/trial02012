@@ -16,26 +16,14 @@ class WidgetForMoodDisplayInner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-
     return Container(
-
-
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-
-          //name of the emotion
-
-        /*
-          Container(
-              margin: const EdgeInsets.only(top: 200),
-              child: Center(child: Text(newMood.moodP))),
-
-         */
 
           // display secondary emotions
 
+          SizedBox(height: 40),
           SingleChildScrollView(
             child: Container(
 

@@ -81,17 +81,6 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
             ),
           );
         }
-
-        /*else {
-          //add one new mood
-          oneEntry.eachMood.add(OneMood(
-              moodPrimary: PrimaryMoods.Happy,
-              moodSecondary: SecondaryMoods.happy_cheerful,
-              strength: 10,
-              color: Colors.yellow));
-        }
-
-         */
       }
     });
   }

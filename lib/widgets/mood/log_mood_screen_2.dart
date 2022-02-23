@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trial0201/widgets/mood/emotion_selection_new.dart';
 import 'package:trial0201/widgets/mood/emotion_selection_screen.dart';
 
 
@@ -15,6 +16,6 @@ class _LogMoodScreen2State extends State<LogMoodScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    return const EmotionSelectionScreen();
+    return EmotionSelectionNew();
   }
 }

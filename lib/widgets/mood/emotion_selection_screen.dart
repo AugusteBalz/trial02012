@@ -6,7 +6,7 @@ import 'package:trial0201/models/mood/mood_entries.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/screens/graphs.dart';
-import 'package:trial0201/widgets/story/widget_for_mood_display_inner.dart';
+import 'package:trial0201/widgets/widget_for_mood_display_inner.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:trial0201/widgets/widget_for_mood_display.dart';

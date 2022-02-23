@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:trial0201/globals/globals.dart';
-import 'package:trial0201/widgets/story/widget_for_mood_display_inner.dart';
+import 'package:trial0201/widgets/widget_for_mood_display_inner.dart';
 
 import '../widget_for_mood_display.dart';
+
+import 'package:flutter/material.dart';
+import 'package:trial0201/globals/globals.dart';
+import 'package:trial0201/globals/matching_maps.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
+import 'package:trial0201/models/mood/moods.dart';
+import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/screens/graphs.dart';
+import 'package:uuid/uuid.dart';
+
+import 'package:trial0201/widgets/widget_for_mood_display.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -14,10 +26,12 @@ class EmotionSelectionNew extends StatefulWidget {
 class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
   PageController _controller1 = PageController(initialPage: 4242);
   PageController _controller2 = PageController(initialPage: 4242);
-  int manualController = -1;
+
 
   var currentPageValue = 0.0;
 
+
+  //for displaying colours and name of primary emotion
   final List<dynamic> displayWidgets = [
     WidgetForMoodDisplay(newMood: angrySelection),
     WidgetForMoodDisplay(newMood: scaredSelection),
@@ -30,6 +44,8 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
     WidgetForMoodDisplay(newMood: sadSelection),
     WidgetForMoodDisplay(newMood: disgustedSelection),
   ];
+
+  //for displaying secondary emotion widgets
 
   final List<dynamic> displayInnerWidgets = [
     WidgetForMoodDisplayInner(newMood: angrySelection),
@@ -46,24 +62,51 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
   double? currentPage = 0;
 
-  Widget _itemBuilder(BuildContext context, int index) => Container(
-        color: Colors.primaries[index % Colors.primaries.length],
-        child: Center(
-          child: Text(
-            index.toString(),
-            style: TextStyle(color: Colors.white, fontSize: 60),
-          ),
-        ),
-      );
+
+  void _addNewMoodEntry() {
+    //default blueprint
+
+    BlueprintMood? temporaryMood = defaultBlueprint;
+
+    final MoodEntry newEntry =
+
+    // ids calculated dynamically
+    MoodEntry(id: new Uuid().v1(), dateTime: DateTime.now(), eachMood: []);
+
+    oneEntry = newEntry;
+
+    setState(() {
+      for (String emotion in selectedDisplayMoods) {
+        if (nameToBlueprint.containsKey(emotion)) {
+          temporaryMood = nameToBlueprint[emotion];
+          oneEntry.eachMood.add(
+            OneMood(
+              moodPrimary: temporaryMood!.moodPrimary,
+              moodSecondary: temporaryMood!.moodSecondary,
+              strength: 0,
+              color: temporaryMood!.color,
+            ),
+          );
+        }
+      }
+    });
+  }
+
 
   @override
   void initState() {
     super.initState();
-    _controller1 = PageController(viewportFraction: 0.8);
-    _controller2 = PageController(viewportFraction: 0.8);
+    _controller1 = PageController(viewportFraction: 0.9, initialPage: 4242);
+    _controller2 = PageController(viewportFraction: 0.9, initialPage: 4242);
 
     _controller2.addListener(() {
       _controller1.jumpTo(_controller2.offset);
+    });
+
+    _controller2.addListener(() {
+      setState(() {
+        currentPage = _controller2.page;
+      });
     });
 
 //     _controller1.addListener(() {
@@ -78,38 +121,59 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Text("How are you feeling?",
+              style: Theme.of(context).textTheme.headline2),
+          backgroundColor: Colors.transparent,
+          actions: <Widget>[
+            Padding(
+                padding: const EdgeInsets.only(right: 20.0, top: 15),
+                child: GestureDetector(
+                  onTap: () async {
+                    _addNewMoodEntry();
+
+                    if (oneEntry.eachMood.isEmpty) {
+                      //display a pop up saying "please add at least one emotion!
+
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context),
+                      );
+                    } else  {
+                      //if a person presses "Next", he goes to the next screen to rate the strength of his/her emotions
+                      await Navigator.pushNamed(context, "/logmood3");
+
+
+                      //TODO: I want this part to re-load when new emotion is added
+                      GraphScreen();
+                      //delete all previous
+                      moodSelection.clear();
+                    }
+                  },
+                  child: Text(
+                    "Next",
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                )),
+          ],
+        ),
       body: Stack(
         
-        children: [Expanded(
-          child: GestureDetector(
-            child: PageView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _controller1,
+        children: [GestureDetector(
+          child: PageView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _controller1,
 
 
-
-
-
-
-              itemBuilder: (context, index) {
-                final index2 = index - 4242+ indexOfBigEmotion;
-
-
-
-                return
-                  displayWidgets[index2 % (displayWidgets.length)];
-
+            itemBuilder: (context, index) {
+              final index2 = index - 4242+ indexOfBigEmotion;
+              return
+                displayWidgets[index2 % (displayWidgets.length)];
 
               },
 
-
-
-
-
-
-
-
-            ),
           ),
         ),
           Align(
@@ -134,18 +198,20 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
                   child: GestureDetector(
                     child: PageView.builder(
                         controller: _controller2,
-
-
-
-
-
+                        scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final index2 = index - 4242+ indexOfBigEmotion;
 
-
-
                           return
                             displayInnerWidgets[index2 % (displayInnerWidgets.length)];
+
+
+
+
+
+
+
+
                         }
 
 
@@ -165,4 +231,28 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
       )
     );
   }
+}
+
+
+
+Widget _buildPopupDialog(BuildContext context) {
+  return AlertDialog(
+    title: const Text('Hi there!'),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const <Widget>[
+        Text(
+            "It seems like you haven't selected any emotions... Please select at least one:)"),
+      ],
+    ),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Text('Okay!'),
+      ),
+    ],
+  );
 }
