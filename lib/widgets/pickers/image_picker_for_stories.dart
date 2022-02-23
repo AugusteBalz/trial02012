@@ -17,7 +17,6 @@ import 'package:trial0201/globals/defaults.dart';
 
 
 String userPhoto = '';
-// String userPhoto2 = 'assets/images/defaultuser.png';
 String userPhoto2 = 'assets/images/storyimage1.jpg';
 
 /*

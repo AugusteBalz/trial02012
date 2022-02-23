@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>can take pictures?</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>to access microphone</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>to access gallery</string>
-	<key>NSCameraUsageDescription</key>
-	<string>to access camera</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -30,6 +22,18 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>can take pictures?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>to access camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>to access microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>to access gallery</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -4,14 +4,14 @@ import 'package:trial0201/screens/graphs.dart';
 import 'package:trial0201/screens/mood_history.dart';
 
 
-class ButtonAboutEmotions extends StatefulWidget {
-  const ButtonAboutEmotions({Key? key}) : super(key: key);
+class ButtonExtra extends StatefulWidget {
+  const ButtonExtra({Key? key}) : super(key: key);
 
   @override
-  _ButtonAboutEmotionsState createState() => _ButtonAboutEmotionsState();
+  _ButtonExtraState createState() => _ButtonExtraState();
 }
 
-class _ButtonAboutEmotionsState extends State<ButtonAboutEmotions> {
+class _ButtonExtraState extends State<ButtonExtra> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,8 +19,8 @@ class _ButtonAboutEmotionsState extends State<ButtonAboutEmotions> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.lightBlueAccent,
-              Color(0xFF0930B8),
+              Colors.greenAccent,
+              Color(0xFF3762FF),
             ],
             begin: FractionalOffset.topLeft,
             end: FractionalOffset.bottomRight,
@@ -36,29 +36,31 @@ class _ButtonAboutEmotionsState extends State<ButtonAboutEmotions> {
         width: double.infinity,
         child: InkWell(
           onTap: () async {
-            Navigator.pushNamed(context, '/readAboutEmotions');
+            Navigator.pushNamed(context, '/setUpNotifications');
 
             setState(() {
 
               //reload the screens
-
+             
 
             });
           },
 
           child: Container(padding: const EdgeInsets.all(30),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
 
                 children: const [
-                  Text('Why it is important to recognise your emotions?', style: TextStyle(
+                  Text('Something extra', style: TextStyle(
                     fontSize: 25
                   ),),
-                  Icon( Icons.bubble_chart_outlined,
+                 /* Icon( Icons.bubble_chart_outlined,
                   size: 50,),
                   Text('Read about', style: TextStyle(
                       fontSize: 15
                   ),),
+
+                  */
                 ],
               ))
 

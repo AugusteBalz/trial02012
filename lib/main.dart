@@ -7,6 +7,8 @@ import 'package:trial0201/globals/theming.dart';
 
 import 'package:trial0201/screens/app_settings.dart';
 import 'package:trial0201/screens/graphs.dart';
+import 'package:trial0201/screens/notification_setup_screen.dart';
+import 'package:trial0201/screens/read_about_emotion_regulation.dart';
 import 'package:trial0201/screens/story_History.dart';
 
 import 'package:trial0201/widgets/auth/auth_screen.dart';
@@ -72,6 +74,10 @@ class MyAppFirst extends StatelessWidget {
 
               //
               '/logstory': (context) => StoryScreen(),
+
+              //
+              '/readAboutEmotions': (context) => ReadAboutEmotionRegulation(),
+              '/setUpNotifications': (context) => NotificationSetUpScreen(),
 
               //
               // '/images' : (context) => ImagePickerForUserProfile(),

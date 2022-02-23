@@ -19,6 +19,11 @@ import 'package:trial0201/models/story/story_entry.dart';
 int indexOfBigEmotion = 0;
 
 
+//for notifications
+TimeOfDay time = TimeOfDay.now().replacing(hour: 11, minute: 30);
+bool notificationsOnOff = false;
+
+
 // for taking from firebase
 List<dynamic> allData = [];
 List<MoodEntry> allData2 = [];

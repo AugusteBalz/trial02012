@@ -101,114 +101,8 @@ class _EmotionSelectionScreenState extends State<EmotionSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PageController pageController;
-    Animatable<Color> background;
-
-    Animatable<Color> animColorPend = TweenSequence([
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.purple,
-          end: Colors.white,
-        ) as Animatable<Color>,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.white,
-          end: Colors.purple,
-        ) as Animatable<Color>,
-      ),
-    ]);
-
-    background = TweenSequence<Color?>([
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.orange[600],
-          end: Colors.deepPurple[400],
-        ) ,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.deepPurple[400],
-          end: Colors.yellow[300],
-        ) ,
-      ),
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.yellow[300],
-          end: Colors.blue[400],
-        ),
-      ),
-    ]) as Animatable<Color>;
-    pageController = PageController();
 
 
-    void _initialize() {
-      background = TweenSequence<Color?>([
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.orange[600],
-            end: Colors.deepPurple[400],
-          ),
-        ),
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.deepPurple[400],
-            end: Colors.yellow[300],
-          ),
-        ),
-        TweenSequenceItem(
-          weight: 1.0,
-          tween: ColorTween(
-            begin: Colors.yellow[300],
-            end: Colors.blue[400],
-          ),
-        ),
-      ]) as Animatable<Color>;
-      pageController = PageController();
-    }
-
-    @override
-    void reassemble() {
-      pageController.dispose();
-      _initialize();
-      super.reassemble();
-    }
-    @override
-    void initState() {
-      _initialize();
-      super.initState();
-    }
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        final color = controller.hasClients ? controller.page! / 3 : .0;
-
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: background.evaluate(AlwaysStoppedAnimation(color)),
-          ),
-          child: child,
-        );
-      },
-      child: PageView(
-        controller: controller,
-        children: [
-          Center(child: Text("Orange")),
-          Center(child: Text("Purple")),
-          Center(child: Text("Lime")),
-          Center(child: Text("Blue")),
-        ],
-      ),
-    );
-
-   /*
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -363,7 +257,6 @@ Transform(
       )
       */
     );
-    */
   }
 }
 
