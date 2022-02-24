@@ -51,4 +51,7 @@ TextTheme textTextTheme = const TextTheme(
   //for the date
   subtitle1: TextStyle(
       fontWeight: FontWeight.bold, fontSize: 12, color: Colors.blueGrey),
+
+  //for story entry text
+  subtitle2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200),
 );

@@ -36,7 +36,7 @@ class _ButtonExtraState extends State<ButtonExtra> {
         width: double.infinity,
         child: InkWell(
           onTap: () async {
-            Navigator.pushNamed(context, '/logmood1new');
+            Navigator.pushNamed(context, '/logstory2');
 
             setState(() {
 

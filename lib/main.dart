@@ -18,7 +18,7 @@ import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/screens/main_screen.dart';
 import 'package:trial0201/widgets/mood/emotion_selection_new.dart';
 
-import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
+
 import 'package:trial0201/widgets/mood/log_mood_screen_1_new.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_2.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
@@ -26,6 +26,7 @@ import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/widgets/story/story_screen.dart';
+import 'package:trial0201/widgets/story/story_screen_new.dart';
 import 'firebase_options.dart';
 
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class MyAppFirst extends StatelessWidget {
 
               //to multiselect mood log
 
-              '/logmood1': (context) => const LogMoodScreen1(),
+
               '/logmood1new': (context) => const LogMoodScreen1New(),
 
               '/logmood2': (context) => const LogMoodScreen2(),
@@ -77,6 +78,7 @@ class MyAppFirst extends StatelessWidget {
 
               //
               '/logstory': (context) => StoryScreen(),
+              '/logstory2': (context) => StoryScreenNew(),
 
               //
               '/readAboutEmotions': (context) => ReadAboutEmotionRegulation(),

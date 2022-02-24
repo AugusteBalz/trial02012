@@ -62,10 +62,6 @@ class _MainScreenState extends State<MainScreen> {
             //TODO: do a fix with the name
 
 */
-
-
-
-
             GFCarousel(
               enlargeMainPage: true,
               initialPage: 1,
