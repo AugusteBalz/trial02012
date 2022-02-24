@@ -11,6 +11,6 @@ final List<Widget> widgetlist = [
   const ButtonAboutEmotions(),
   const ButtonToLogMood(),
   const ButtonToLogEvent(),
-//  const ButtonExtra(),
+  const ButtonExtra(),
 
 ];

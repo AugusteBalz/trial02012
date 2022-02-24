@@ -36,7 +36,7 @@ class _ButtonToLogMoodState extends State<ButtonToLogMood> {
         width: double.infinity,
         child: InkWell(
           onTap: () async {
-             await Navigator.pushNamed(context, '/logmood1');
+             await Navigator.pushNamed(context, '/logmood1new');
 
             setState(() {
 

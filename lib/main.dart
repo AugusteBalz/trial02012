@@ -19,6 +19,7 @@ import 'package:trial0201/screens/main_screen.dart';
 import 'package:trial0201/widgets/mood/emotion_selection_new.dart';
 
 import 'package:trial0201/widgets/mood/log_mood_screen_1.dart';
+import 'package:trial0201/widgets/mood/log_mood_screen_1_new.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_2.dart';
 import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
 
@@ -59,6 +60,7 @@ class MyAppFirst extends StatelessWidget {
               //to multiselect mood log
 
               '/logmood1': (context) => const LogMoodScreen1(),
+              '/logmood1new': (context) => const LogMoodScreen1New(),
 
               '/logmood2': (context) => const LogMoodScreen2(),
 
