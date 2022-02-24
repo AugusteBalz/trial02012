@@ -8,7 +8,10 @@ import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
+import 'package:trial0201/models/mood/blueprint_mood.dart';
+import 'package:trial0201/models/mood/mood_entries.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/models/story/story_entry.dart';
 import 'package:trial0201/widgets/mood/multi_select_chip2.dart';
 import 'package:trial0201/widgets/pickers/image_picker_for_stories.dart';
 import 'package:trial0201/widgets/story/multi_select_chip_for_tags.dart';
@@ -63,8 +66,41 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
     print(url);
   }
 
+  void _addNewMoodEntry() {
+    //default blueprint
+
+    BlueprintMood? temporaryMood = defaultBlueprint;
+
+    final StoryEntry newEntry =
+
+    // ids calculated dynamically
+    StoryEntry(id: new Uuid().v1(), dateTime: DateTime.now(), eachMood: [], story: '', tags: [], title: '');
+
+    oneStoryEntry = newEntry;
+
+    setState(() {
+      for (String emotion in selectedDisplayMoodsForStories) {
+        if (nameToBlueprint.containsKey(emotion)) {
+          temporaryMood = nameToBlueprint[emotion];
+          oneStoryEntry.eachMood.add(
+            OneMood(
+              moodPrimary: temporaryMood!.moodPrimary,
+              moodSecondary: temporaryMood!.moodSecondary,
+              strength: 0,
+              color: temporaryMood!.color,
+            ),
+          );
+        }
+      }
+    });
+  }
+
   Future<void> addAStory() {
     // Call the user's CollectionReference to add a new user
+
+
+    //add moods to one place
+    _addNewMoodEntry();
 
     List<Map<String, dynamic>> temporaryArray = [];
 
@@ -75,9 +111,6 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         'strength': mood.strength,
       });
     }
-
-    //TODO: add an image to the firebase here
-    print(url);
 
     return storyCollection
         .add({

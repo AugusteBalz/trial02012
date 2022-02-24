@@ -36,7 +36,7 @@ class _ButtonToLogEventState extends State<ButtonToLogEvent> {
         child: InkWell(
           onTap: () async {
 
-            final value = await Navigator.pushNamed(context, '/logstory');
+            final value = await Navigator.pushNamed(context, '/logstory2');
 
             setState(() {
 

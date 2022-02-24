@@ -36,6 +36,7 @@ class _DisplayMultiSelectionState extends State<DisplayMultiSelection> {
 
           //add all selected moods to the list
           selectedDisplayMoods = [...selectedList];
+          selectedDisplayMoodsForStories = [...selectedList];
 
         });
       },

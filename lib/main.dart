@@ -25,7 +25,7 @@ import 'package:trial0201/widgets/mood/log_mood_screen_3.dart';
 
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:trial0201/widgets/story/story_screen.dart';
+
 import 'package:trial0201/widgets/story/story_screen_new.dart';
 import 'firebase_options.dart';
 
@@ -77,7 +77,7 @@ class MyAppFirst extends StatelessWidget {
               '/auth': (context) => AuthScreen(),
 
               //
-              '/logstory': (context) => StoryScreen(),
+
               '/logstory2': (context) => StoryScreenNew(),
 
               //

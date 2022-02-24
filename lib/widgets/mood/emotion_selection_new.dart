@@ -31,6 +31,8 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
   var currentPageValue = 0.0;
 
+
+
   //for displaying colours and name of primary emotion
   final List<dynamic> displayWidgets = [
     WidgetForMoodDisplay(

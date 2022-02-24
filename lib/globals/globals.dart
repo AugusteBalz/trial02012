@@ -260,6 +260,7 @@ List<String> displayMoods2 = [
 ];
 
 List<String> selectedDisplayMoods = [];
+List<String> selectedDisplayMoodsForStories = [];
 
 
 List<String> selectedChoicesAll = [];
