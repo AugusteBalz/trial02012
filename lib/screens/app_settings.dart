@@ -13,8 +13,6 @@ import 'package:trial0201/globals/theming.dart';
 import 'package:trial0201/screens/mood_history.dart';
 import 'package:trial0201/widgets/pickers/image_picker_user_profile_pic.dart';
 
-
-
 class AppSettings extends StatefulWidget {
   const AppSettings({Key? key}) : super(key: key);
 
@@ -22,34 +20,34 @@ class AppSettings extends StatefulWidget {
   _AppSettingsState createState() => _AppSettingsState();
 }
 
-
 String userName = 'Loading...';
 String userPhoto = 'error';
 
 class _AppSettingsState extends State<AppSettings> {
-
   late File _userImageFile;
 
   @override
   void initState() {
     super.initState();
     getUserData();
-
   }
 
-  Future<void> getUserData()
-  async {
+  Future<void> getUserData() async {
+    var ref = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
 
-    var ref = await  FirebaseFirestore.instance
-        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
-     userName = ref['username'];
-     userPhoto = ref['image_url'];
 
-     setState(() {
 
-     });
+    setState(() {
 
+      ImagePickerForUserProfile(_pickedImage, userPhoto);
+      userName = ref['username'];
+      userPhoto = ref['image_url'];
+
+    });
   }
 
   void _pickedImage(File image) async {
@@ -59,7 +57,7 @@ class _AppSettingsState extends State<AppSettings> {
 
     var url;
 
-    if(image!=null){
+    if (image != null) {
       final ref = FirebaseStorage.instance
           .ref()
           .child('user_image/')
@@ -77,23 +75,16 @@ class _AppSettingsState extends State<AppSettings> {
         .update({
       'image_url': url,
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Container(
-
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
-      child:
-      Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
           Card(
             elevation: 10,
             shape: RoundedRectangleBorder(
@@ -104,136 +95,118 @@ class _AppSettingsState extends State<AppSettings> {
               margin: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:  [
-                  Text(
-
-                      userName
-
-                  ),
-                  ImagePickerForUserProfile(_pickedImage),
+                children: [
+                  Text(userName),
+                  ImagePickerForUserProfile(_pickedImage, userPhoto),
                 ],
               ),
             ),
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Theme"),
+                    //ToggleButtons(children: children, isSelected: isSelected)
 
+                    ToggleSwitch(
+                      minWidth: 60.0,
+                      minHeight: 50.0,
+                      initialLabelIndex: previousIndex,
+                      cornerRadius: 20.0,
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      totalSwitches: 2,
+                      icons: const [
+                        Icons.wb_sunny_rounded,
+                        Icons.nights_stay_rounded,
+                      ],
+                      iconSize: 30.0,
+                      activeBgColors: const [
+                        [Colors.yellow, Colors.orange],
+                        [Colors.blue, Color(0xFF00116B)]
+                      ],
+                      //animate: true, // with just animate set to true, default curve = Curves.easeIn
+                      //curve: Curves.linear, // animate must be set to true when using custom curve
+                      onToggle: (index) {
+                        //TODO: fix theming
 
+                        if (previousIndex != index) {
+                          currentModel.toggleMode();
+                          previousIndex = index!;
 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
+                          //TODO: color sceheme!!!!
+                          // _changeColorTheme(Theme.of(context));
 
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-
-                children: [
-                  const Text("Theme"),
-                  //ToggleButtons(children: children, isSelected: isSelected)
-
-                  ToggleSwitch(
-                    minWidth: 60.0,
-                    minHeight: 50.0,
-                    initialLabelIndex: previousIndex,
-                    cornerRadius: 20.0,
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.white,
-                    totalSwitches: 2,
-                    icons:  const [
-
-                      Icons.wb_sunny_rounded,
-                      Icons.nights_stay_rounded,
-
-                    ],
-                    iconSize: 30.0,
-                    activeBgColors:  const [[Colors.yellow, Colors.orange],[Colors.blue, Color(
-                        0xFF00116B)] ],
-                    //animate: true, // with just animate set to true, default curve = Curves.easeIn
-                    //curve: Curves.linear, // animate must be set to true when using custom curve
-                    onToggle: (index) {
-
-                      //TODO: fix theming
-
-                      if(previousIndex!=index){
-                        currentModel.toggleMode();
-                        previousIndex = index!;
-
-
-                        //TODO: color sceheme!!!!
-                        // _changeColorTheme(Theme.of(context));
-
-                        //rebuild all the widgets
-                        // ShowMoodHistory();
-                      }
-
-                    },
-                  ),
-                ],
+                          //rebuild all the widgets
+                          // ShowMoodHistory();
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-             // padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
-              child: TextButton(
-                onPressed: (){
-                  Navigator.pushNamed(context, '/setUpNotifications');
-                },
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Notifications', style:Theme.of(context).textTheme.bodyText2),
-                      Icon(Icons.arrow_forward_outlined, color:Theme.of(context).primaryColorDark),
-                    ],
+              Container(
+                // padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/setUpNotifications');
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Notifications',
+                            style: Theme.of(context).textTheme.bodyText2),
+                        Icon(Icons.arrow_forward_outlined,
+                            color: Theme.of(context).primaryColorDark),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
           Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.all(10),
-            child:
-            TextButton(
-
-
-              child:  Container(
-                child: Row( mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.exit_to_app, color: Colors.black,),
-                    SizedBox(width: 8),
-                    Text('Logout', style: TextStyle(color: Colors.black),),
-                  ],
+            child: TextButton(
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.exit_to_app,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              onPressed: () {
-
+                onPressed: () {
                   FirebaseAuth.instance.signOut();
-                 // userId = null;
-
-              }
-            ),
+                  // userId = null;
+                }),
           )
-
         ],
       ),
-      
-      
     );
   }
 }
 
-
 void _changeColorTheme(ThemeData mode) {
-
-
-
-
   if (mode.brightness == Brightness.light) {
     print('dod');
     angryMoodColor = angryMoodColorLight;
@@ -256,8 +229,6 @@ void _changeColorTheme(ThemeData mode) {
   }
 }
 
-
-
 class displayProfilePhoto extends StatefulWidget {
   const displayProfilePhoto({Key? key}) : super(key: key);
 
@@ -268,9 +239,6 @@ class displayProfilePhoto extends StatefulWidget {
 class _displayProfilePhotoState extends State<displayProfilePhoto> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-
-    );
+    return Container();
   }
 }

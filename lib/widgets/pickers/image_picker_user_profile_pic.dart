@@ -25,9 +25,9 @@ String userPhoto2 = 'assets/images/defaultuser.png';
 class ImagePickerForUserProfile extends StatefulWidget {
 
 
+final image;
 
-
-  ImagePickerForUserProfile(this.imagePickFn);
+  ImagePickerForUserProfile(this.imagePickFn, this.image);
 
   final void Function(File pickedImage) imagePickFn;
 
@@ -74,21 +74,10 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
   }
 
 
-  Future<void> getThePic() async {
+  void getThePic()  {
 
+    userPhoto = widget.image;
 
-    if (FirebaseAuth.instance.currentUser == null){
-      return;
-    }
-
-    var ref = await  FirebaseFirestore.instance
-        .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
-
-    userPhoto = ref['image_url'];
-    print(userPhoto);
-
-    // TODO: add this line appropriately
-    //setState((){});
   }
 
   @override

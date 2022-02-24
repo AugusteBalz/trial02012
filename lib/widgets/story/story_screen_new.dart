@@ -62,8 +62,6 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
     ref.delete();
     await ref.putFile(image);
     url = await ref.getDownloadURL();
-
-    print(url);
   }
 
   void _addNewMoodEntry() {
@@ -111,6 +109,11 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         'strength': mood.strength,
       });
     }
+
+    //delete previous adds
+    oneStoryEntry.eachMood.clear();
+    moodSelectionForStories.clear();
+    selectedDisplayMoodsForStories.clear();
 
     return storyCollection
         .add({
@@ -205,7 +208,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                       );
                     }
 
-                    if (textController2.text.isEmpty) {
+                    else if (textController2.text.isEmpty) {
                       //display a pop up saying "please add at least one emotion!
 
                       showDialog(
@@ -234,500 +237,511 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
           centerTitle: true,
         ),
         backgroundColor: Color(0xFFF5F5F5),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(top: 40, left: 30, right: 30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 200,
+        body: GestureDetector(
+          onTap: (){
 
-                      //height: 80,
-                      child: CustomPaint(
-                        //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                        painter: PartialPainter(
-                          radius: 0,
-                          strokeWidth: 2,
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment(-0.2, -0.4),
-                            stops: [0.0, 0.4],
-                            colors: [
-                              Colors.orangeAccent,
-                              Colors.deepOrangeAccent,
-                            ],
+            FocusScopeNode currentFocus = FocusScope.of(context);
+
+            if(!currentFocus.hasPrimaryFocus){
+              currentFocus.unfocus();
+            }
+
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(top: 40, left: 30, right: 30),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 200,
+
+                        //height: 80,
+                        child: CustomPaint(
+                          //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                          painter: PartialPainter(
+                            radius: 0,
+                            strokeWidth: 2,
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment(-0.2, -0.4),
+                              stops: [0.0, 0.4],
+                              colors: [
+                                Colors.orangeAccent,
+                                Colors.deepOrangeAccent,
+                              ],
+                            ),
+                          ),
+
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  'Title',
+                                  style: Theme.of(context).textTheme.headline3,
+                                ),
+                                Container(
+                                  child: SingleChildScrollView(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: null,
+                                      controller: textController1,
+                                      obscureText: false,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                      decoration: const InputDecoration(
+                                        hintMaxLines: 5,
+                                        hintText:
+                                            'Can you describe what happened in a few words?',
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                      ),
+                                      // style: FlutterFlowTheme.bodyText1,
+                                      validator: (val) {
+                                        if (val != null) {
+                                          return 'Field is required';
+                                        }
+
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                      ),
+                      ImagePickerForStories(imagePickFn: _pickedImage),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    child: CustomPaint(
+                      //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                      painter: PartialPainter(
+                        radius: 0,
+                        strokeWidth: 2,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment(-0.2, -0.4),
+                          stops: [0.0, 0.4],
+                          colors: [
+                            Colors.orangeAccent,
+                            Colors.deepOrangeAccent,
+                          ],
+                        ),
+                      ),
 
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                'Title',
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              child: Container(
+                                child: Text(
+                                  'Which area of your life was this event concerning?',
+                                  style: Theme.of(context).textTheme.headline3,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: MultiSelectChipForTags(
+                                onSelectionChanged: (selectedList) {
+                                  setState(() {
+                                    //add all selected moods to the list
+                                    listOfSelectedTags = [...selectedList];
+                                  });
+                                },
+                                selectedChoices: listOfSelectedTags,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: CustomPaint(
+                      //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                      painter: PartialPainter(
+                        radius: 0,
+                        strokeWidth: 2,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment(-0.2, -0.4),
+                          stops: [0.0, 0.4],
+                          colors: [
+                            Colors.orangeAccent,
+                            Colors.deepOrangeAccent,
+                          ],
+                        ),
+                      ),
+
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional(-1, 0),
+                              child: Text(
+                                'What happened?',
                                 style: Theme.of(context).textTheme.headline3,
                               ),
-                              Container(
-                                child: SingleChildScrollView(
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    controller: textController1,
-                                    obscureText: false,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2,
-                                    decoration: const InputDecoration(
-                                      hintMaxLines: 5,
-                                      hintText:
-                                          'Can you describe what happened in a few words?',
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                    ),
-                                    // style: FlutterFlowTheme.bodyText1,
-                                    validator: (val) {
-                                      if (val != null) {
-                                        return 'Field is required';
-                                      }
-
-                                      return null;
-                                    },
+                            ),
+                            TextFormField(
+                              controller: textController2,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              style: Theme.of(context).textTheme.subtitle2,
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                hintMaxLines: 5,
+                                hintText:
+                                    'Had an issue at work? Got in a fight? Spilled coffee on your notes? Or maybe you won a lottery ticket...? \n'
+                                        'Write here how your day has been!',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                              //  style: FlutterFlowTheme.bodyText1,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    ImagePickerForStories(imagePickFn: _pickedImage),
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: CustomPaint(
-                    //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                    painter: PartialPainter(
-                      radius: 0,
-                      strokeWidth: 2,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment(-0.2, -0.4),
-                        stops: [0.0, 0.4],
-                        colors: [
-                          Colors.orangeAccent,
-                          Colors.deepOrangeAccent,
-                        ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 30),
+                    child: CustomPaint(
+                      //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                      painter: PartialPainter(
+                        radius: 0,
+                        strokeWidth: 2,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment(-0.2, -0.4),
+                          stops: [0.0, 0.4],
+                          colors: [
+                            Colors.orangeAccent,
+                            Colors.deepOrangeAccent,
+                          ],
+                        ),
                       ),
-                    ),
 
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Container(
-                            child: Container(
-                              child: Text(
-                                'Which area of your life was this event concerning?',
-                                style: Theme.of(context).textTheme.headline3,
+                      child: GFAccordion(
+                        margin: EdgeInsets.all(0),
+                        textStyle: TextStyle(
+                            fontSize:
+                                Theme.of(context).textTheme.headline3!.fontSize),
+                        contentBackgroundColor: Colors.transparent,
+                        expandedTitleBackgroundColor: Colors.transparent,
+                        collapsedTitleBackgroundColor: Colors.transparent,
+                        title: 'How did that make you feel?',
+                        contentChild: Column(
+                          children: [
+                            SizedBox(height: 10,),
+                          CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.red,
+                                    Colors.redAccent,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Angry',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: angrySelection),),
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: MultiSelectChipForTags(
-                              onSelectionChanged: (selectedList) {
-                                setState(() {
-                                  //add all selected moods to the list
-                                  listOfSelectedTags = [...selectedList];
-                                });
-                              },
-                              selectedChoices: listOfSelectedTags,
+
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.deepOrange,
+                                    Colors.deepOrange,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Scared',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: scaredSelection),),
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.orange,
+                                    Colors.deepOrangeAccent,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Surprised',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: surpriseSelection),),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.orangeAccent,
+                                    Colors.yellow,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Powerful',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: powerfulSelection),),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.green,
+                                    Colors.lightGreenAccent,
+
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Happy',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: happySelection),),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.teal,
+                                    Colors.tealAccent,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Peaceful',
+
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: peacefulSelection),
+
+                      ),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.blue,
+                                    Colors.blueAccent,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Sad',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: sadSelection),),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            CustomPaint(
+                              //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                              painter: PartialPainterSmall(
+                                radius: 0,
+                                strokeWidth: 2,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment(-0.2, -0.4),
+                                  stops: [0.0, 0.4],
+                                  colors: [
+                                    Colors.deepPurple,
+                                    Colors.deepPurpleAccent,
+                                  ],
+                                ),
+                              ),
+
+                              child: GFAccordion(
+
+                                margin: EdgeInsets.all(0),
+                                textStyle: TextStyle(
+                                    fontSize:
+                                    Theme.of(context).textTheme.headline3!.fontSize),
+                                contentBackgroundColor: Colors.transparent,
+                                expandedTitleBackgroundColor: Colors.transparent,
+                                collapsedTitleBackgroundColor: Colors.transparent,
+                                title: 'Disgusted',
+                                contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: disgustedSelection),
+
+
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+
+
+
+                          ],
+                        )
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  child: CustomPaint(
-                    //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                    painter: PartialPainter(
-                      radius: 0,
-                      strokeWidth: 2,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment(-0.2, -0.4),
-                        stops: [0.0, 0.4],
-                        colors: [
-                          Colors.orangeAccent,
-                          Colors.deepOrangeAccent,
-                        ],
-                      ),
-                    ),
-
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Align(
-                            alignment: AlignmentDirectional(-1, 0),
-                            child: Text(
-                              'What happened?',
-                              style: Theme.of(context).textTheme.headline3,
-                            ),
-                          ),
-                          TextFormField(
-                            controller: textController2,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            style: Theme.of(context).textTheme.subtitle2,
-                            obscureText: false,
-                            decoration: const InputDecoration(
-                              hintMaxLines: 5,
-                              hintText:
-                                  'Had an issue at work? Got in a fight? Spilled coffee on your notes? Or maybe you won a lottery ticket...? \n'
-                                      'Write here how your day has been!',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                            ),
-                            //  style: FlutterFlowTheme.bodyText1,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 30),
-                  child: CustomPaint(
-                    //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                    painter: PartialPainter(
-                      radius: 0,
-                      strokeWidth: 2,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment(-0.2, -0.4),
-                        stops: [0.0, 0.4],
-                        colors: [
-                          Colors.orangeAccent,
-                          Colors.deepOrangeAccent,
-                        ],
-                      ),
-                    ),
-
-                    child: GFAccordion(
-                      margin: EdgeInsets.all(0),
-                      textStyle: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.headline3!.fontSize),
-                      contentBackgroundColor: Colors.transparent,
-                      expandedTitleBackgroundColor: Colors.transparent,
-                      collapsedTitleBackgroundColor: Colors.transparent,
-                      title: 'How did that make you feel?',
-                      contentChild: Column(
-                        children: [
-                          SizedBox(height: 10,),
-                        CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.red,
-                                  Colors.redAccent,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Angry',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: angrySelection),),
-                            ),
-                          ),
-
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.deepOrange,
-                                  Colors.deepOrange,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Scared',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: scaredSelection),),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.orange,
-                                  Colors.deepOrangeAccent,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Surprised',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: surpriseSelection),),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.orangeAccent,
-                                  Colors.yellow,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Powerful',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: powerfulSelection),),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.green,
-                                  Colors.lightGreenAccent,
-
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Happy',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: happySelection),),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.teal,
-                                  Colors.tealAccent,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Peaceful',
-
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: peacefulSelection),
-
-                    ),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.blue,
-                                  Colors.blueAccent,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Sad',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: sadSelection),),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          CustomPaint(
-                            //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                            painter: PartialPainterSmall(
-                              radius: 0,
-                              strokeWidth: 2,
-                              gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(-0.2, -0.4),
-                                stops: [0.0, 0.4],
-                                colors: [
-                                  Colors.deepPurple,
-                                  Colors.deepPurpleAccent,
-                                ],
-                              ),
-                            ),
-
-                            child: GFAccordion(
-
-                              margin: EdgeInsets.all(0),
-                              textStyle: TextStyle(
-                                  fontSize:
-                                  Theme.of(context).textTheme.headline3!.fontSize),
-                              contentBackgroundColor: Colors.transparent,
-                              expandedTitleBackgroundColor: Colors.transparent,
-                              collapsedTitleBackgroundColor: Colors.transparent,
-                              title: 'Disgusted',
-                              contentChild:   Container(child: WidgetForMoodDisplayInnerInStories(newMood: disgustedSelection),
-
-
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-
-
-
-                        ],
-                      )
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

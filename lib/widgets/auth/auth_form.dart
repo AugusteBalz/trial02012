@@ -139,7 +139,7 @@ class _AuthFormState extends State<AuthForm> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               if (!_isLogin)
-                                ImagePickerForUserProfile(_pickedImage),
+                                ImagePickerForUserProfile(_pickedImage, _userImageFile),
                               SizedBox(
                                 height: 30,
                               ),
