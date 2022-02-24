@@ -265,6 +265,10 @@ List<String> selectedDisplayMoods = [];
 List<String> selectedChoicesAll = [];
 List<String> moodSelection = [];
 
+List<String> moodSelectionForStories = [];
+
+
+
 Map< DateTime,List<OneMood>> mapOfMonths = {};
 
 final List<MoodEntry> moodEntryList2 = [];

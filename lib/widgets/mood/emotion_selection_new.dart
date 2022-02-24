@@ -29,22 +29,51 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
   PageController _controller1 = PageController(initialPage: 4242);
   PageController _controller2 = PageController(initialPage: 4242);
 
-
   var currentPageValue = 0.0;
-
 
   //for displaying colours and name of primary emotion
   final List<dynamic> displayWidgets = [
-    WidgetForMoodDisplay(newMood: angrySelection, colorToLeft: awfulAndAngry, colorToRight: angryAndScared,),
-    WidgetForMoodDisplay(newMood: scaredSelection,colorToLeft: angryAndScared, colorToRight: scaredAndSurprised,),
-    WidgetForMoodDisplay(newMood: surpriseSelection,colorToLeft: scaredAndSurprised, colorToRight: surprisedAndPowerful,),
-    WidgetForMoodDisplay(newMood: powerfulSelection,colorToLeft: surprisedAndPowerful, colorToRight: powerfulAndHappy,),
-    Container(
-      child: WidgetForMoodDisplay(newMood: happySelection,colorToLeft: powerfulAndHappy, colorToRight: happyAndPeaceful,),
+    WidgetForMoodDisplay(
+      newMood: angrySelection,
+      colorToLeft: awfulAndAngry,
+      colorToRight: angryAndScared,
     ),
-    WidgetForMoodDisplay(newMood: peacefulSelection,colorToLeft: happyAndPeaceful, colorToRight: peacefulAndSad,),
-    WidgetForMoodDisplay(newMood: sadSelection,colorToLeft: peacefulAndSad, colorToRight: sadAndAwful,),
-    WidgetForMoodDisplay(newMood: disgustedSelection,colorToLeft: sadAndAwful, colorToRight: awfulAndAngry),
+    WidgetForMoodDisplay(
+      newMood: scaredSelection,
+      colorToLeft: angryAndScared,
+      colorToRight: scaredAndSurprised,
+    ),
+    WidgetForMoodDisplay(
+      newMood: surpriseSelection,
+      colorToLeft: scaredAndSurprised,
+      colorToRight: surprisedAndPowerful,
+    ),
+    WidgetForMoodDisplay(
+      newMood: powerfulSelection,
+      colorToLeft: surprisedAndPowerful,
+      colorToRight: powerfulAndHappy,
+    ),
+    Container(
+      child: WidgetForMoodDisplay(
+        newMood: happySelection,
+        colorToLeft: powerfulAndHappy,
+        colorToRight: happyAndPeaceful,
+      ),
+    ),
+    WidgetForMoodDisplay(
+      newMood: peacefulSelection,
+      colorToLeft: happyAndPeaceful,
+      colorToRight: peacefulAndSad,
+    ),
+    WidgetForMoodDisplay(
+      newMood: sadSelection,
+      colorToLeft: peacefulAndSad,
+      colorToRight: sadAndAwful,
+    ),
+    WidgetForMoodDisplay(
+        newMood: disgustedSelection,
+        colorToLeft: sadAndAwful,
+        colorToRight: awfulAndAngry),
   ];
 
   //for displaying secondary emotion widgets
@@ -64,7 +93,6 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
   double? currentPage = 0;
 
-
   void _addNewMoodEntry() {
     //default blueprint
 
@@ -72,8 +100,8 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
     final MoodEntry newEntry =
 
-    // ids calculated dynamically
-    MoodEntry(id: new Uuid().v1(), dateTime: DateTime.now(), eachMood: []);
+        // ids calculated dynamically
+        MoodEntry(id: new Uuid().v1(), dateTime: DateTime.now(), eachMood: []);
 
     oneEntry = newEntry;
 
@@ -94,12 +122,11 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
-    _controller1 = PageController( initialPage: 4242);
-    _controller2 = PageController( initialPage: 4242);
+    _controller1 = PageController(initialPage: 4242);
+    _controller2 = PageController(initialPage: 4242);
 
     _controller2.addListener(() {
       _controller1.jumpTo(_controller2.offset);
@@ -143,10 +170,9 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
                         builder: (BuildContext context) =>
                             _buildPopupDialog(context),
                       );
-                    } else  {
+                    } else {
                       //if a person presses "Next", he goes to the next screen to rate the strength of his/her emotions
                       await Navigator.pushNamed(context, "/logmood3");
-
 
                       //TODO: I want this part to re-load when new emotion is added
                       GraphScreen();
@@ -161,81 +187,58 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
                 )),
           ],
         ),
-      body: Stack(
-        
-        children: [GestureDetector(
-          child: PageView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _controller1,
-
-
-            itemBuilder: (context, index) {
-              final index2 = index - 4242+ indexOfBigEmotion;
-              return
-                displayWidgets[index2 % (displayWidgets.length)];
-
-              },
-
-          ),
-        ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Transform.scale(
-              scale:1.8,
-              child: Container(
-                height: 400,
-                decoration: BoxDecoration(
-                    color: (Theme.of(context).brightness == Brightness.light) ? Colors.white : Colors.black87,
-                    borderRadius: BorderRadius.circular(200)),
+        body: Stack(
+          children: [
+            GestureDetector(
+              child: PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _controller1,
+                itemBuilder: (context, index) {
+                  final index2 = index - 4242 + indexOfBigEmotion;
+                  return displayWidgets[index2 % (displayWidgets.length)];
+                },
               ),
             ),
-          ),
-          Column(
-            children: [
-              SizedBox(),
-
-              Expanded(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Transform.scale(
+                scale: 1.8,
                 child: Container(
-                  //margin: EdgeInsets.all(30),
-                  child: GestureDetector(
-                    child: PageView.builder(
+                  height: 400,
+                  decoration: BoxDecoration(
+                      color: (Theme.of(context).brightness == Brightness.light)
+                          ? Colors.white
+                          : Colors.black87,
+                      borderRadius: BorderRadius.circular(200)),
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                SizedBox(),
+                Expanded(
+                  child: Container(
+                    //margin: EdgeInsets.all(30),
+                    child: GestureDetector(
+                      child: PageView.builder(
                         controller: _controller2,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          final index2 = index - 4242+ indexOfBigEmotion;
+                          final index2 = index - 4242 + indexOfBigEmotion;
 
-                          return
-                            displayInnerWidgets[index2 % (displayInnerWidgets.length)];
-
-
-
-
-
-
-
-
-                        }
-
-
-
-
-
-
-
-
+                          return displayInnerWidgets[
+                              index2 % (displayInnerWidgets.length)];
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      )
-    );
+              ],
+            ),
+          ],
+        ));
   }
 }
-
-
 
 Widget _buildPopupDialog(BuildContext context) {
   return AlertDialog(
