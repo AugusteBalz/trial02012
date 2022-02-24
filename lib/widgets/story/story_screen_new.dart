@@ -133,7 +133,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
-    print('refreshing4');
+
   }
 
   Widget _previewImages() {
@@ -192,21 +192,30 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                 padding: const EdgeInsets.only(right: 20.0, top: 15),
                 child: GestureDetector(
                   onTap: () async {
-                    //_addNewMoodEntry();
-
-                    print(moodSelectionForStories);
 
 
                     //TODO: fix here
-                    if (textController1.toString().isEmpty) {
+                    if (textController1.text.isEmpty) {
                       //display a pop up saying "please add at least one emotion!
 
                       showDialog(
                         context: context,
                         builder: (BuildContext context) =>
-                            _buildPopupDialog(context),
+                            _buildPopupDialog(context, 'No title', 'Please write a short title, this way it will be easier for you to find it later!'),
                       );
-                    } else {
+                    }
+
+                    if (textController2.text.isEmpty) {
+                      //display a pop up saying "please add at least one emotion!
+
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context, 'No story', 'Hmm, didn\'t you really write a story? If you would like to log just a mood, you can do it via "Mood Logging" on the main screen:)'),
+                      );
+                    }
+
+                    else {
                       //if a person presses "Next", he goes to the next screen to rate the strength of his/her emotions
 
                       addAStory();
@@ -402,7 +411,8 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                             decoration: const InputDecoration(
                               hintMaxLines: 5,
                               hintText:
-                                  'Had an issue at work? Got in a fight? Spilled coffee on your notes? Something else...',
+                                  'Had an issue at work? Got in a fight? Spilled coffee on your notes? Or maybe you won a lottery ticket...? \n'
+                                      'Write here how your day has been!',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
@@ -726,15 +736,14 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
   }
 }
 
-Widget _buildPopupDialog(BuildContext context) {
+Widget _buildPopupDialog(BuildContext context, String alertTitle, String message) {
   return AlertDialog(
-    title: const Text('Hi there!'),
+    title: Text(alertTitle),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const <Widget>[
-        Text(
-            "It seems like you haven't selected any emotions... Please select at least one:)"),
+      children:  <Widget>[
+        Text(message),
       ],
     ),
     actions: <Widget>[

@@ -200,19 +200,17 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
                               ],
                             ),
                           ),
-                          Column(
+                          Wrap(
                             //map the list of moods to the widgets
                             //"for each moodlog "md" draw a widget"
 
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: group.map((md) {
-                              //previous output:
-                              // "SecondaryMood.angry_jealous"
-                              //this leaves it just with "jealous"
 
                               String newMoodP = md['moodPrimary'];
                               String newMoodS = md['moodSecondary'];
 
-                              int subStrenght = md['strength'];
 
                               PrimaryMoods newMood = primaryMoodToString
                                   .keys
@@ -249,65 +247,27 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
                                   vertical: 10,
                                   horizontal: 15,
                                 ),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 1, horizontal: 10),
+
                                 child: Column(
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          //primary mood
-                                          Text(
-                                            newMoodP,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .copyWith(
-                                              fontWeight:
-                                              FontWeight.bold,
-                                              color: myColor,
-                                            ),
-                                          ),
-
-                                          //the date
-                                        ],
+                                    Text(
+                                      newMoodP,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .copyWith(
+                                        fontWeight:
+                                        FontWeight.bold,
+                                        color: myColor,
                                       ),
                                     ),
-                                    Container(
-                                      padding:
-                                      const EdgeInsets.symmetric(
-                                          vertical: 8,
-                                          horizontal: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          //secondary mood
-                                          Text(
-                                            newMoodS,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2,
-                                          ),
-
-                                          //its strenght
-                                          Text(
-                                            subStrenght.toString(),
-                                            style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.bold,
-                                                fontSize: 25,
-                                                color: myColor),
-                                          ),
-                                        ],
-                                      ),
+                                    Text(
+                                      newMoodS,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle2,
                                     ),
                                   ],
                                 ),
