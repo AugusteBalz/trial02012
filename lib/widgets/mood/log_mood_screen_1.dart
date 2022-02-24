@@ -4,7 +4,7 @@ import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/primary_emotions_blueprint.dart';
 import 'package:trial0201/widgets/mood/circle_display.dart';
-import 'package:trial0201/widgets/widget_for_primary_emotion_display.dart';
+
 
 
 //TODO: add a colour wheel to select emotions

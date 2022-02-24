@@ -8,9 +8,12 @@ List<String> selectedChoices = [];
 
 class WidgetForMoodDisplay extends StatelessWidget {
   final MoodSelect newMood;
+  final Color colorToLeft;
+  final Color colorToRight;
 
 
-  const WidgetForMoodDisplay({Key? key, required this.newMood})
+
+  const WidgetForMoodDisplay({Key? key, required this.newMood, required this.colorToLeft, required this.colorToRight })
       : super(key: key);
 
   @override
@@ -19,7 +22,21 @@ class WidgetForMoodDisplay extends StatelessWidget {
 
 
     return Container(
-      color: newMood.color,
+      decoration:  BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.bottomRight,
+            stops: [
+              0.05,
+              0.5,
+              0.95,
+            ],
+            colors: [
+              colorToLeft,
+              newMood.color,
+              colorToRight,
+            ],
+          )),
 
       child: Stack(children: [
 

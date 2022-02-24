@@ -11,13 +11,31 @@ import 'package:flutter/material.dart';
 
 Color angryMoodColor = const Color(0xFFFA0019);
 Color scaredMoodColor = const Color(0xFFF2460C);
-Color loveMoodColor = const Color(0xFFF5799C);
-Color sadMoodColor = const Color(0xFF0071FF);
-Color happyMoodColor = const Color(0xFF25A900);
+
 Color surprisedMoodColor = const Color(0xFFF2B70C);
 Color powerfulMoodColor = const Color(0xFFE8DA0C);
-Color disgustedMoodColor = const Color(0xFF7700FF);
+//Color loveMoodColor = const Color(0xFFF5799C);
+
+Color happyMoodColor = const Color(0xFF25A900);
 Color peacefulMoodColor = const Color(0xFF008D5F);
+Color sadMoodColor = const Color(0xFF0071FF);
+Color disgustedMoodColor = const Color(0xFF7700FF);
+
+
+
+
+//middle colors
+
+Color angryAndScared = const Color(0xFFF62313);
+Color scaredAndSurprised = const Color(0xFFF27F0C);
+Color surprisedAndPowerful = const Color(0xFFEDC90C);
+Color powerfulAndHappy = const Color(0xFF87C206);
+Color happyAndPeaceful = const Color(0xFF139B30);
+Color peacefulAndSad = const Color(0xFF007FAF);
+Color sadAndAwful = const Color(0xFF3C39FF);
+Color awfulAndAngry =  const  Color(0xFF790360);
+
+
 
 
 

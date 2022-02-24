@@ -14,6 +14,8 @@ import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/screens/graphs.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:trial0201/globals/mood/colors_of_mood.dart';
+
 import 'package:trial0201/widgets/widget_for_mood_display.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
@@ -33,16 +35,16 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
   //for displaying colours and name of primary emotion
   final List<dynamic> displayWidgets = [
-    WidgetForMoodDisplay(newMood: angrySelection),
-    WidgetForMoodDisplay(newMood: scaredSelection),
-    WidgetForMoodDisplay(newMood: surpriseSelection),
-    WidgetForMoodDisplay(newMood: powerfulSelection),
+    WidgetForMoodDisplay(newMood: angrySelection, colorToLeft: awfulAndAngry, colorToRight: angryAndScared,),
+    WidgetForMoodDisplay(newMood: scaredSelection,colorToLeft: angryAndScared, colorToRight: scaredAndSurprised,),
+    WidgetForMoodDisplay(newMood: surpriseSelection,colorToLeft: scaredAndSurprised, colorToRight: surprisedAndPowerful,),
+    WidgetForMoodDisplay(newMood: powerfulSelection,colorToLeft: surprisedAndPowerful, colorToRight: powerfulAndHappy,),
     Container(
-      child: WidgetForMoodDisplay(newMood: happySelection),
+      child: WidgetForMoodDisplay(newMood: happySelection,colorToLeft: powerfulAndHappy, colorToRight: happyAndPeaceful,),
     ),
-    WidgetForMoodDisplay(newMood: peacefulSelection),
-    WidgetForMoodDisplay(newMood: sadSelection),
-    WidgetForMoodDisplay(newMood: disgustedSelection),
+    WidgetForMoodDisplay(newMood: peacefulSelection,colorToLeft: happyAndPeaceful, colorToRight: peacefulAndSad,),
+    WidgetForMoodDisplay(newMood: sadSelection,colorToLeft: peacefulAndSad, colorToRight: sadAndAwful,),
+    WidgetForMoodDisplay(newMood: disgustedSelection,colorToLeft: sadAndAwful, colorToRight: awfulAndAngry),
   ];
 
   //for displaying secondary emotion widgets
@@ -96,8 +98,8 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
   @override
   void initState() {
     super.initState();
-    _controller1 = PageController(viewportFraction: 0.9, initialPage: 4242);
-    _controller2 = PageController(viewportFraction: 0.9, initialPage: 4242);
+    _controller1 = PageController( initialPage: 4242);
+    _controller2 = PageController( initialPage: 4242);
 
     _controller2.addListener(() {
       _controller1.jumpTo(_controller2.offset);
