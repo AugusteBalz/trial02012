@@ -5,6 +5,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,10 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/defaults.dart';
 
-
-
 String userPhoto = '';
 String userPhoto2 = 'assets/images/storyimage1.jpg';
+
+List<dynamic> images = [];
+List<String> _listImages = [
+  "assets/images/default_images_for_profiles/autumn_bunny.png",
+  'assets/images/default_images_for_profiles/autumn_deer.png',
+];
 
 /*
 Future<void> getThePic() async {
@@ -39,10 +44,6 @@ Future<void> getThePic() async {
 
 */
 class ImagePickerForStories extends StatefulWidget {
-
-
-
-
   ImagePickerForStories({required this.imagePickFn});
 
   final void Function(File pickedImage) imagePickFn;
@@ -57,13 +58,9 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   dynamic _pickImageError;
 
-
-
   String? _retrieveDataError;
 
   final ImagePicker _picker = ImagePicker();
-
-
 
   void _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
@@ -72,34 +69,27 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
         source: source,
         imageQuality: 50,
         maxHeight: 450,
-
       );
       setState(() {
         _imageFile = pickedFile;
-        mainProfilePic = (pickedFile!= null) ? File(pickedFile.path): mainProfilePic;
+        mainProfilePic =
+            (pickedFile != null) ? File(pickedFile.path) : mainProfilePic;
       });
       widget.imagePickFn(File(_imageFile!.path));
-
-
     } catch (e) {
       setState(() {
         _pickImageError = e;
       });
     }
-
   }
 
   @override
   void deactivate() {
-
     super.deactivate();
   }
 
-
-
   Widget _previewImages() {
-
-   // getThePic();
+    // getThePic();
 
     final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -125,10 +115,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
   }
 
   Widget _handlePreview() {
-
-
     return _previewImages();
-
   }
 
   Future<void> retrieveLostData() async {
@@ -137,12 +124,10 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
       return;
     }
     if (response.file != null) {
-
       setState(() {
         _imageFile = response.file;
         // _imageFileList = response.files;
       });
-
     } else {
       _retrieveDataError = response.exception!.code;
     }
@@ -150,56 +135,85 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
-
       height: 100,
       width: 100,
       // padding: EdgeInsets.all(8), // Border width
       decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
       child: Stack(
-        children:[Center(
-            child: ClipOval(
-
-              child: SizedBox.fromSize(
-                size: Size.fromRadius(180),
-                child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-                    ? FutureBuilder<void>(
-                  future: retrieveLostData(),
-                  builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return const Image(image: AssetImage('storyimage1.jpg'), fit: BoxFit.cover);
-                      case ConnectionState.done:
-                        return _handlePreview();
-                      default:
-                        if (snapshot.hasError) {
-                          return Text(
-                            'Pick image/video error: ${snapshot.error}}',
-                            textAlign: TextAlign.center,
-                          );
-                        } else {
-                          return FindTheRightPicture();
+        children: [
+          Center(
+              child: ClipOval(
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(180),
+              child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+                  ? FutureBuilder<void>(
+                      future: retrieveLostData(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<void> snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                          case ConnectionState.waiting:
+                            return const Image(
+                                image: AssetImage('storyimage1.jpg'),
+                                fit: BoxFit.cover);
+                          case ConnectionState.done:
+                            return _handlePreview();
+                          default:
+                            if (snapshot.hasError) {
+                              return Text(
+                                'Pick image/video error: ${snapshot.error}}',
+                                textAlign: TextAlign.center,
+                              );
+                            } else {
+                              return FindTheRightPicture();
+                            }
                         }
-                    }
-                  },
-                )
-                    : _handlePreview(),
-              ),
-            )
-        ),
+                      },
+                    )
+                  : _handlePreview(),
+            ),
+          )),
+         /*
+         //TODO: this is a selection from camera
           Align(
-              alignment: Alignment.bottomRight
-              ,child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.white,
-            child: IconButton(onPressed: (){
+            alignment: Alignment.bottomRight,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                  onPressed: () {
+                    _onImageButtonPressed(ImageSource.gallery,
+                        context: context);
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.black,
+                  )),
+            ),
+          ),
+          */
+          Align(
+            alignment: Alignment.bottomRight,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildPopupDialog(context, ),
+                    );
 
-              _onImageButtonPressed(ImageSource.gallery, context: context);
-            }, icon: Icon(Icons.add_a_photo_outlined, color: Colors.black,)),
-          ))],
+                  },
+                  icon: Icon(
+                    Icons.photo_size_select_actual_outlined,
+                    color: Colors.black,
+                  )),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -212,12 +226,10 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
     }
     return null;
   }
-
 }
 
 typedef void OnPickImageCallback(
     double? maxWidth, double? maxHeight, int? quality);
-
 
 class FindTheRightPicture extends StatefulWidget {
   const FindTheRightPicture({Key? key}) : super(key: key);
@@ -227,24 +239,99 @@ class FindTheRightPicture extends StatefulWidget {
 }
 
 class _FindTheRightPictureState extends State<FindTheRightPicture> {
-
-
-
   @override
   Widget build(BuildContext context) {
-   // getThePic();
+    // getThePic();
 
     if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
-
       print('object');
       return Image(image: AssetImage(userPhoto2));
-
     }
 
-
-    return Image.network(userPhoto,  fit: BoxFit.cover,);
+    return Image.network(
+      userPhoto,
+      fit: BoxFit.cover,
+    );
     //Image(image:  Image.network((userPhoto)));
-
   }
 }
+
+
+Widget _buildPopupDialog(BuildContext context) {
+
+
+ // getDeffaultImages(context);
+
+  return AlertDialog(
+    title: Text('ha'),
+    content: Container(
+      height: 100,
+      width: 100,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:  <Widget>[
+
+           GridView.builder(
+             shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20),
+                itemCount: _listImages.length,
+                itemBuilder: (BuildContext ctx, index) {
+                  return Container(
+                    height: 10,
+
+                    alignment: Alignment.center,
+                    child:
+                    CircleAvatar(
+                      backgroundImage: AssetImage(_listImages[index]),),
+
+
+                    decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(15)),
+                  );
+                }),
+
+          //  getTextWidgets(context, ['1','5','33']),
+          ],
+        ),
+      ),
+    ),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Text('Okay!'),
+      ),
+    ],
+  );
+}
+
+void getDeffaultImages(BuildContext context ) {
+
+  final manifestJson = DefaultAssetBundle.of(context).loadString('AssetManifest.json').toString();
+  print(manifestJson);
+//  List<String> received = json.decode(manifestJson).keys;
+ //Map<int, String> received2 = received.asMap();
+print(images);
+
+ // images
+}
+
+Widget getTextWidgets(BuildContext context, List<String> strings)
+{
+  getDeffaultImages(context);
+  List<Widget> list = [];
+  for(var i = 0; i < strings.length; i++){
+    list.add(new Text(strings[i]));
+  }
+  return new Row(children: list);
+}
+
 
