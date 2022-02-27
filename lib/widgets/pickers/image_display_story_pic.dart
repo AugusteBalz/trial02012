@@ -48,7 +48,7 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
     if (widget.url == null){
       print('url is empty');
-    return  Image(image: AssetImage('assets/images/storyimage1.jpg'), fit: BoxFit.cover);
+    return  Image(image: AssetImage('assets/images/stories/storyimage1.jpg'), fit: BoxFit.cover);
     }
     return Image.network(widget.url, fit: BoxFit.cover,);
   }

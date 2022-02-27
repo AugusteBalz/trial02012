@@ -43,9 +43,12 @@ class _AppSettingsState extends State<AppSettings> {
 
     setState(() {
 
-      ImagePickerForUserProfile(_pickedImage, userPhoto);
+
       userName = ref['username'];
       userPhoto = ref['image_url'];
+      print('here');
+      print(userPhoto);
+      ImagePickerForUserProfile(_pickedImage, userPhoto);
 
     });
   }

@@ -109,7 +109,7 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const FindTheRightPicture();
+      return  FindTheRightPicture();
     }
   }
 
@@ -247,9 +247,11 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
   Widget build(BuildContext context) {
     getThePic();
 
+    print(userPhoto);
     if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
 
       print('object');
+      print(userPhoto);
       return Image(image: AssetImage(userPhoto2));
 
     }

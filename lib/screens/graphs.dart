@@ -120,7 +120,7 @@ class _GraphScreenState extends State<GraphScreen> {
           margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           padding: EdgeInsets.all(10),
           child: Column(
-        children: const [
+        children: [
 
           PieChartSample3(),
           SizedBox(height: 30,),

@@ -145,7 +145,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
       return retrieveError;
     }
     if (_storyImageFile != null &&
-        _storyImageFile!.path != 'assets/images/storyimage1.jpg') {
+        _storyImageFile!.path != 'assets/images/stories/storyimage1.jpg') {
       return Semantics(
           child: Semantics(
             label: 'image_picker_example_picked_image',
@@ -159,7 +159,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const Image(image: AssetImage('assets/images/storyimage1.jpg'));
+      return const Image(image: AssetImage('assets/images/stories/storyimage1.jpg'));
     }
   }
 

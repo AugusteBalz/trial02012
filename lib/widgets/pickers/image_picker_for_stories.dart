@@ -16,24 +16,82 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/defaults.dart';
 
 String userPhoto = '';
-String userPhoto2 = 'assets/images/storyimage1.jpg';
+String userPhoto2 = 'assets/images/stories/storyimage1.jpg';
 
 List<dynamic> images = [];
-List<String> _listImages = [
-  "assets/images/default_images_for_profiles/autumn_bunny.png",
-  'assets/images/default_images_for_profiles/autumn_deer.png',
+List<String> _listImagesProfiles = [
+  'assets/images/profiles/autumn_bunny.png',
+  'assets/images/profiles/autumn_deer.png',
+  'assets/images/profiles/autumn_hegdehog.png',
+  'assets/images/profiles/autumn_racoon.png',
+  'assets/images/profiles/autumn_squirrel.png',
+  'assets/images/profiles/round_animal_1.png',
+  'assets/images/profiles/round_animal_2.png',
+  'assets/images/profiles/round_animal_3.png',
+  'assets/images/profiles/round_animal_4.png',
+  'assets/images/profiles/round_animal_5.png',
+  'assets/images/profiles/round_animal_6.png',
+  'assets/images/profiles/round_animal_7.png',
+  'assets/images/profiles/round_animal_8.png',
+  'assets/images/profiles/round_animal_9.png',
+  'assets/images/profiles/winter_1.png',
+  'assets/images/profiles/winter_2.png',
+  'assets/images/profiles/winter_3.png',
+  'assets/images/profiles/winter_4.png',
+  'assets/images/profiles/winter_5.png',
+  'assets/images/profiles/winter_6.png',
+  'assets/images/profiles/fish_1.png',
+  'assets/images/profiles/fish_2.png',
+  'assets/images/profiles/fish_3.png',
+  'assets/images/profiles/fish_4.png',
+  'assets/images/profiles/fish_5.png',
+  'assets/images/profiles/fish_6.png',
+  'assets/images/profiles/fish_7.png',
+  'assets/images/profiles/fish_8.png',
+  'assets/images/profiles/fish_9.png',
+  'assets/images/profiles/monster_1.png',
+  'assets/images/profiles/monster_2.png',
+  'assets/images/profiles/monster_3.png',
+  'assets/images/profiles/monster_4.png',
+  'assets/images/profiles/monster_5.png',
+  'assets/images/profiles/monster_6.png',
 ];
 
-/*
+List<String> _listImagesStories = [
+  'assets/images/stories/595.jpg',
+  'assets/images/stories/129.jpg',
+  'assets/images/stories/rain_1.png',
+  'assets/images/stories/2902348.jpg',
+  'assets/images/stories/storyimage1.jpg',
+  'assets/images/stories/hands.jpg',
+  'assets/images/stories/abstract_1.png',
+  'assets/images/stories/abstract_2.png',
+  'assets/images/stories/abstract_3.png',
+  'assets/images/stories/abstract_4.png',
+  'assets/images/stories/girl.jpg',
+  'assets/images/stories/sunset.jpg',
+  'assets/images/stories/weather_1.png',
+  'assets/images/stories/weather_2.png',
+  'assets/images/stories/weather_3.png',
+  'assets/images/stories/weather_4.png',
+  'assets/images/stories/weather_5.png',
+  'assets/images/stories/weather_6.png',
+  'assets/images/stories/weather_7.png',
+  'assets/images/stories/weather_8.png',
+  'assets/images/stories/weather_9.png',
+  'assets/images/stories/weather_10.png',
+  'assets/images/stories/lights.jpg',
+];
+
 Future<void> getThePic() async {
-
-
-  if (FirebaseAuth.instance.currentUser == null){
+  if (FirebaseAuth.instance.currentUser == null) {
     return;
   }
 
-  var ref = await  FirebaseFirestore.instance
-      .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+  var ref = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
 
   userPhoto = ref['image_url'];
   print(userPhoto);
@@ -42,7 +100,6 @@ Future<void> getThePic() async {
   //setState((){});
 }
 
-*/
 class ImagePickerForStories extends StatefulWidget {
   ImagePickerForStories({required this.imagePickFn});
 
@@ -174,8 +231,9 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                   : _handlePreview(),
             ),
           )),
-         /*
-         //TODO: this is a selection from camera
+
+          //TODO: this is a selection from camera
+          /*
           Align(
             alignment: Alignment.bottomRight,
             child: CircleAvatar(
@@ -192,20 +250,22 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                   )),
             ),
           ),
-          */
+        */
+
           Align(
             alignment: Alignment.bottomRight,
             child: CircleAvatar(
               radius: 20,
               backgroundColor: Colors.white,
               child: IconButton(
-                  onPressed: () {
-                    showDialog(
+                  onPressed: () async {
+                    final ww = await showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context, ),
+                      builder: (BuildContext context) => _buildPopupDialog(
+                        context,
+                      ),
                     );
-
+                    setState(() {});
                   },
                   icon: Icon(
                     Icons.photo_size_select_actual_outlined,
@@ -239,99 +299,95 @@ class FindTheRightPicture extends StatefulWidget {
 }
 
 class _FindTheRightPictureState extends State<FindTheRightPicture> {
+  bool _validURL = Uri.parse(userPhoto).isAbsolute;
+
   @override
   Widget build(BuildContext context) {
     // getThePic();
 
     if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
       print('object');
-      return Image(image: AssetImage(userPhoto2));
+      return Image(
+        image: AssetImage(userPhoto2),
+        fit: BoxFit.fill,
+      );
+    } else if (_validURL) {
+      return Image.network(
+        userPhoto,
+        fit: BoxFit.cover,
+      );
     }
-
-    return Image.network(
-      userPhoto,
-      fit: BoxFit.cover,
+    return Image(
+      image: AssetImage(userPhoto),
+      fit: BoxFit.fill,
     );
+
     //Image(image:  Image.network((userPhoto)));
   }
 }
 
-
 Widget _buildPopupDialog(BuildContext context) {
-
-
- // getDeffaultImages(context);
+  // getDeffaultImages(context);
 
   return AlertDialog(
-    title: Text('ha'),
+    title: Text('Pick a picture'),
     content: Container(
-      height: 100,
-      width: 100,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  <Widget>[
+      height: 400,
+      width: 300,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        //  crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          //TODO: good avatar if needed
+          /*
+          CircleAvatar(
+            minRadius: 20,
+            maxRadius: 50,
+            child: Image(
+                image: AssetImage(
+              'assets/images/profiles/autumn_bunny.png',
+            )),
+            backgroundColor: Colors.transparent,
+          ),
+           */
 
-           GridView.builder(
-             shrinkWrap: true,
+          Flexible(
+            child: GridView.builder(
+                //  shrinkWrap: true,
+
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20),
-                itemCount: _listImages.length,
+                    maxCrossAxisExtent: 100,
+                    // childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5),
+                itemCount: _listImagesStories.length,
                 itemBuilder: (BuildContext ctx, index) {
                   return Container(
-                    height: 10,
+                    //height: 100,
 
                     alignment: Alignment.center,
-                    child:
-                    CircleAvatar(
-                      backgroundImage: AssetImage(_listImages[index]),),
+                    child: IconButton(
+                      icon: CircleAvatar(
+                        radius: 100,
+                        backgroundImage: AssetImage(_listImagesStories[index]),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      iconSize: 100,
+                      onPressed: () {
+                        Navigator.pop(context);
 
+                        userPhoto = _listImagesStories[index];
+                      },
+                    ),
 
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(15)),
+                    //   AssetImage(_listImages[index]),),
                   );
                 }),
+          ),
 
           //  getTextWidgets(context, ['1','5','33']),
-          ],
-        ),
+        ],
       ),
     ),
-    actions: <Widget>[
-      TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: const Text('Okay!'),
-      ),
-    ],
   );
 }
-
-void getDeffaultImages(BuildContext context ) {
-
-  final manifestJson = DefaultAssetBundle.of(context).loadString('AssetManifest.json').toString();
-  print(manifestJson);
-//  List<String> received = json.decode(manifestJson).keys;
- //Map<int, String> received2 = received.asMap();
-print(images);
-
- // images
-}
-
-Widget getTextWidgets(BuildContext context, List<String> strings)
-{
-  getDeffaultImages(context);
-  List<Widget> list = [];
-  for(var i = 0; i < strings.length; i++){
-    list.add(new Text(strings[i]));
-  }
-  return new Row(children: list);
-}
-
-
