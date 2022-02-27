@@ -16,7 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/defaults.dart';
 
 String userPhoto = '';
-String userPhoto2 = 'assets/images/stories/storyimage1.jpg';
+String userPhoto2 = 'assets/images/stories/default.jpg';
 
 List<dynamic> images = [];
 List<String> _listImagesProfiles = [

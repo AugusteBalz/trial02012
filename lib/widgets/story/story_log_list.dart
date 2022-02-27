@@ -119,8 +119,6 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
       listOfTags = listOfTags + '#' + item + ' ';
     }
 
-    String sample = widget.eachOuterStoryDocument['image_sample'];
-
 
     return
 

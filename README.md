@@ -32,6 +32,9 @@ photo attribution
 <a href='https://www.freepik.com/vectors/handwriting-font'>Handwriting font vector created by veraholera - www.freepik.com</a>
 <a href='https://www.freepik.com/vectors/abstract'>Abstract vector created by pikisuperstar - www.freepik.com</a>
 <a href='https://www.freepik.com/vectors/sky-illustration'>Sky illustration vector created by macrovector - www.freepik.com</a>
+<a href='https://www.freepik.com/vectors/doodle-lines'>Doodle lines vector created by freepik - www.freepik.com</a>
+<a href='https://www.freepik.com/vectors/monotone'>Monotone vector created by rawpixel.com - www.freepik.com</a>
+
 
 
 

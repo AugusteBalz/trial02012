@@ -751,6 +751,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 50,),
                 ],
               ),
             ),
