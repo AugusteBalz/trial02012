@@ -34,6 +34,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
 
   File? _storyImageFile;
   String uniqueStoryID = '';
+  String imageId = '';
 
   List<String> listOfSelectedTags = [];
 
@@ -58,10 +59,18 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child('stories')
         .child(uniqueStoryID + '.jpg');
+    print(image.path);
+
 
     ref.delete();
+    print(image.path);
     await ref.putFile(image);
+    print('worjs');
     url = await ref.getDownloadURL();
+  }
+
+  void _pickedImageFromSamples(File image) async {
+    imageId = image.path;
   }
 
   void _addNewMoodEntry() {
@@ -125,6 +134,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
           'tag': listOfSelectedTags,
 
           'image_url': url,
+          'image_sample' : imageId,
           'OneMood': temporaryArray,
         })
         .then((value) => print("Story Added"))
@@ -179,6 +189,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
   @override
   Widget build(BuildContext context) {
     _generateNewUUID();
+    print(uniqueStoryID);
     return Form(
       key: formKey,
       child: Scaffold(
@@ -335,7 +346,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                           ),
                         ),
                       ),
-                      ImagePickerForStories(imagePickFn: _pickedImage),
+                      ImagePickerForStories(imagePickFn: _pickedImage, imagePickFnFromSamples: _pickedImageFromSamples,),
                     ],
                   ),
                   Container(

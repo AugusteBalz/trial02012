@@ -119,6 +119,8 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
       listOfTags = listOfTags + '#' + item + ' ';
     }
 
+    String sample = widget.eachOuterStoryDocument['image_sample'];
+
 
     return
 
@@ -285,7 +287,7 @@ class _DisplayOneStoryState extends State<DisplayOneStory> {
               padding: EdgeInsets.only(right:25),
               child: Align(
                   alignment: Alignment.topRight,
-                  child: ImageDisplayStoryPick(url: widget.eachOuterStoryDocument['image_url'])),
+                  child: ImageDisplayStoryPick(url: widget.eachOuterStoryDocument['image_url'], sampleNr: widget.eachOuterStoryDocument['image_sample'],)),
             ),
           ],
         ),

@@ -101,9 +101,10 @@ Future<void> getThePic() async {
 }
 
 class ImagePickerForStories extends StatefulWidget {
-  ImagePickerForStories({required this.imagePickFn});
+  ImagePickerForStories({required this.imagePickFn, required this.imagePickFnFromSamples});
 
   final void Function(File pickedImage) imagePickFn;
+  final void Function(File pickedImage) imagePickFnFromSamples;
 
   @override
   _ImagePickerForStoriesState createState() => _ImagePickerForStoriesState();
@@ -167,7 +168,8 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const FindTheRightPicture();
+      //TODO: do not add const!!
+      return FindTheRightPicture();
     }
   }
 
@@ -188,6 +190,72 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
     } else {
       _retrieveDataError = response.exception!.code;
     }
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    // getDeffaultImages(context);
+
+    return AlertDialog(
+      title: Text('Pick a picture'),
+      content: Container(
+        height: 400,
+        width: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          //  crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            //TODO: good avatar if needed
+            /*
+          CircleAvatar(
+            minRadius: 20,
+            maxRadius: 50,
+            child: Image(
+                image: AssetImage(
+              'assets/images/profiles/autumn_bunny.png',
+            )),
+            backgroundColor: Colors.transparent,
+          ),
+           */
+
+            Flexible(
+              child: GridView.builder(
+                  //  shrinkWrap: true,
+
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 100,
+                      // childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5),
+                  itemCount: _listImagesStories.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return Container(
+                      //height: 100,
+
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: CircleAvatar(
+                          radius: 100,
+                          backgroundImage:
+                              AssetImage(_listImagesStories[index]),
+                          backgroundColor: Colors.transparent,
+                        ),
+                        iconSize: 100,
+                        onPressed: () {
+                          Navigator.pop(context);
+
+                          setState(() {
+                            userPhoto = _listImagesStories[index];
+                            widget.imagePickFnFromSamples(File(userPhoto));
+                          });
+                        },
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -324,70 +392,4 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
 
     //Image(image:  Image.network((userPhoto)));
   }
-}
-
-Widget _buildPopupDialog(BuildContext context) {
-  // getDeffaultImages(context);
-
-  return AlertDialog(
-    title: Text('Pick a picture'),
-    content: Container(
-      height: 400,
-      width: 300,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        //  crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          //TODO: good avatar if needed
-          /*
-          CircleAvatar(
-            minRadius: 20,
-            maxRadius: 50,
-            child: Image(
-                image: AssetImage(
-              'assets/images/profiles/autumn_bunny.png',
-            )),
-            backgroundColor: Colors.transparent,
-          ),
-           */
-
-          Flexible(
-            child: GridView.builder(
-                //  shrinkWrap: true,
-
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 100,
-                    // childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5),
-                itemCount: _listImagesStories.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return Container(
-                    //height: 100,
-
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      icon: CircleAvatar(
-                        radius: 100,
-                        backgroundImage: AssetImage(_listImagesStories[index]),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      iconSize: 100,
-                      onPressed: () {
-                        Navigator.pop(context);
-
-                        userPhoto = _listImagesStories[index];
-                      },
-                    ),
-
-                    //   AssetImage(_listImages[index]),),
-                  );
-                }),
-          ),
-
-          //  getTextWidgets(context, ['1','5','33']),
-        ],
-      ),
-    ),
-  );
 }

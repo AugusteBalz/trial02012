@@ -19,7 +19,8 @@ import 'package:trial0201/globals/defaults.dart';
 class ImageDisplayStoryPick extends StatefulWidget {
 
    var url;
-  ImageDisplayStoryPick({Key? key, this.title, required this.url}) : super(key: key);
+   var sampleNr;
+  ImageDisplayStoryPick({Key? key, this.title, required this.url, required this.sampleNr}) : super(key: key);
 
   final String? title;
 
@@ -46,11 +47,16 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
 
   Widget _previewImages() {
 
-    if (widget.url == null){
-      print('url is empty');
-    return  Image(image: AssetImage('assets/images/stories/storyimage1.jpg'), fit: BoxFit.cover);
+    if (widget.url != null){
+
+      return Image.network(widget.url, fit: BoxFit.cover,);
+
     }
-    return Image.network(widget.url, fit: BoxFit.cover,);
+    else if (widget.sampleNr != null){
+      return  Image(image: AssetImage(widget.sampleNr), fit: BoxFit.cover);
+
+    }
+    return  Image(image: AssetImage('assets/images/stories/storyimage1.jpg'), fit: BoxFit.cover);
   }
 
   Widget _handlePreview() {
