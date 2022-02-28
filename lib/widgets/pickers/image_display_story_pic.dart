@@ -52,11 +52,12 @@ class _ImageDisplayStoryPickState extends State<ImageDisplayStoryPick> {
       return Image.network(widget.url, fit: BoxFit.cover,);
 
     }
-    else if (widget.sampleNr != null){
+    else if (widget.sampleNr != ''){
+      print('dd');
       return  Image(image: AssetImage(widget.sampleNr), fit: BoxFit.cover);
 
     }
-    return  Image(image: AssetImage('assets/images/stories/storyimage1.jpg'), fit: BoxFit.cover);
+    return  Image(image: AssetImage('assets/images/stories/default.jpg'), fit: BoxFit.cover);
   }
 
   Widget _handlePreview() {

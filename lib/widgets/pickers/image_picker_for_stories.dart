@@ -196,6 +196,9 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
     // getDeffaultImages(context);
 
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.all( 10.0),
       title: Text('Pick a picture'),
       content: Container(
         height: 400,
@@ -384,9 +387,14 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
         userPhoto,
         fit: BoxFit.cover,
       );
+    } else if (userPhoto!='') {
+      return Image(
+        image: AssetImage(userPhoto),
+        fit: BoxFit.fill,
+      );
     }
     return Image(
-      image: AssetImage(userPhoto),
+      image: AssetImage(userPhoto2),
       fit: BoxFit.fill,
     );
 

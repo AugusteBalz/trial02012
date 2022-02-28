@@ -764,6 +764,9 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
 
 Widget _buildPopupDialog(BuildContext context, String alertTitle, String message) {
   return AlertDialog(
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(32.0))),
+    contentPadding: EdgeInsets.all( 25.0),
     title: Text(alertTitle),
     content: Column(
       mainAxisSize: MainAxisSize.min,
