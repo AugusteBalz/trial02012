@@ -17,19 +17,57 @@ import 'package:trial0201/globals/defaults.dart';
 
 
 String userPhoto = '';
-// String userPhoto2 = 'assets/images/defaultuser.png';
+String userProfileSample = '';
 String userPhoto2 = 'assets/images/defaultuser.png';
 
-
+List<String> _listImagesProfiles = [
+  'assets/images/profiles/autumn_bunny.png',
+  'assets/images/profiles/autumn_deer.png',
+  'assets/images/profiles/autumn_hegdehog.png',
+  'assets/images/profiles/autumn_racoon.png',
+  'assets/images/profiles/autumn_squirrel.png',
+  'assets/images/profiles/round_animal_1.png',
+  'assets/images/profiles/round_animal_2.png',
+  'assets/images/profiles/round_animal_3.png',
+  'assets/images/profiles/round_animal_4.png',
+  'assets/images/profiles/round_animal_5.png',
+  'assets/images/profiles/round_animal_6.png',
+  'assets/images/profiles/round_animal_7.png',
+  'assets/images/profiles/round_animal_8.png',
+  'assets/images/profiles/round_animal_9.png',
+  'assets/images/profiles/winter_1.png',
+  'assets/images/profiles/winter_2.png',
+  'assets/images/profiles/winter_3.png',
+  'assets/images/profiles/winter_4.png',
+  'assets/images/profiles/winter_5.png',
+  'assets/images/profiles/winter_6.png',
+  'assets/images/profiles/fish_1.png',
+  'assets/images/profiles/fish_2.png',
+  'assets/images/profiles/fish_3.png',
+  'assets/images/profiles/fish_4.png',
+  'assets/images/profiles/fish_5.png',
+  'assets/images/profiles/fish_6.png',
+  'assets/images/profiles/fish_7.png',
+  'assets/images/profiles/fish_8.png',
+  'assets/images/profiles/fish_9.png',
+  'assets/images/profiles/monster_1.png',
+  'assets/images/profiles/monster_2.png',
+  'assets/images/profiles/monster_3.png',
+  'assets/images/profiles/monster_4.png',
+  'assets/images/profiles/monster_5.png',
+  'assets/images/profiles/monster_6.png',
+];
 
 class ImagePickerForUserProfile extends StatefulWidget {
 
 
 final image;
+final userSamplePhoto;
 
-  ImagePickerForUserProfile(this.imagePickFn, this.image);
+  ImagePickerForUserProfile(this.imagePickFn, this.image, this.imagePickFnFromSamples, this.userSamplePhoto);
 
   final void Function(File pickedImage) imagePickFn;
+  final void Function(File pickedImage) imagePickFnFromSamples;
 
   @override
   _ImagePickerForUserProfileState createState() => _ImagePickerForUserProfileState();
@@ -109,6 +147,7 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
         textAlign: TextAlign.center,
       );
     } else {
+      //TODO: do not add const!!
       return  FindTheRightPicture();
     }
   }
@@ -146,49 +185,116 @@ class _ImagePickerForUserProfileState extends State<ImagePickerForUserProfile> {
       height: 150,
       width: 150,
       // padding: EdgeInsets.all(8), // Border width
-      decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+      decoration: BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
       child: Stack(
         children:[Center(
-            child: ClipOval(
 
-              child: SizedBox.fromSize(
-                size: Size.fromRadius(180),
-                child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-                    ? FutureBuilder<void>(
-                  future: retrieveLostData(),
-                  builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
-                      case ConnectionState.done:
-                        return _handlePreview();
-                      default:
-                        if (snapshot.hasError) {
-                          return Text(
-                            'Pick image/video error: ${snapshot.error}}',
-                            textAlign: TextAlign.center,
-                          );
-                        } else {
-                          return FindTheRightPicture();
-                        }
-                    }
-                  },
-                )
-                    : _handlePreview(),
-              ),
-            )
+      child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+      ? FutureBuilder<void>(
+          future: retrieveLostData(),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Image(image: AssetImage('think.jpg'), fit: BoxFit.cover);
+          case ConnectionState.done:
+            return _handlePreview();
+          default:
+            if (snapshot.hasError) {
+              return Text(
+                'Pick image/video error: ${snapshot.error}}',
+                textAlign: TextAlign.center,
+              );
+            } else {
+              return FindTheRightPicture();
+            }
+        }
+      },
+    )
+        : _handlePreview(),
+
+
+
+
+
+
         ),
           Align(
               alignment: Alignment.bottomRight
               ,child: CircleAvatar(
             radius: 20,
             backgroundColor: Colors.white,
-            child: IconButton(onPressed: (){
+            child: IconButton(onPressed: () async{
 
-              _onImageButtonPressed(ImageSource.gallery, context: context);
-            }, icon: Icon(Icons.add_a_photo_outlined, color: Colors.black,)),
+              final ww = await showDialog(
+                context: context,
+                builder: (BuildContext context) => _buildPopupDialog(
+                  context,
+                ),
+              );
+              setState(() {});
+
+
+             // _onImageButtonPressed(ImageSource.gallery, context: context);
+            }, icon: Icon(Icons.add_photo_alternate_outlined, color: Colors.black, size: 23,)),
           ))],
+      ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    // getDeffaultImages(context);
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      contentPadding: EdgeInsets.all( 10.0),
+      title: Text('Which one represents you the most?'),
+      content: Container(
+        height: 400,
+        width: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          //  crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+
+            Flexible(
+              child: GridView.builder(
+                //  shrinkWrap: true,
+
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 100,
+                      // childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5),
+                  itemCount: _listImagesProfiles.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return Container(
+                      //height: 100,
+
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: CircleAvatar(
+                          radius: 100,
+                          child:
+                          Image(image: AssetImage(_listImagesProfiles[index])),
+                          backgroundColor: Colors.transparent,
+                        ),
+                        iconSize: 100,
+                        onPressed: () {
+                          Navigator.pop(context);
+
+                          setState(() {
+                            userProfileSample = _listImagesProfiles[index];
+                            widget.imagePickFnFromSamples(File(userProfileSample));
+                          });
+                        },
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -229,10 +335,8 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
         .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
     userPhoto = ref['image_url'];
-    print(userPhoto);
+    userProfileSample = ref['image_sample'];
 
-    // TODO: add this line appropriately
-    //setState((){});
   }
 
 
@@ -246,19 +350,43 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
   @override
   Widget build(BuildContext context) {
     getThePic();
+    bool _validURL = Uri.parse(userPhoto).isAbsolute;
 
-    print(userPhoto);
-    if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
 
-      print('object');
-      print(userPhoto);
-      return Image(image: AssetImage(userPhoto2));
+    if ( (FirebaseAuth.instance.currentUser == null)) {
+
+      return Image(image: AssetImage(userPhoto2),fit: BoxFit.fill,);
 
     }
+    else if (_validURL) {
+      return
 
 
-      return Image.network(userPhoto,  fit: BoxFit.cover,);
-        //Image(image:  Image.network((userPhoto)));
+
+        ClipOval(
+
+          child: SizedBox.fromSize(
+            size: Size.fromRadius(180),
+
+            child:  Image.network(
+                userPhoto,
+                fit: BoxFit.cover,
+          ),
+        )
+
+
+
+
+      );
+    } else if (userProfileSample!='') {
+
+      return Image(
+        image: AssetImage(userProfileSample),
+        fit: BoxFit.fill,
+      );
+    }
+
+      return Image.network(userPhoto2,  fit: BoxFit.cover,);
 
   }
 }

@@ -21,6 +21,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String userName,
+    String _image_sample,
     File image,
     bool isLogin,
     BuildContext ctx,
@@ -34,9 +35,12 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
   var _userEmail = '';
+  var _image_sample = '';
   var _userName = '';
   var _userPassword = '';
   File _userImageFile = mainProfilePic;
+
+  String imageId = '';
 
   void _pickedImage(File image) {
     _userImageFile = image;
@@ -60,6 +64,10 @@ class _AuthFormState extends State<AuthForm> {
     }
   }
  */
+
+  void _pickedImageFromSamples(File image) async {
+    _image_sample = image.path;
+  }
 
   void _trySubmit() {
     FormState? isValidTemp = _formKey.currentState;
@@ -88,6 +96,7 @@ class _AuthFormState extends State<AuthForm> {
         _userEmail.trim(),
         _userPassword.trim(),
         _userName.trim(),
+        _image_sample,
         _userImageFile,
         _isLogin,
         context,
@@ -104,13 +113,6 @@ class _AuthFormState extends State<AuthForm> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image(image: AssetImage('assets/images/embrace_white.png')),
-           /* Container(
-                margin: EdgeInsets.all(30),
-                child: Text(_isLogin
-                    ? 'Welcome back!'
-                    : 'Nice to meet you!')),
-
-            */
             Flexible(
               child: Container(
                 //  margin: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
@@ -139,7 +141,7 @@ class _AuthFormState extends State<AuthForm> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               if (!_isLogin)
-                                ImagePickerForUserProfile(_pickedImage, _userImageFile),
+                                ImagePickerForUserProfile(_pickedImage, _userImageFile, _pickedImageFromSamples, _image_sample),
                               SizedBox(
                                 height: 30,
                               ),

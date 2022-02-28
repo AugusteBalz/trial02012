@@ -22,6 +22,8 @@ class AppSettings extends StatefulWidget {
 
 String userName = 'Loading...';
 String userPhoto = 'error';
+String userSamplePhoto = '';
+String imageId = '';
 
 class _AppSettingsState extends State<AppSettings> {
   late File _userImageFile;
@@ -46,9 +48,9 @@ class _AppSettingsState extends State<AppSettings> {
 
       userName = ref['username'];
       userPhoto = ref['image_url'];
-      print('here');
-      print(userPhoto);
-      ImagePickerForUserProfile(_pickedImage, userPhoto);
+      userSamplePhoto = ref['image_sample'];
+
+      ImagePickerForUserProfile(_pickedImage, userPhoto, _pickedImageFromSamples,userSamplePhoto);
 
     });
   }
@@ -77,6 +79,27 @@ class _AppSettingsState extends State<AppSettings> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       'image_url': url,
+      'image_sample': '',
+    });
+  }
+
+  void _pickedImageFromSamples(File image) async {
+    imageId = image.path;
+
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('user_image/')
+        .child("images/")
+        .child(FirebaseAuth.instance.currentUser!.uid + '.jpg');
+
+    ref.delete();
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'image_sample': imageId,
+      'image_url': '',
     });
   }
 
@@ -100,7 +123,7 @@ class _AppSettingsState extends State<AppSettings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(userName),
-                  ImagePickerForUserProfile(_pickedImage, userPhoto),
+                  ImagePickerForUserProfile(_pickedImage, userPhoto, _pickedImageFromSamples, userProfileSample),
                 ],
               ),
             ),
@@ -211,7 +234,6 @@ class _AppSettingsState extends State<AppSettings> {
 
 void _changeColorTheme(ThemeData mode) {
   if (mode.brightness == Brightness.light) {
-    print('dod');
     angryMoodColor = angryMoodColorLight;
     scaredMoodColor = scaredMoodColorLight;
     sadMoodColor = sadMoodColorLight;
@@ -232,16 +254,3 @@ void _changeColorTheme(ThemeData mode) {
   }
 }
 
-class displayProfilePhoto extends StatefulWidget {
-  const displayProfilePhoto({Key? key}) : super(key: key);
-
-  @override
-  _displayProfilePhotoState createState() => _displayProfilePhotoState();
-}
-
-class _displayProfilePhotoState extends State<displayProfilePhoto> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}

@@ -6,8 +6,7 @@ import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/mood/mood_entries.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
-import 'package:trial0201/widgets/graphs/line_chart.dart';
-import 'package:trial0201/widgets/graphs/pie_chart.dart';
+
 import 'package:trial0201/widgets/graphs/pie_chart_2.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

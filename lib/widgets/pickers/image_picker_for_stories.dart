@@ -19,43 +19,6 @@ String userPhoto = '';
 String userPhoto2 = 'assets/images/stories/default.jpg';
 
 List<dynamic> images = [];
-List<String> _listImagesProfiles = [
-  'assets/images/profiles/autumn_bunny.png',
-  'assets/images/profiles/autumn_deer.png',
-  'assets/images/profiles/autumn_hegdehog.png',
-  'assets/images/profiles/autumn_racoon.png',
-  'assets/images/profiles/autumn_squirrel.png',
-  'assets/images/profiles/round_animal_1.png',
-  'assets/images/profiles/round_animal_2.png',
-  'assets/images/profiles/round_animal_3.png',
-  'assets/images/profiles/round_animal_4.png',
-  'assets/images/profiles/round_animal_5.png',
-  'assets/images/profiles/round_animal_6.png',
-  'assets/images/profiles/round_animal_7.png',
-  'assets/images/profiles/round_animal_8.png',
-  'assets/images/profiles/round_animal_9.png',
-  'assets/images/profiles/winter_1.png',
-  'assets/images/profiles/winter_2.png',
-  'assets/images/profiles/winter_3.png',
-  'assets/images/profiles/winter_4.png',
-  'assets/images/profiles/winter_5.png',
-  'assets/images/profiles/winter_6.png',
-  'assets/images/profiles/fish_1.png',
-  'assets/images/profiles/fish_2.png',
-  'assets/images/profiles/fish_3.png',
-  'assets/images/profiles/fish_4.png',
-  'assets/images/profiles/fish_5.png',
-  'assets/images/profiles/fish_6.png',
-  'assets/images/profiles/fish_7.png',
-  'assets/images/profiles/fish_8.png',
-  'assets/images/profiles/fish_9.png',
-  'assets/images/profiles/monster_1.png',
-  'assets/images/profiles/monster_2.png',
-  'assets/images/profiles/monster_3.png',
-  'assets/images/profiles/monster_4.png',
-  'assets/images/profiles/monster_5.png',
-  'assets/images/profiles/monster_6.png',
-];
 
 List<String> _listImagesStories = [
   'assets/images/stories/595.jpg',
@@ -94,10 +57,7 @@ Future<void> getThePic() async {
       .get();
 
   userPhoto = ref['image_url'];
-  print(userPhoto);
 
-  // TODO: add this line appropriately
-  //setState((){});
 }
 
 class ImagePickerForStories extends StatefulWidget {
@@ -120,6 +80,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   final ImagePicker _picker = ImagePicker();
 
+  //TODO: here is that you could add photos from your phone
   void _onImageButtonPressed(ImageSource source,
       {BuildContext? context}) async {
     try {
@@ -208,17 +169,6 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
           //  crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             //TODO: good avatar if needed
-            /*
-          CircleAvatar(
-            minRadius: 20,
-            maxRadius: 50,
-            child: Image(
-                image: AssetImage(
-              'assets/images/profiles/autumn_bunny.png',
-            )),
-            backgroundColor: Colors.transparent,
-          ),
-           */
 
             Flexible(
               child: GridView.builder(
@@ -374,10 +324,10 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
 
   @override
   Widget build(BuildContext context) {
-    // getThePic();
+
 
     if ((userPhoto == '') || (FirebaseAuth.instance.currentUser == null)) {
-      print('object');
+
       return Image(
         image: AssetImage(userPhoto2),
         fit: BoxFit.fill,

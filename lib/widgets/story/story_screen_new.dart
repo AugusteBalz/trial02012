@@ -63,9 +63,9 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
 
 
     ref.delete();
-    print(image.path);
+
     await ref.putFile(image);
-    print('worjs');
+
     url = await ref.getDownloadURL();
   }
 
@@ -751,7 +751,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50,),
+                  SizedBox(height: 100,),
                 ],
               ),
             ),

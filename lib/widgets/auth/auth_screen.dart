@@ -38,6 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
       String email,
       String password,
       String username,
+      String image_sample,
       File image,
       bool isLogin,
       BuildContext ctx,
@@ -59,18 +60,6 @@ class _AuthScreenState extends State<AuthScreen> {
           password: password,
         );
 
-    /*    final fileName = basename(imageFile!.path);
-        final destination = 'user_image/$fileName';
-
-
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('destination')
-            .child(authResult.user!.uid + '.jpg');
-
-        await ref.putFile(imageFile).whenComplete(() => null);
-
-     */
 
         var url;
 
@@ -94,6 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'username': username,
           'email': email,
           'image_url': url,
+          'image_sample': image_sample,
         });
       }
     } on PlatformException catch (err) {
@@ -161,41 +151,3 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 }
-
-/*
-
-
-class RPSCustomPainter extends CustomPainter{
-
-  @override
-  void paint(Canvas canvas, Size size) {
-
-
-
-    Paint paint0 = Paint()
-      ..color = const Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1;
-    paint0.shader = ui.Gradient.linear(Offset(size.width*0.42,size.height*0.37),Offset(size.width*0.75,size.height*0.37),[Color(0xff2418b8),Color(0xff500689)],[0.00,1.00]);
-
-    Path path0 = Path();
-    path0.moveTo(size.width*0.6550000,size.height*0.4471429);
-    path0.cubicTo(size.width*0.5777083,size.height*0.3900000,size.width*0.5847917,size.height*0.3971429,size.width*0.4850000,size.height*0.4200000);
-    path0.quadraticBezierTo(size.width*0.4293750,size.height*0.4128571,size.width*0.4175000,size.height*0.2871429);
-    path0.lineTo(size.width*0.7508333,size.height*0.2828571);
-    path0.lineTo(size.width*0.7508333,size.height*0.4285714);
-    path0.quadraticBezierTo(size.width*0.7243750,size.height*0.4667857,size.width*0.6550000,size.height*0.4471429);
-    path0.close();
-
-    canvas.drawPath(path0, paint0);
-
-
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-
-}
- */
