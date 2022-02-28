@@ -8,6 +8,8 @@ import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
+import 'package:trial0201/models/design/big_corner_border.dart';
+import 'package:trial0201/models/design/small_corner_border.dart';
 import 'package:trial0201/models/mood/blueprint_mood.dart';
 import 'package:trial0201/models/mood/mood_entries.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
@@ -59,7 +61,6 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child('stories')
         .child(uniqueStoryID + '.jpg');
-    print(image.path);
 
 
     ref.delete();
@@ -155,7 +156,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
       return retrieveError;
     }
     if (_storyImageFile != null &&
-        _storyImageFile!.path != 'assets/images/stories/storyimage1.jpg') {
+        _storyImageFile!.path != 'assets/images/stories/default.jpg') {
       return Semantics(
           child: Semantics(
             label: 'image_picker_example_picked_image',
@@ -169,7 +170,7 @@ class _StoryScreenNewState extends State<StoryScreenNew> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const Image(image: AssetImage('assets/images/stories/storyimage1.jpg'));
+      return const Image(image: AssetImage('assets/images/stories/default.jpg'));
     }
   }
 
@@ -786,80 +787,5 @@ Widget _buildPopupDialog(BuildContext context, String alertTitle, String message
   );
 }
 
-class PartialPainter extends CustomPainter {
-  PartialPainter(
-      {required this.radius,
-      required this.strokeWidth,
-      required this.gradient});
 
-  final Paint paintObject = Paint();
-  final double radius;
-  final double strokeWidth;
-  final Gradient gradient;
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    Rect topLeftTop = Rect.fromLTRB(0, 0, 25, strokeWidth);
-    Rect topLeftLeft = Rect.fromLTRB(0, 0, strokeWidth, 25);
-
-    // Rect bottomRightBottom = Rect.fromLTRB(size.width - size.height / 4, size.height - strokeWidth, size.width, size.height);
-    // Rect bottomRightRight = Rect.fromLTRB(size.width - strokeWidth, size.height * 3 / 4, size.width, size.height);
-
-    paintObject.shader = gradient.createShader(Offset.zero & size);
-
-    Path topLeftPath = Path()
-      ..addRect(topLeftTop)
-      ..addRect(topLeftLeft);
-
-    //Path bottomRightPath = Path()
-    // ..addRect(bottomRightBottom)
-    //..addRect(bottomRightRight);
-
-    Path finalPath = topLeftPath;
-    //Path.combine(PathOperation.union, topLeftPath, bottomRightPath);
-
-    canvas.drawPath(finalPath, paintObject);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}
-
-class PartialPainterSmall extends CustomPainter {
-  PartialPainterSmall(
-      {required this.radius,
-        required this.strokeWidth,
-        required this.gradient});
-
-  final Paint paintObject = Paint();
-  final double radius;
-  final double strokeWidth;
-  final Gradient gradient;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Rect topLeftTop = Rect.fromLTRB(0, 0, 10, strokeWidth);
-    Rect topLeftLeft = Rect.fromLTRB(0, 0, strokeWidth, 10);
-
-    // Rect bottomRightBottom = Rect.fromLTRB(size.width - size.height / 4, size.height - strokeWidth, size.width, size.height);
-    // Rect bottomRightRight = Rect.fromLTRB(size.width - strokeWidth, size.height * 3 / 4, size.width, size.height);
-
-    paintObject.shader = gradient.createShader(Offset.zero & size);
-
-    Path topLeftPath = Path()
-      ..addRect(topLeftTop)
-      ..addRect(topLeftLeft);
-
-    //Path bottomRightPath = Path()
-    // ..addRect(bottomRightBottom)
-    //..addRect(bottomRightRight);
-
-    Path finalPath = topLeftPath;
-    //Path.combine(PathOperation.union, topLeftPath, bottomRightPath);
-
-    canvas.drawPath(finalPath, paintObject);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}

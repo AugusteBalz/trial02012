@@ -5,7 +5,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
-import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,6 +74,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
   // List<XFile>? _imageFileList;
   XFile? _imageFile;
 
+
   dynamic _pickImageError;
 
   String? _retrieveDataError;
@@ -109,6 +110,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
 
   Widget _previewImages() {
     // getThePic();
+
 
     final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -199,6 +201,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                           setState(() {
                             userPhoto = _listImagesStories[index];
                             widget.imagePickFnFromSamples(File(userPhoto));
+
                           });
                         },
                       ),
@@ -233,7 +236,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                           case ConnectionState.none:
                           case ConnectionState.waiting:
                             return const Image(
-                                image: AssetImage('storyimage1.jpg'),
+                                image: AssetImage('assets/images/stories/storyimage1.jpg'),
                                 fit: BoxFit.cover);
                           case ConnectionState.done:
                             return _handlePreview();
@@ -276,7 +279,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
           Align(
             alignment: Alignment.bottomRight,
             child: CircleAvatar(
-              radius: 20,
+              radius: 18,
               backgroundColor: Colors.white,
               child: IconButton(
                   onPressed: () async {
@@ -291,6 +294,7 @@ class _ImagePickerForStoriesState extends State<ImagePickerForStories> {
                   icon: Icon(
                     Icons.photo_size_select_actual_outlined,
                     color: Colors.black,
+                    size: 20,
                   )),
             ),
           ),
@@ -348,6 +352,5 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
       fit: BoxFit.fill,
     );
 
-    //Image(image:  Image.network((userPhoto)));
   }
 }
