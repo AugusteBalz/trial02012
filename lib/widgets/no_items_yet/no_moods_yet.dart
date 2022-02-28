@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class NoStoriesYet extends StatefulWidget {
-  const NoStoriesYet({Key? key}) : super(key: key);
+class NoMoodsYet extends StatefulWidget {
+  const NoMoodsYet({Key? key}) : super(key: key);
 
   @override
-  _NoStoriesYetState createState() => _NoStoriesYetState();
+  _NoMoodsYetState createState() => _NoMoodsYetState();
 }
 
-class _NoStoriesYetState extends State<NoStoriesYet> {
+class _NoMoodsYetState extends State<NoMoodsYet> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +24,7 @@ class _NoStoriesYetState extends State<NoStoriesYet> {
           Container(
               padding: EdgeInsets.symmetric(horizontal: 80),
               child:
-                  Text('Hmm... it seems that you do not have any stories yet')),
+                  Text('Hmm... it seems that you do not have any moods yet')),
           Container(
                 alignment: Alignment.center,
 
@@ -35,9 +35,9 @@ class _NoStoriesYetState extends State<NoStoriesYet> {
           
           OutlinedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/logmood1new');
+                Navigator.pushNamed(context, '/logstory2');
               },
-              child: Text("I want to log my first story!")),
+              child: Text("I want to log my first mood!")),
           SizedBox(
             height: 50,
           )

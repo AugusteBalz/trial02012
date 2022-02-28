@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:trial0201/main.dart';
 import 'package:trial0201/models/mood/moods.dart';
 import 'package:trial0201/models/mood/one_mood.dart';
+import 'package:trial0201/widgets/no_items_yet/no_moods_yet.dart';
 
 //TODO: add the ability to delete an entry
 
@@ -119,13 +120,16 @@ class MoodLogList extends StatelessWidget {
 
                 } else if (streamSnapshot.connectionState == ConnectionState.done) {
                   return Text('done');
-                } else {
+                } else  if(!streamSnapshot.hasData){
+                  return NoMoodsYet();
+                }
+                else{
                   final outerMoodDocuments = streamSnapshot.data!.docs;
 
 
                   return
 
-                    //ListTile(title: Text("o"),);
+
 
 
 

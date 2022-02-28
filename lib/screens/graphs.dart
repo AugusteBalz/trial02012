@@ -11,8 +11,10 @@ import 'package:trial0201/widgets/graphs/pie_chart.dart';
 import 'package:trial0201/widgets/graphs/pie_chart_2.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:trial0201/widgets/no_items_yet/no_moods_yet.dart';
 
 Map< DateTime,List<OneMood>> mapOfMonths = {};
+bool empty = true;
 
 class GraphScreen extends StatefulWidget {
   const GraphScreen({Key? key}) : super(key: key);
@@ -81,8 +83,10 @@ class _GraphScreenState extends State<GraphScreen> {
     })
         .toList();
 
-    print(allData2);
-    print('im assuming its empty');
+    if(allData2.isNotEmpty){
+      empty = false;
+    }
+
 
     setState(() {
 
@@ -95,10 +99,8 @@ class _GraphScreenState extends State<GraphScreen> {
 
   @override
   void initState() {
-    print('what');
     getData();
     super.initState();
-    print('this1');
 
   }
 
@@ -112,24 +114,29 @@ class _GraphScreenState extends State<GraphScreen> {
     //_groupByMonths();
 
     //getData();
-    print(allData2);
-    print('this???');
 
-    return SingleChildScrollView(
-      child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          padding: EdgeInsets.all(10),
-          child: Column(
-        children: [
+  if(empty){
+    return NoMoodsYet();
+    }
 
-          PieChartSample3(),
-          SizedBox(height: 30,),
 
-        //  LineChartSample1(),
-          //PieChartSample2(),
-        ],
-      )),
+    else{ return
+    SingleChildScrollView(
+    child: Container(
+    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+    padding: EdgeInsets.all(10),
+    child: Column(
+    children: [
+
+    PieChartSample3(),
+    SizedBox(height: 30, ),
+
+    //  LineChartSample1(),
+    //PieChartSample2(),
+    ],
+    )),
     );
+  }
   }
 }
 
