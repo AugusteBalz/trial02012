@@ -50,7 +50,7 @@ class PieChartSample3State extends State {
 
     groupByMonths(); // sorts it out by months
 
-    calculateMonthlyStats(2022, 2);
+    calculateMonthlyStats(2022, 3);
 
     print('this2');
     findMostCommonEmotion();
