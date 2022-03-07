@@ -3,13 +3,12 @@ import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/widgets/widget_for_mood_display_inner.dart';
 
 import '../widget_for_mood_display.dart';
+import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
-import 'package:trial0201/globals/globals.dart';
 import 'package:trial0201/globals/matching_maps.dart';
 import 'package:trial0201/models/mood/blueprint_mood.dart';
 import 'package:trial0201/models/mood/mood_entries.dart';
-import 'package:trial0201/models/mood/moods.dart';
+
 import 'package:trial0201/models/mood/one_mood.dart';
 import 'package:trial0201/screens/graphs.dart';
 import 'package:uuid/uuid.dart';
@@ -19,6 +18,7 @@ import 'package:trial0201/globals/mood/colors_of_mood.dart';
 import 'package:trial0201/widgets/widget_for_mood_display.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
+MediaQueryData queryData = new MediaQueryData();
 
 class EmotionSelectionNew extends StatefulWidget {
   @override
@@ -30,8 +30,6 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
   PageController _controller2 = PageController(initialPage: 4242);
 
   var currentPageValue = 0.0;
-
-
 
   //for displaying colours and name of primary emotion
   final List<dynamic> displayWidgets = [
@@ -151,6 +149,7 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
 
   @override
   Widget build(BuildContext context) {
+    final queryData = MediaQuery.of(context);
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -201,18 +200,30 @@ class _EmotionSelectionNewState extends State<EmotionSelectionNew> {
                 },
               ),
             ),
-            Align(
+            /*Align(
               alignment: Alignment.bottomCenter,
               child: Transform.scale(
-                scale: 1.8,
+                scale: 1.2,
                 child: Container(
-                  height: 400,
+                  height: queryData.size.height * 0.80,
                   decoration: BoxDecoration(
                       color: (Theme.of(context).brightness == Brightness.light)
                           ? Colors.white
                           : Colors.black87,
                       borderRadius: BorderRadius.circular(200)),
                 ),
+              ),
+            ),
+
+
+             */
+            Align(
+              child: CustomPaint(
+                size: Size(queryData.size.width, (queryData.size.width * 2.5).toDouble()),
+                //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                painter: RPSCustomPainter(color:  (Theme.of(context).brightness == Brightness.light)
+                    ? Colors.white
+                    : Colors.black87,),
               ),
             ),
             Column(
@@ -262,4 +273,39 @@ Widget _buildPopupDialog(BuildContext context) {
       ),
     ],
   );
+}
+
+class RPSCustomPainter extends CustomPainter {
+
+  Color color;
+
+  RPSCustomPainter({
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint0 = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+
+    Path path0 = Path();
+    path0.moveTo(0,size.height*0.4006429);
+    path0.quadraticBezierTo(size.width*0.1067500,size.height*0.3481857,size.width*0.2548000,size.height*0.3759429);
+    path0.cubicTo(size.width*0.4791750,size.height*0.4153571,size.width*0.4656000,size.height*0.3326143,size.width*0.7030000,size.height*0.3781000);
+    path0.quadraticBezierTo(size.width*0.8739250,size.height*0.4232000,size.width,size.height*0.3842286);
+    path0.lineTo(size.width,size.height);
+    path0.lineTo(0,size.height);
+    path0.lineTo(0,size.height*0.4006429);
+    path0.close();
+
+    canvas.drawPath(path0, paint0);
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }

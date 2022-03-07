@@ -35,7 +35,7 @@ class _NoStoriesYetState extends State<NoStoriesYet> {
           
           OutlinedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/logmood1new');
+                Navigator.pushNamed(context, '/logstory2');
               },
               child: Text("I want to log my first story!")),
           SizedBox(

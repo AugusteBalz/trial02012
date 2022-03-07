@@ -40,18 +40,35 @@ class _AppSettingsState extends State<AppSettings> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
-
-
-
     setState(() {
+      try {
+        userName = ref['username'];
+      } catch (e) {
+        print(e);
+        print('failed to get userName');
+      }
 
+      try {
+        if (ref['image_url'] != null) {
+          userPhoto = ref['image_url'];
+        }
 
-      userName = ref['username'];
-      userPhoto = ref['image_url'];
-      userSamplePhoto = ref['image_sample'];
+        ImagePickerForUserProfile(
+            _pickedImage, userPhoto, _pickedImageFromSamples, userSamplePhoto);
+      } catch (e) {
+        print(e);
+        print('failed to get image_url');
+      }
 
-      ImagePickerForUserProfile(_pickedImage, userPhoto, _pickedImageFromSamples, userSamplePhoto);
+      try {
+        userSamplePhoto = ref['image_sample'];
 
+        ImagePickerForUserProfile(
+            _pickedImage, userPhoto, _pickedImageFromSamples, userSamplePhoto);
+      } catch (e) {
+        print(e);
+        print('failed to get image_sample');
+      }
     });
   }
 
@@ -61,15 +78,21 @@ class _AppSettingsState extends State<AppSettings> {
     //update user image
 
     var url;
+    var ref;
 
     if (image != null) {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('user_image/')
-          .child("images/")
-          .child(FirebaseAuth.instance.currentUser!.uid + '.jpg');
+      try {
+        ref = FirebaseStorage.instance
+            .ref()
+            .child('user_image/')
+            .child("images/")
+            .child(FirebaseAuth.instance.currentUser!.uid + '.jpg');
 
-      ref.delete();
+        ref.delete();
+      } catch (e) {
+        print('no previous photo was available');
+      }
+
       await ref.putFile(image);
       url = await ref.getDownloadURL();
     }
@@ -123,7 +146,8 @@ class _AppSettingsState extends State<AppSettings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(userName),
-                  ImagePickerForUserProfile(_pickedImage, userPhoto, _pickedImageFromSamples, userProfileSample),
+                  ImagePickerForUserProfile(_pickedImage, userPhoto,
+                      _pickedImageFromSamples, userProfileSample),
                 ],
               ),
             ),
@@ -253,4 +277,3 @@ void _changeColorTheme(ThemeData mode) {
     peacefulMoodColor = peacefulMoodColorDark;
   }
 }
-

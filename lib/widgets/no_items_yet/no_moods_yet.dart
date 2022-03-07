@@ -35,7 +35,7 @@ class _NoMoodsYetState extends State<NoMoodsYet> {
           
           OutlinedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/logstory2');
+                Navigator.pushNamed(context, '/logmood1new');
               },
               child: Text("I want to log my first mood!")),
           SizedBox(

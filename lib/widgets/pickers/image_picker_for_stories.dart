@@ -21,9 +21,29 @@ String userPhoto2 = 'assets/images/stories/default.jpg';
 List<dynamic> images = [];
 
 List<String> _listImagesStories = [
+  'assets/images/stories/lights.jpg',
+  'assets/images/stories/landscape_1.png',
+  'assets/images/stories/landscape_2.png',
+  'assets/images/stories/landscape_3.png',
+
+  'assets/images/stories/lanscape2_1.png',
+  'assets/images/stories/lanscape2_2.png',
+  'assets/images/stories/lanscape2_3.png',
+
+  /*
+  'assets/images/stories/lanscape3_1.png',
+  'assets/images/stories/lanscape3_2.png',
+  'assets/images/stories/lanscape3_3.png',
+   */
+
+  'assets/images/stories/lanscape4_1.png',
+  'assets/images/stories/lanscape4_2.png',
+  'assets/images/stories/lanscape4_3.png',
+
+
   'assets/images/stories/595.jpg',
   'assets/images/stories/129.jpg',
-  'assets/images/stories/rain_1.png',
+//  'assets/images/stories/rain_1.png',
   'assets/images/stories/2902348.jpg',
   'assets/images/stories/storyimage1.jpg',
   'assets/images/stories/hands.jpg',
@@ -31,6 +51,11 @@ List<String> _listImagesStories = [
   'assets/images/stories/abstract_2.png',
   'assets/images/stories/abstract_3.png',
   'assets/images/stories/abstract_4.png',
+  'assets/images/stories/pinkpattern1.png',
+  'assets/images/stories/pinkpattern2.png',
+  'assets/images/stories/pinkpattern3.png',
+  'assets/images/stories/pinkpattern4.png',
+
   'assets/images/stories/girl.jpg',
   'assets/images/stories/sunset.jpg',
   'assets/images/stories/weather_1.png',
@@ -43,7 +68,7 @@ List<String> _listImagesStories = [
   'assets/images/stories/weather_8.png',
   'assets/images/stories/weather_9.png',
   'assets/images/stories/weather_10.png',
-  'assets/images/stories/lights.jpg',
+
 ];
 
 Future<void> getThePic() async {

@@ -45,24 +45,31 @@ class _AuthScreenState extends State<AuthScreen> {
       ) async {
     UserCredential authResult;
 
+    print('submitting the form');
+
     try {
       setState(() {
         _isLoading = true;
+        print('not loading');
       });
       if (isLogin) {
         authResult = await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
+        print('logging in');
       } else {
         authResult = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
+        print('signing up');
 
         var url;
 
+        //TODO: fix here with photos
+       /*
         if(image!=null){
           final ref = FirebaseStorage.instance
               .ref()
@@ -72,6 +79,7 @@ class _AuthScreenState extends State<AuthScreen> {
           await ref.putFile(image);
            url = await ref.getDownloadURL();
         }
+        */
 
 
 
@@ -105,6 +113,7 @@ class _AuthScreenState extends State<AuthScreen> {
       });
     } catch (err) {
       print(err);
+      print('jva');
       setState(() {
         _isLoading = false;
       });

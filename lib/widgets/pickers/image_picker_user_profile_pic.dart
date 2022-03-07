@@ -334,7 +334,12 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
     var ref = await  FirebaseFirestore.instance
         .collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
-    userPhoto = ref['image_url'];
+    if(ref['image_url'] != null){
+      userPhoto = ref['image_url'];
+    }
+
+
+
     userProfileSample = ref['image_sample'];
 
   }
@@ -353,16 +358,26 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
     bool _validURL = Uri.parse(userPhoto).isAbsolute;
 
 
-    if ( (FirebaseAuth.instance.currentUser == null)) {
+    if ( userProfileSample=='' &&(FirebaseAuth.instance.currentUser == null)) {
 
-      return Image(image: AssetImage(userPhoto2),fit: BoxFit.fill,);
+      return
+
+        ClipOval(
+
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(180),
+
+              child:   Image(image: AssetImage(userPhoto2),fit: BoxFit.fill,),
+            )
+
+        );
+
+
+
 
     }
     else if (_validURL) {
       return
-
-
-
         ClipOval(
 
           child: SizedBox.fromSize(
@@ -374,9 +389,6 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
           ),
         )
 
-
-
-
       );
     } else if (userProfileSample!='') {
 
@@ -386,7 +398,7 @@ class _FindTheRightPictureState extends State<FindTheRightPicture> {
       );
     }
 
-      return Image.network(userPhoto2,  fit: BoxFit.cover,);
+      return Image(image: AssetImage(userPhoto2),fit: BoxFit.fill,);
 
   }
 }
